@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    
+    <!-- Required feature for Miko to identify this as a novel extension -->
+    <uses-feature android:name="yokai.novel.extension" android:required="true" />
 
     <application
         android:allowBackup="false"
@@ -10,16 +13,13 @@
         
         <!-- Extension metadata for Miko to discover -->
         <meta-data
-            android:name="yokai.extension.novel"
-            android:value="true" />
-        <meta-data
-            android:name="yokai.extension.novel.class"
+            android:name="yokai.novel.extension.class"
             android:value="${extClass}" />
         <meta-data
-            android:name="yokai.extension.novel.factory"
+            android:name="yokai.novel.extension.factory"
             android:value="${extFactory}" />
         <meta-data
-            android:name="yokai.extension.novel.nsfw"
+            android:name="yokai.novel.extension.nsfw"
             android:value="${extNsfw}" />
             
     </application>
