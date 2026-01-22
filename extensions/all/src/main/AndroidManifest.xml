@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="false"
+        android:label="${extName}"
+        android:supportsRtl="true">
+        
+        <!-- Extension metadata for Miko to discover -->
+        <meta-data
+            android:name="yokai.extension.novel"
+            android:value="true" />
+        <meta-data
+            android:name="yokai.extension.novel.class"
+            android:value="${extClass}" />
+        <meta-data
+            android:name="yokai.extension.novel.factory"
+            android:value="${extFactory}" />
+        <meta-data
+            android:name="yokai.extension.novel.nsfw"
+            android:value="${extNsfw}" />
+            
+    </application>
+
+</manifest>
