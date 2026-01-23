@@ -18,4 +18,8 @@ dependencyResolutionManagement {
 rootProject.name = "MikoNovelSources"
 
 include ':lib:novel-extensions-lib'
-include ':extensions:all'
+
+// English extensions
+include ':extensions:en:royalroad'
+include ':extensions:en:scribblehub'
+include ':extensions:en:novelfull'

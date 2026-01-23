@@ -150,6 +150,30 @@ abstract class NovelSource {
     }
     
     /**
+     * Parse HTML string into a Document.
+     */
+    protected fun parseHtml(html: String): Document {
+        return Jsoup.parse(html)
+    }
+    
+    /**
+     * Make a POST request with form data.
+     */
+    protected suspend fun postForm(url: String, data: Map<String, String>, headers: Headers = this.headers): String {
+        val formBody = okhttp3.FormBody.Builder().apply {
+            data.forEach { (key, value) -> add(key, value) }
+        }.build()
+        
+        val request = Request.Builder()
+            .url(url)
+            .headers(headers)
+            .post(formBody)
+            .build()
+        
+        return client.newCall(request).execute().body?.string() ?: ""
+    }
+
+    /**
      * Fix a relative URL to be absolute.
      */
     protected fun fixUrl(url: String): String {
@@ -166,6 +190,43 @@ abstract class NovelSource {
      */
     protected fun fixUrlOrNull(url: String?): String? {
         return url?.let { fixUrl(it) }
+    }
+    
+    /**
+     * URL-encode a string.
+     */
+    protected fun String.encodeUrl(): String {
+        return java.net.URLEncoder.encode(this, "UTF-8")
+    }
+    
+    /**
+     * Parse a date string to timestamp.
+     */
+    protected fun parseDate(dateStr: String?): Long? {
+        if (dateStr.isNullOrBlank()) return null
+        return try {
+            // Try ISO format first
+            java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", java.util.Locale.US)
+                .parse(dateStr)?.time
+                ?: java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US)
+                    .parse(dateStr)?.time
+        } catch (e: Exception) {
+            null
+        }
+    }
+    
+    /**
+     * Parse novel status from text.
+     */
+    protected fun parseNovelStatus(status: String?): NovelStatus {
+        return when {
+            status == null -> NovelStatus.UNKNOWN
+            status.contains("ongoing", ignoreCase = true) -> NovelStatus.ONGOING
+            status.contains("completed", ignoreCase = true) -> NovelStatus.COMPLETED
+            status.contains("hiatus", ignoreCase = true) -> NovelStatus.ON_HIATUS
+            status.contains("dropped", ignoreCase = true) -> NovelStatus.CANCELLED
+            else -> NovelStatus.UNKNOWN
+        }
     }
     
     companion object {
