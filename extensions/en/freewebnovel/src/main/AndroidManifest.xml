@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <meta-data
+            android:name="yokai.novel.extension.class"
+            android:value="${extClass}" />
+        <meta-data
+            android:name="yokai.novel.extension.name"
+            android:value="${extName}" />
+        <meta-data
+            android:name="yokai.novel.extension.version.code"
+            android:value="${extVersionCode}" />
+        <meta-data
+            android:name="yokai.novel.extension.version.name"
+            android:value="${extVersionName}" />
+        <meta-data
+            android:name="yokai.novel.extension.nsfw"
+            android:value="${extNsfw}" />
+        <meta-data
+            android:name="yokai.novel.extension.lib.version"
+            android:value="1.0" />
+    </application>
+</manifest>
