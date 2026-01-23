@@ -3,14 +3,13 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- Required feature declaration for novel extension detection -->
+    <uses-feature android:name="yokai.novel.extension" android:required="true" />
+
     <application
         android:allowBackup="false"
         android:supportsRtl="true"
         android:label="${extName}">
-
-        <meta-data
-            android:name="yokai.novel.extension"
-            android:value="true" />
 
         <meta-data
             android:name="yokai.novel.extension.class"
