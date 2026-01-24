@@ -146,7 +146,8 @@ abstract class NovelSource {
      */
     protected suspend fun getDocument(url: String, headers: Headers = this.headers): Document {
         val response = get(url, headers)
-        return Jsoup.parse(response.body?.string() ?: "", url)
+        val body = response.body?.string() ?: ""
+        return Jsoup.parse(body, url)
     }
     
     /**

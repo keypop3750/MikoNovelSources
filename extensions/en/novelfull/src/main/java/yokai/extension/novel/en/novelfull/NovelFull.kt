@@ -1,5 +1,8 @@
 package yokai.extension.novel.en.novelfull
 
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import yokai.extension.novel.lib.*
 
 /**
@@ -13,17 +16,19 @@ class NovelFull : NovelSource() {
     override val baseUrl: String = "https://novelfull.com"
     override val lang: String = "en"
     override val hasMainPage: Boolean = true
-    override val rateLimitMs: Long = 500L
+    override val rateLimitMs: Long = 100L  // Reduced from 500ms to speed up chapter loading
     
     override suspend fun search(query: String, page: Int): List<NovelSearchResult> {
         val url = "$baseUrl/search?keyword=${query.encodeUrl()}&page=$page"
         val document = getDocument(url)
         
-        return document.select("div.list-novel > div.row").map { element ->
-            val titleElement = element.selectFirst("h3.novel-title > a")
+        // Updated selector for new website structure
+        return document.select("div.list.list-truyen div.row").map { element ->
+            val titleElement = element.selectFirst("h3.truyen-title a") ?: element.selectFirst("a")
             val title = titleElement?.text() ?: ""
             val novelUrl = fixUrl(titleElement?.attr("href") ?: "")
-            val coverUrl = fixUrlOrNull(element.selectFirst("img.cover")?.attr("src"))
+            // Keep thumbnail URL as-is - NovelFull only provides thumbnails
+            val coverUrl = fixUrlOrNull(element.selectFirst("img")?.attr("src"))
             
             NovelSearchResult(
                 title = title,
@@ -37,6 +42,7 @@ class NovelFull : NovelSource() {
         val document = getDocument(url)
         
         val title = document.selectFirst("h3.title")?.text() ?: ""
+        // Keep thumbnail URL - NovelFull only provides thumbnails
         val coverUrl = fixUrlOrNull(document.selectFirst("div.book img")?.attr("src"))
         val description = document.selectFirst("div.desc-text")?.text()
         val author = document.selectFirst("div.info > div:contains(Author) > a")?.text()
@@ -57,40 +63,89 @@ class NovelFull : NovelSource() {
         )
     }
     
-    override suspend fun getChapterList(novelUrl: String): List<NovelChapter> {
-        val chapters = mutableListOf<NovelChapter>()
-        var page = 1
+    override suspend fun getChapterList(novelUrl: String): List<NovelChapter> = coroutineScope {
+        // First, get the total page count from the first page
+        val firstPageUrl = "$novelUrl?page=1&per-page=50"
+        val firstDocument = getDocument(firstPageUrl)
         
-        // Get novel ID from URL
-        val novelId = novelUrl.substringAfterLast("/").substringBefore(".html")
-        
-        while (true) {
-            val url = "$novelUrl?page=$page&per-page=50"
-            val document = getDocument(url)
-            
-            val chapterElements = document.select("ul.list-chapter > li > a")
-            if (chapterElements.isEmpty()) break
-            
-            chapterElements.forEach { element ->
-                val chapterTitle = element.text()
-                val chapterUrl = fixUrl(element.attr("href"))
-                
-                chapters.add(NovelChapter(
-                    url = chapterUrl,
-                    name = chapterTitle,
-                    chapterNumber = (chapters.size + 1).toFloat()
-                ))
-            }
-            
-            // Check if there's a next page
-            val hasNext = document.selectFirst("li.next:not(.disabled)") != null
-            if (!hasNext) break
-            
-            page++
-            if (page > 200) break // Safety limit
+        // Find total pages from pagination
+        val lastPageLink = firstDocument.selectFirst("li.last a")?.attr("href")
+        val totalPages = lastPageLink?.let {
+            Regex("page=(\\d+)").find(it)?.groupValues?.get(1)?.toIntOrNull()
+        } ?: run {
+            // Try to find the last page number from pagination items
+            val pageNumbers = firstDocument.select(".pagination li a")
+                .mapNotNull { it.text().toIntOrNull() }
+            pageNumbers.maxOrNull() ?: 1
         }
         
-        return chapters
+        android.util.Log.d("NOVELFULL", "Total chapter pages detected: $totalPages")
+        
+        // Parse first page chapters
+        val firstPageChapters = parseChaptersFromDocument(firstDocument)
+        
+        if (totalPages <= 1) {
+            return@coroutineScope firstPageChapters
+        }
+        
+        // Fetch remaining pages in parallel (batch of 5 to avoid overwhelming the server)
+        val remainingPages = (2..totalPages.coerceAtMost(200)).toList()
+        val batchSize = 5
+        val allChapters = mutableListOf<NovelChapter>()
+        allChapters.addAll(firstPageChapters)
+        
+        remainingPages.chunked(batchSize).forEach { batch ->
+            val batchResults = batch.map { page ->
+                async {
+                    try {
+                        val url = "$novelUrl?page=$page&per-page=50"
+                        val doc = getDocument(url)
+                        parseChaptersFromDocument(doc)
+                    } catch (e: Exception) {
+                        android.util.Log.e("NOVELFULL", "Error fetching page $page: ${e.message}")
+                        emptyList()
+                    }
+                }
+            }.awaitAll()
+            
+            batchResults.forEach { chapters ->
+                allChapters.addAll(chapters)
+            }
+        }
+        
+        // Remove duplicates and assign chapter numbers
+        val uniqueChapters = allChapters.distinctBy { it.url }
+        uniqueChapters.mapIndexed { index, chapter ->
+            NovelChapter(
+                url = chapter.url,
+                name = chapter.name,
+                chapterNumber = (index + 1).toFloat()
+            )
+        }
+    }
+    
+    private fun parseChaptersFromDocument(document: org.jsoup.nodes.Document): List<NovelChapter> {
+        var chapterElements = document.select("ul.list-chapter li a")
+        
+        if (chapterElements.isEmpty()) {
+            chapterElements = document.select("#list-chapter a")
+        }
+        
+        if (chapterElements.isEmpty()) {
+            chapterElements = document.select(".list-chapter a[href*='/chapter']")
+        }
+        
+        if (chapterElements.isEmpty()) {
+            chapterElements = document.select("a[href*='chapter-']")
+        }
+        
+        return chapterElements.map { element ->
+            NovelChapter(
+                url = fixUrl(element.attr("href")),
+                name = element.text(),
+                chapterNumber = 0f  // Will be assigned later
+            )
+        }
     }
     
     override suspend fun getChapterContent(chapterUrl: String): String {
@@ -117,11 +172,15 @@ class NovelFull : NovelSource() {
     private suspend fun parseNovelList(url: String): List<NovelSearchResult> {
         val document = getDocument(url)
         
-        return document.select("div.list-novel > div.row").map { element ->
-            val titleElement = element.selectFirst("h3.novel-title > a")
+        // Updated selector for new website structure: div.list.list-truyen contains the novels
+        val novels = document.select("div.list.list-truyen div.row")
+        
+        return novels.map { element ->
+            val titleElement = element.selectFirst("h3.truyen-title a") ?: element.selectFirst("a")
             val title = titleElement?.text() ?: ""
             val novelUrl = fixUrl(titleElement?.attr("href") ?: "")
-            val coverUrl = fixUrlOrNull(element.selectFirst("img.cover")?.attr("src"))
+            // Keep the thumbnail URL as-is - NovelFull only provides thumbnail images
+            val coverUrl = fixUrlOrNull(element.selectFirst("img")?.attr("src"))
             
             NovelSearchResult(
                 title = title,
