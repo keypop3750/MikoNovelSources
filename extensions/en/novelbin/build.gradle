@@ -12,14 +12,14 @@ android {
         applicationId "yokai.extension.novel.en.novelbin"
         minSdk 21
         targetSdk 34
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 3
+        versionName "1.0.2"
         
         manifestPlaceholders = [
             extName: "NovelBin",
             extClass: ".NovelBinFactory",
-            extVersionCode: "2",
-            extVersionName: "1.0.1",
+            extVersionCode: "3",
+            extVersionName: "1.0.2",
             extNsfw: "false"
         ]
     }
