@@ -9,6 +9,7 @@
     <application
         android:allowBackup="false"
         android:supportsRtl="true"
+        android:icon="@mipmap/ic_launcher"
         android:label="${extName}">
         
         <meta-data
@@ -26,8 +27,7 @@
         <meta-data
             android:name="yokai.novel.extension.nsfw"
             android:value="${extNsfw}" />
-        <meta-data
-            android:name="yokai.novel.extension.lib.version"
-            android:value="1.0" />
+
     </application>
+
 </manifest>
