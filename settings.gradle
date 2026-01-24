@@ -25,8 +25,12 @@ include ':extensions:en:scribblehub'
 include ':extensions:en:novelfull'
 include ':extensions:en:novelbin'
 include ':extensions:en:freewebnovel'
-include ':extensions:en:readlightnovel'
+// include ':extensions:en:readlightnovel' // REMOVED - Cloudflare blocked, not working in QuickNovel either
 include ':extensions:en:allnovel'
-include ':extensions:en:lightnovelpub'
+// include ':extensions:en:lightnovelpub' // REMOVED - Cloudflare blocked, disabled in QuickNovel
 include ':extensions:en:boxnovel'
 include ':extensions:en:novelsonline'
+
+// New extensions (ported from QuickNovel)
+include ':extensions:en:libread'
+include ':extensions:en:readnovelfull'

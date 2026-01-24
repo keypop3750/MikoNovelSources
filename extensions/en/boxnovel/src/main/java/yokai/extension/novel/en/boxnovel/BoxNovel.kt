@@ -7,7 +7,9 @@ import yokai.extension.novel.lib.*
  * 
  * NOTE: This site has completely changed its structure from the old Madara theme.
  * The new structure uses a simpler layout with different URL patterns.
- * Search uses /novel/{slug} pattern directly, no traditional search API.
+ * 
+ * Cover images are at https://images.novlove.com/novel_200_89/{slug}.jpg
+ * The image appears BEFORE the novel title link in the HTML structure.
  */
 class BoxNovel : ConfigurableNovelSource() {
     
@@ -17,6 +19,8 @@ class BoxNovel : ConfigurableNovelSource() {
     override val lang: String = "en"
     override val hasMainPage: Boolean = true
     override val rateLimitMs: Long = 500L
+    
+    private val imageBaseUrl = "https://images.novlove.com/novel_200_89"
     
     override val selectors = SourceSelectors(
         // Search selectors - Required but we override search anyway
@@ -57,36 +61,85 @@ class BoxNovel : ConfigurableNovelSource() {
         fetchFullCoverFromDetails = false
     )
     
-    // Override search to use NovLove's search page with proper selectors
-    override suspend fun search(query: String, page: Int): List<NovelSearchResult> {
-        if (page > 1) return emptyList()
+    /**
+     * Build cover URL from novel slug.
+     * Pattern: https://images.novlove.com/novel_200_89/{slug}.jpg
+     */
+    private fun buildCoverUrl(slug: String): String {
+        return "$imageBaseUrl/$slug.jpg"
+    }
+    
+    /**
+     * Extract slug from novel URL.
+     * Example: https://novlove.com/novel/shadow-slave -> shadow-slave
+     */
+    private fun extractSlug(url: String): String {
+        return url.removeSuffix("/")
+            .substringAfterLast("/novel/")
+            .substringBefore("?")
+            .substringBefore("/")
+    }
+    
+    // Override getPopularNovels to browse hot novels
+    override suspend fun getPopularNovels(page: Int): List<NovelSearchResult> {
+        val url = if (page == 1) {
+            "$baseUrl/sort/nov-love-hot"
+        } else {
+            "$baseUrl/sort/nov-love-hot/$page"
+        }
         
-        // Use the search endpoint
-        val searchUrl = "$baseUrl/search?keyword=${query.encodeUrl()}"
-        val document = getDocument(searchUrl)
+        return parseNovelList(url)
+    }
+    
+    // Override getLatestUpdates to browse latest updates
+    override suspend fun getLatestUpdates(page: Int): List<NovelSearchResult> {
+        val url = if (page == 1) {
+            "$baseUrl/sort/nov-love-daily-update"
+        } else {
+            "$baseUrl/sort/nov-love-daily-update/$page"
+        }
         
-        // Select novel items from search results - each h3 within SEARCH: section contains a link
-        return document.select("div.nov-box h3 > a, h3 > a[href*='/novel/']").mapNotNull { element ->
+        return parseNovelList(url)
+    }
+    
+    /**
+     * Parse novel list from browse/search pages.
+     * The structure is: h3 > a[href*='/novel/'] for title links
+     * Cover images are constructed from the slug.
+     */
+    private suspend fun parseNovelList(url: String): List<NovelSearchResult> {
+        val document = getDocument(url)
+        
+        // Find all novel links (h3 > a pattern)
+        return document.select("h3 > a[href*='/novel/']").mapNotNull { element ->
             val title = element.text().trim()
-            val url = element.attr("href")
+            val novelUrl = element.attr("href")
             
-            // Skip empty or non-novel links
-            if (title.isBlank() || url.isBlank() || !url.contains("/novel/")) {
+            if (title.isBlank() || novelUrl.isBlank()) {
                 return@mapNotNull null
             }
             
-            // Try to find cover image near this link
-            val parent = element.parent()?.parent()
-            val coverUrl = parent?.selectFirst("img")?.let {
-                it.attr("data-src").ifBlank { it.attr("src") }
-            }?.let { fixUrl(it) }
+            // Build cover URL from slug
+            val slug = extractSlug(novelUrl)
+            val coverUrl = buildCoverUrl(slug)
             
             NovelSearchResult(
                 title = title,
-                url = fixUrl(url),
+                url = fixUrl(novelUrl),
                 coverUrl = coverUrl
             )
         }.distinctBy { it.url }
+    }
+    
+    // Override search to use NovLove's search page
+    override suspend fun search(query: String, page: Int): List<NovelSearchResult> {
+        val url = if (page == 1) {
+            "$baseUrl/search?keyword=${query.encodeUrl()}"
+        } else {
+            "$baseUrl/search?keyword=${query.encodeUrl()}&page=$page"
+        }
+        
+        return parseNovelList(url)
     }
     
     // Override getChapterList for NovLove's structure
