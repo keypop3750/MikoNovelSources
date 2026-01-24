@@ -3,46 +3,45 @@ package yokai.extension.novel.en.boxnovel
 import yokai.extension.novel.lib.*
 
 /**
- * Source for BoxNovel / NovLove (boxnovel.com / novlove.com)
- * Uses Madara theme - popular WordPress theme for novel sites.
+ * Source for BoxNovel / NovLove (novlove.com - formerly boxnovel.com)
+ * 
+ * NOTE: This site has completely changed its structure from the old Madara theme.
+ * The new structure uses a simpler layout with different URL patterns.
+ * Search uses /novel/{slug} pattern directly, no traditional search API.
  */
 class BoxNovel : ConfigurableNovelSource() {
     
     override val id: Long = 6011L
     override val name: String = "BoxNovel"
-    override val baseUrl: String = "https://novlove.com"  // boxnovel moved to novlove
+    override val baseUrl: String = "https://novlove.com"
     override val lang: String = "en"
     override val hasMainPage: Boolean = true
     override val rateLimitMs: Long = 500L
     
     override val selectors = SourceSelectors(
-        // Search selectors - Madara theme
-        searchItemSelector = "div.c-tabs-item__content",
-        searchTitleSelector = "div.post-title h3 a, div.post-title h4 a",
-        searchCoverSelector = "div.tab-thumb img",
-        coverAttribute = "data-src",
+        // Search selectors - Required but we override search anyway
+        searchItemSelector = "a[href*='/novel/']",
+        searchTitleSelector = "a",
         
-        // Browse selectors - Madara theme
-        browseItemSelector = "div.page-item-detail",
-        browseTitleSelector = "div.item-summary div.post-title h3 a, div.item-thumb a",
-        browseCoverSelector = "div.item-thumb img",
-        browseCoverAttribute = "data-src",
+        // Browse selectors for main page (LATEST RELEASE section)
+        browseItemSelector = "div.nov-box",
+        browseTitleSelector = "h3 > a, div.title > a",
+        browseCoverSelector = "img",
+        browseCoverAttribute = "src",
         
-        // Novel details selectors - Madara theme
-        detailTitleSelector = "div.post-title h1",
-        detailCoverSelector = "div.summary_image img",
-        detailCoverAttribute = "data-src",
-        descriptionSelector = "div.summary__content, div.description-summary",
-        authorSelector = "div.author-content a",
-        genreSelector = "div.genres-content a",
-        statusSelector = "div.post-status div.post-content_item:contains(Status) div.summary-content",
-        ratingSelector = "span.total_votes",
+        // Novel details selectors
+        detailTitleSelector = "h1.title, div.novel-title",
+        detailCoverSelector = "div.novel-cover img, div.cover img",
+        descriptionSelector = "div.novel-desc, div.summary",
+        authorSelector = "div.novel-info span:contains(Author) + a, span.author",
+        genreSelector = "div.genres a, span.genre a",
+        statusSelector = "div.novel-info span:contains(Status) + span",
         
-        // Chapter list selectors - Madara AJAX
-        chapterListSelector = "li.wp-manga-chapter a",
+        // Chapter list selectors
+        chapterListSelector = "ul.chapter-list li a, div.chapter-item a",
         
         // Chapter content selectors
-        chapterContentSelector = "div.text-left, div.reading-content",
+        chapterContentSelector = "div.chapter-content, div.text-left, div.reading-content",
         contentRemoveSelectors = listOf("script", "div.ads", "ins.adsbygoogle", "iframe", "div.code-block"),
         contentRemovePatterns = listOf(
             "boxnovel.com",
@@ -50,34 +49,113 @@ class BoxNovel : ConfigurableNovelSource() {
             "If you find any errors"
         ),
         
-        // URL patterns
-        searchUrlPattern = "https://novlove.com/?s={query}&post_type=wp-manga",
-        popularUrlPattern = "https://novlove.com/novel/page/{page}/?m_orderby=views",
-        latestUrlPattern = "https://novlove.com/novel/page/{page}/?m_orderby=latest",
+        // URL patterns - Note: NovLove doesn't have a traditional search API
+        searchUrlPattern = "", // Search requires custom implementation
+        popularUrlPattern = "https://novlove.com/sort/nov-love-hot",
+        latestUrlPattern = "https://novlove.com/sort/nov-love-daily-update",
         
         fetchFullCoverFromDetails = false
     )
     
-    // Override getChapterList for Madara AJAX
+    // Override search since NovLove doesn't have a traditional search API
+    // We'll scrape the hot novels page and filter by query
+    override suspend fun search(query: String, page: Int): List<NovelSearchResult> {
+        if (page > 1) return emptyList()
+        
+        // Use the hot novels page and filter
+        val document = getDocument("$baseUrl/sort/nov-love-hot")
+        
+        val queryLower = query.lowercase()
+        
+        return document.select("a[href*='/novel/']").mapNotNull { element ->
+            val title = element.text().trim()
+            val url = element.attr("href")
+            
+            // Filter by query
+            if (title.isBlank() || !title.lowercase().contains(queryLower)) {
+                return@mapNotNull null
+            }
+            
+            // Skip non-novel links
+            if (!url.contains("/novel/")) {
+                return@mapNotNull null
+            }
+            
+            NovelSearchResult(
+                title = title,
+                url = fixUrl(url),
+                coverUrl = null
+            )
+        }.distinctBy { it.url }.take(20)
+    }
+    
+    // Override getChapterList for NovLove's structure
     override suspend fun getChapterList(novelUrl: String): List<NovelChapter> {
         val document = getDocument(novelUrl)
         
-        // Madara sites often have chapters directly on the page
-        val chapters = document.select("li.wp-manga-chapter a").mapIndexedNotNull { index, element ->
+        // Find all chapter links on the novel page
+        val chapters = document.select("a[href*='/chapter']").mapNotNull { element ->
             val url = element.attr("href")
             val name = element.text().trim()
-            if (url.isNotBlank() && name.isNotBlank()) {
-                NovelChapter(
-                    url = fixUrl(url),
-                    name = name,
-                    chapterNumber = (index + 1).toFloat()
-                )
-            } else null
-        }
+            
+            // Filter out non-chapter links
+            if (url.isBlank() || name.isBlank() || !url.contains(novelUrl.substringAfterLast("/"))) {
+                return@mapNotNull null
+            }
+            
+            NovelChapter(
+                url = fixUrl(url),
+                name = name,
+                chapterNumber = 0f
+            )
+        }.distinctBy { it.url }
         
-        // Reverse to get oldest first
-        return chapters.reversed().mapIndexed { index, chapter ->
+        return chapters.mapIndexed { index, chapter ->
             chapter.copy(chapterNumber = (index + 1).toFloat())
         }
+    }
+    
+    // Override getNovelDetails for NovLove's structure  
+    override suspend fun getNovelDetails(url: String): NovelDetails {
+        val document = getDocument(url)
+        
+        val title = document.selectFirst("h1")?.text()?.trim() 
+            ?: throw Exception("Could not find novel title")
+        
+        // Find cover image
+        val coverUrl = document.selectFirst("div.novel-cover img, img.novel-img, img[alt*='cover']")
+            ?.let { it.attr("data-src").ifBlank { it.attr("src") } }
+            ?.let { fixUrl(it) }
+        
+        // Find description
+        val description = document.select("div.novel-desc p, div.summary p")
+            .joinToString("\n\n") { it.text() }
+            .ifBlank { null }
+        
+        // Find author
+        val author = document.selectFirst("span:contains(Author) + a, a[href*='author']")?.text()?.trim()
+        
+        // Find genres
+        val genres = document.select("a[href*='genres'], a[href*='genre']")
+            .map { it.text().trim() }
+            .filter { it.isNotBlank() }
+        
+        // Find status
+        val statusText = document.selectFirst("span:contains(Status) + span, span.status")?.text()?.trim()
+        val status = when {
+            statusText?.contains("Ongoing", ignoreCase = true) == true -> NovelStatus.ONGOING
+            statusText?.contains("Completed", ignoreCase = true) == true -> NovelStatus.COMPLETED
+            else -> NovelStatus.UNKNOWN
+        }
+        
+        return NovelDetails(
+            url = url,
+            title = title,
+            coverUrl = coverUrl,
+            description = description,
+            author = author,
+            genres = genres,
+            status = status
+        )
     }
 }

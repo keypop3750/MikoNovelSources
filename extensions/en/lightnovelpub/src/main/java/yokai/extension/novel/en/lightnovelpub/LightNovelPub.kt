@@ -5,7 +5,12 @@ import yokai.extension.novel.lib.*
 /**
  * Source for LightNovelPub (lightnovelpub.com)
  * High-quality translations of light novels.
- * Note: This site has aggressive rate limiting.
+ * 
+ * WARNING: This site has aggressive Cloudflare protection.
+ * May require WebView to bypass protection.
+ * 
+ * The site's search uses AJAX with CSRF tokens which makes it complex.
+ * Browse pages work better than search.
  */
 class LightNovelPub : ConfigurableNovelSource() {
     
@@ -14,18 +19,18 @@ class LightNovelPub : ConfigurableNovelSource() {
     override val baseUrl: String = "https://www.lightnovelpub.com"
     override val lang: String = "en"
     override val hasMainPage: Boolean = true
-    override val rateLimitMs: Long = 3000L  // Aggressive rate limiting
+    override val rateLimitMs: Long = 3000L  // Heavy rate limiting due to Cloudflare
     
     override val selectors = SourceSelectors(
         // Search selectors
-        searchItemSelector = "div.novel-item",
-        searchTitleSelector = "h4.novel-title a",
-        searchCoverSelector = "figure.novel-cover img",
+        searchItemSelector = "li.novel-item",
+        searchTitleSelector = "a",
+        searchCoverSelector = "img",
         coverAttribute = "data-src",
         
-        // Browse selectors
-        browseItemSelector = "div.novel-item",
-        browseTitleSelector = "h4.novel-title a",
+        // Browse selectors for main page
+        browseItemSelector = "li.novel-item",
+        browseTitleSelector = "a[title]",
         browseCoverSelector = "figure.novel-cover img",
         browseCoverAttribute = "data-src",
         
@@ -40,66 +45,101 @@ class LightNovelPub : ConfigurableNovelSource() {
         ratingSelector = "div.rating-star p strong",
         
         // Chapter list selectors
-        chapterListSelector = "ul.chapter-list li",
+        chapterListSelector = "ul.chapter-list li a",
         
         // Chapter content selectors
         chapterContentSelector = "div#chapter-container",
-        contentRemoveSelectors = listOf("script", "div.ads", "ins.adsbygoogle", "iframe", "p[class]"),
+        contentRemoveSelectors = listOf("script", "div.ads", "ins.adsbygoogle", "iframe"),
         contentRemovePatterns = listOf(
             "lightnovelpub",
             "The source of this content is"
         ),
         
-        // URL patterns
-        searchUrlPattern = "https://www.lightnovelpub.com/search?keyword={query}",
+        // URL patterns - Browse pages work better than search
+        searchUrlPattern = "", // Search requires complex AJAX with tokens
         popularUrlPattern = "https://www.lightnovelpub.com/browse/genre-all-25060123/order-popular/status-all?page={page}",
         latestUrlPattern = "https://www.lightnovelpub.com/browse/genre-all-25060123/order-new/status-all?page={page}",
         
         fetchFullCoverFromDetails = false
     )
     
+    // Override search to use browse and filter locally
+    override suspend fun search(query: String, page: Int): List<NovelSearchResult> {
+        if (page > 1) return emptyList()
+        
+        // Use popular page and filter by query
+        val document = getDocument("$baseUrl/browse/genre-all-25060123/order-popular/status-all?page=1")
+        
+        val queryLower = query.lowercase()
+        
+        return document.select("li.novel-item").mapNotNull { element ->
+            val link = element.selectFirst("a[title]") ?: return@mapNotNull null
+            val title = link.attr("title").ifBlank { link.text() }
+            val url = link.attr("href")
+            
+            // Filter by query
+            if (!title.lowercase().contains(queryLower)) {
+                return@mapNotNull null
+            }
+            
+            val coverUrl = element.selectFirst("figure.novel-cover img")?.let {
+                it.attr("data-src").ifBlank { it.attr("src") }
+            }?.let { fixUrl(it) }
+            
+            NovelSearchResult(
+                title = title,
+                url = fixUrl(url),
+                coverUrl = coverUrl
+            )
+        }
+    }
+    
     // Override getChapterList for LightNovelPub's paginated chapters
     override suspend fun getChapterList(novelUrl: String): List<NovelChapter> {
-        val document = getDocument(novelUrl)
+        // Chapters are on a separate /chapters page
+        val chaptersUrl = "$novelUrl/chapters"
+        val document = getDocument(chaptersUrl)
         val allChapters = mutableListOf<NovelChapter>()
         
         // Parse chapters from the first page
-        val chapterElements = document.select("ul.chapter-list li")
-        chapterElements.forEach { element ->
-            val link = element.selectFirst("a")
-            val href = link?.attr("href") ?: return@forEach
-            val title = link.selectFirst("strong.chapter-title")?.text() ?: link.text()
+        document.select("ul.chapter-list li a").forEach { element ->
+            val href = element.attr("href")
+            val title = element.selectFirst("strong.chapter-title")?.text() 
+                ?: element.text().trim()
             
-            allChapters.add(NovelChapter(
-                url = fixUrl(href),
-                name = title,
-                chapterNumber = 0f
-            ))
+            if (href.isNotBlank() && title.isNotBlank()) {
+                allChapters.add(NovelChapter(
+                    url = fixUrl(href),
+                    name = title,
+                    chapterNumber = 0f
+                ))
+            }
         }
         
-        // Check for pagination
+        // Check for pagination and fetch more pages (limited to avoid Cloudflare blocks)
         val lastPage = document.select("ul.pagination li a")
             .mapNotNull { it.attr("href").substringAfter("page=").toIntOrNull() }
             .maxOrNull() ?: 1
         
-        // Fetch remaining pages (limit to avoid rate limiting)
-        val maxPages = minOf(lastPage, 10)
+        val maxPages = minOf(lastPage, 5) // Limit to 5 pages to avoid rate limiting
         for (page in 2..maxPages) {
             try {
-                val pageDoc = getDocument("$novelUrl?page=$page")
-                pageDoc.select("ul.chapter-list li").forEach { element ->
-                    val link = element.selectFirst("a")
-                    val href = link?.attr("href") ?: return@forEach
-                    val title = link.selectFirst("strong.chapter-title")?.text() ?: link.text()
+                val pageDoc = getDocument("$chaptersUrl?page=$page")
+                pageDoc.select("ul.chapter-list li a").forEach { element ->
+                    val href = element.attr("href")
+                    val title = element.selectFirst("strong.chapter-title")?.text() 
+                        ?: element.text().trim()
                     
-                    allChapters.add(NovelChapter(
-                        url = fixUrl(href),
-                        name = title,
-                        chapterNumber = 0f
-                    ))
+                    if (href.isNotBlank() && title.isNotBlank()) {
+                        allChapters.add(NovelChapter(
+                            url = fixUrl(href),
+                            name = title,
+                            chapterNumber = 0f
+                        ))
+                    }
                 }
             } catch (e: Exception) {
-                break
+                break // Stop on error (likely Cloudflare)
             }
         }
         
