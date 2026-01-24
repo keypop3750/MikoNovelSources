@@ -49,44 +49,44 @@ class BoxNovel : ConfigurableNovelSource() {
             "If you find any errors"
         ),
         
-        // URL patterns - Note: NovLove doesn't have a traditional search API
-        searchUrlPattern = "", // Search requires custom implementation
+        // URL patterns - NovLove has a search endpoint
+        searchUrlPattern = "https://novlove.com/search?keyword={query}",
         popularUrlPattern = "https://novlove.com/sort/nov-love-hot",
         latestUrlPattern = "https://novlove.com/sort/nov-love-daily-update",
         
         fetchFullCoverFromDetails = false
     )
     
-    // Override search since NovLove doesn't have a traditional search API
-    // We'll scrape the hot novels page and filter by query
+    // Override search to use NovLove's search page with proper selectors
     override suspend fun search(query: String, page: Int): List<NovelSearchResult> {
         if (page > 1) return emptyList()
         
-        // Use the hot novels page and filter
-        val document = getDocument("$baseUrl/sort/nov-love-hot")
+        // Use the search endpoint
+        val searchUrl = "$baseUrl/search?keyword=${query.encodeUrl()}"
+        val document = getDocument(searchUrl)
         
-        val queryLower = query.lowercase()
-        
-        return document.select("a[href*='/novel/']").mapNotNull { element ->
+        // Select novel items from search results - each h3 within SEARCH: section contains a link
+        return document.select("div.nov-box h3 > a, h3 > a[href*='/novel/']").mapNotNull { element ->
             val title = element.text().trim()
             val url = element.attr("href")
             
-            // Filter by query
-            if (title.isBlank() || !title.lowercase().contains(queryLower)) {
+            // Skip empty or non-novel links
+            if (title.isBlank() || url.isBlank() || !url.contains("/novel/")) {
                 return@mapNotNull null
             }
             
-            // Skip non-novel links
-            if (!url.contains("/novel/")) {
-                return@mapNotNull null
-            }
+            // Try to find cover image near this link
+            val parent = element.parent()?.parent()
+            val coverUrl = parent?.selectFirst("img")?.let {
+                it.attr("data-src").ifBlank { it.attr("src") }
+            }?.let { fixUrl(it) }
             
             NovelSearchResult(
                 title = title,
                 url = fixUrl(url),
-                coverUrl = null
+                coverUrl = coverUrl
             )
-        }.distinctBy { it.url }.take(20)
+        }.distinctBy { it.url }
     }
     
     // Override getChapterList for NovLove's structure
