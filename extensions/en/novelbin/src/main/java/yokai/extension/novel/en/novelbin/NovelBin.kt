@@ -18,27 +18,29 @@ class NovelBin : ConfigurableNovelSource() {
     override val rateLimitMs: Long = 500L
     
     override val selectors = SourceSelectors(
-        // Search selectors
+        // Search selectors - note child combinator for correct targeting
         searchItemSelector = "#list-page>.archive>.list>.row",
         searchTitleSelector = ">div>div>.truyen-title>a, >div>div>.novel-title>a",
         searchCoverSelector = ">div>div>img",
         coverAttribute = "src",
         
-        // Browse selectors
+        // Browse selectors - uses data-src for lazy loaded images
         browseItemSelector = "div.list>div.row",
-        browseTitleSelector = "div > div > h3.novel-title > a",
+        browseTitleSelector = "div > div > h3.novel-title > a, h3.truyen-title > a",
         browseCoverSelector = "div > div > img",
+        browseCoverAttribute = "data-src",  // Browse pages use lazy loading
         
         // Novel details selectors
         detailTitleSelector = "h3.title",
         detailCoverSelector = "div.book img",
+        detailCoverAttribute = "data-src",  // Detail page also uses data-src
         descriptionSelector = "div.desc-text",
-        authorSelector = "ul.info-meta li:contains(Author) a, ul.info > li:nth-child(1) > a",
-        genreSelector = "ul.info-meta li:contains(Genre) a, ul.info > li:nth-child(5) a",
-        statusSelector = "ul.info-meta li:contains(Status) a, ul.info > li:nth-child(3) > a",
+        authorSelector = "ul.info > li:nth-child(1) > a",
+        genreSelector = "ul.info > li:nth-child(5) a",
+        statusSelector = "ul.info > li:nth-child(3) > a",
         
         // Chapter list selectors
-        chapterListSelector = "ul.list-chapter li a, select > option[value], .list-chapter>li>a",
+        chapterListSelector = "select > option[value], .list-chapter>li>a",
         novelIdSelector = "#rating",
         novelIdAttribute = "data-novel-id",
         chapterAjaxUrl = "https://novelbin.com/ajax/chapter-archive?novelId={id}",
@@ -49,7 +51,8 @@ class NovelBin : ConfigurableNovelSource() {
         contentRemoveSelectors = listOf("script", "div.ads", "ins.adsbygoogle", "iframe"),
         contentRemovePatterns = listOf(
             "[Updated from F r e e w e b n o v e l. c o m]",
-            "If you find any errors ( broken links, non-standard content, etc.. ), Please let us know"
+            "If you find any errors ( broken links, non-standard content, etc.. ), Please let us know",
+            "If you find any errors ( Ads popup, ads redirect, broken links, non-standard content, etc.. ), Please let us know"
         ),
         
         // URL patterns

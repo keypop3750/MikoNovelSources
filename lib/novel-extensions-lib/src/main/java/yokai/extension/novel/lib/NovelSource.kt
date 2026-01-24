@@ -173,6 +173,30 @@ abstract class NovelSource {
         
         return client.newCall(request).execute().body?.string() ?: ""
     }
+    
+    /**
+     * Make a POST request with form data and custom headers map.
+     */
+    protected suspend fun postForm(url: String, data: Map<String, String>, headerMap: Map<String, String>): String {
+        val formBody = okhttp3.FormBody.Builder().apply {
+            data.forEach { (key, value) -> add(key, value) }
+        }.build()
+        
+        val headersBuilder = Headers.Builder()
+        headerMap.forEach { (key, value) -> headersBuilder.add(key, value) }
+        // Add default user agent if not present
+        if (!headerMap.containsKey("User-Agent")) {
+            headersBuilder.add("User-Agent", DEFAULT_USER_AGENT)
+        }
+        
+        val request = Request.Builder()
+            .url(url)
+            .headers(headersBuilder.build())
+            .post(formBody)
+            .build()
+        
+        return client.newCall(request).execute().body?.string() ?: ""
+    }
 
     /**
      * Fix a relative URL to be absolute.

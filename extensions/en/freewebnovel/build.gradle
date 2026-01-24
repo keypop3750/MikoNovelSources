@@ -12,14 +12,14 @@ android {
         applicationId "yokai.extension.novel.en.freewebnovel"
         minSdk 21
         targetSdk 34
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 4
+        versionName "1.0.3"
         
         manifestPlaceholders = [
             extName: "FreeWebNovel",
             extClass: ".FreeWebNovelFactory",
-            extVersionCode: "3",
-            extVersionName: "1.0.2",
+            extVersionCode: "4",
+            extVersionName: "1.0.3",
             extNsfw: "false"
         ]
     }

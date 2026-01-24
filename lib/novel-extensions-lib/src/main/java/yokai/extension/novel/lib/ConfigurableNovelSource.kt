@@ -28,12 +28,16 @@ data class SourceSelectors(
     val browseTitleSelector: String? = null,
     /** Selector for cover on browse pages (defaults to searchCoverSelector) */
     val browseCoverSelector: String? = null,
+    /** Attribute to get browse cover URL from (defaults to coverAttribute) */
+    val browseCoverAttribute: String? = null,
     
     // === Novel Details Selectors ===
     /** Selector for title on novel page */
     val detailTitleSelector: String,
     /** Selector for cover on novel page */
     val detailCoverSelector: String,
+    /** Attribute to get detail cover URL from (defaults to coverAttribute) */
+    val detailCoverAttribute: String? = null,
     /** Selector for description/synopsis */
     val descriptionSelector: String? = null,
     /** Selector for author */
@@ -175,7 +179,8 @@ abstract class ConfigurableNovelSource : NovelSource() {
         
         val title = document.selectFirst(selectors.detailTitleSelector)?.text() ?: ""
         
-        var coverUrl = getCoverFromElement(document.selectFirst(selectors.detailCoverSelector))
+        val detailAttr = selectors.detailCoverAttribute ?: selectors.coverAttribute
+        var coverUrl = getCoverFromElement(document.selectFirst(selectors.detailCoverSelector), detailAttr)
         coverUrl = transformCoverUrl(coverUrl)
         
         // Cache the cover URL
@@ -292,13 +297,19 @@ abstract class ConfigurableNovelSource : NovelSource() {
             selectors.browseCoverSelector ?: selectors.searchCoverSelector
         }
         
+        val coverAttr = if (forSearch) {
+            selectors.coverAttribute
+        } else {
+            selectors.browseCoverAttribute ?: selectors.coverAttribute
+        }
+        
         return document.select(itemSelector).mapNotNull { element ->
             val titleElement = element.selectFirst(titleSelector) ?: return@mapNotNull null
             val title = titleElement.text()
             val novelUrl = fixUrl(titleElement.attr("href"))
             
             var coverUrl = coverSelector?.let { 
-                getCoverFromElement(element.selectFirst(it))
+                getCoverFromElement(element.selectFirst(it), coverAttr)
             }
             coverUrl = transformCoverUrl(coverUrl)
             
@@ -336,11 +347,11 @@ abstract class ConfigurableNovelSource : NovelSource() {
     /**
      * Get cover URL from an element, trying various attributes.
      */
-    protected fun getCoverFromElement(element: Element?): String? {
+    protected fun getCoverFromElement(element: Element?, preferredAttr: String = selectors.coverAttribute): String? {
         if (element == null) return null
         
-        // Try the configured attribute first
-        var url = element.attr(selectors.coverAttribute)
+        // Try the specified attribute first
+        var url = element.attr(preferredAttr)
         
         // Fallback to common attributes
         if (url.isBlank()) url = element.attr("data-src")
@@ -373,7 +384,8 @@ abstract class ConfigurableNovelSource : NovelSource() {
         // Fetch from detail page
         val coverUrl = try {
             val detailDoc = getDocument(novelUrl)
-            var url = getCoverFromElement(detailDoc.selectFirst(selectors.detailCoverSelector))
+            val detailAttr = selectors.detailCoverAttribute ?: selectors.coverAttribute
+            var url = getCoverFromElement(detailDoc.selectFirst(selectors.detailCoverSelector), detailAttr)
             transformCoverUrl(url)
         } catch (e: Exception) {
             android.util.Log.e("ConfigurableSource", "Error fetching cover for $novelUrl: ${e.message}")

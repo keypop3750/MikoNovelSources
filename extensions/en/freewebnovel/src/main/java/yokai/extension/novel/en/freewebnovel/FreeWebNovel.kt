@@ -7,7 +7,7 @@ import org.jsoup.Jsoup
  * Source for FreeWebNovel (freewebnovel.com)
  * Large library of translated web novels.
  * 
- * Uses the LibRead-style template.
+ * Uses the LibRead-style template - extends LibReadProvider in QuickNovel.
  */
 class FreeWebNovel : ConfigurableNovelSource() {
     
@@ -19,32 +19,32 @@ class FreeWebNovel : ConfigurableNovelSource() {
     override val rateLimitMs: Long = 500L
     
     override val selectors = SourceSelectors(
-        // Search selectors - LibRead/FreeWebNovel style
-        searchItemSelector = "div.li-row > div.li > div.con",
-        searchTitleSelector = "div.txt > h3.tit > a",
-        searchCoverSelector = "div.pic > img",
+        // Search selectors - LibRead/FreeWebNovel style (POST search returns different HTML)
+        searchItemSelector = "div.li-row",
+        searchTitleSelector = "h3.tit > a",
+        searchCoverSelector = "div.pic > a > img, div.pic > img",
         coverAttribute = "src",
         
-        // Browse selectors
+        // Browse selectors - from LibReadProvider
         browseItemSelector = "div.ul-list1.ul-list1-2.ss-custom > div.li-row",
         browseTitleSelector = "h3.tit > a",
         browseCoverSelector = "div.pic > a > img",
         
-        // Novel details selectors
+        // Novel details selectors - from LibReadProvider
         detailTitleSelector = "h1.tit",
         detailCoverSelector = "div.pic > img",
         descriptionSelector = "div.inner",
-        authorSelector = "span.glyphicon-user + a, span.glyphicon.glyphicon-user ~ a",
-        genreSelector = "span.glyphicon-th-list + a, span.glyphicon.glyphicon-th-list ~ a",
+        authorSelector = "span.glyphicon.glyphicon-user ~ a",
+        genreSelector = "span.glyphicon.glyphicon-th-list ~ a",
         statusSelector = "span.s1.s3 a, span.s1.s2 a",
-        ratingSelector = "div.score span.score-n",
+        ratingSelector = "div.m-desc > div.score > p:nth-child(2)",
         
         // Chapter list selectors - uses AJAX API
-        chapterListSelector = "ul.chapter-list li a, option[value]",
+        chapterListSelector = "option[value]",
         
         // Chapter content selectors
         chapterContentSelector = "div.txt",
-        contentRemoveSelectors = listOf("script", "div.ads", "ins.adsbygoogle", "iframe", "div.txt > p:first-child", "div.txt > .notice-text"),
+        contentRemoveSelectors = listOf("script", "div.ads", "ins.adsbygoogle", "iframe", "div.txt > .notice-text"),
         contentRemovePatterns = listOf(
             "freewebnovel.com",
             "libread.com",
@@ -54,21 +54,39 @@ class FreeWebNovel : ConfigurableNovelSource() {
         ),
         
         // URL patterns
-        searchUrlPattern = "https://freewebnovel.com/search?searchkey={query}",
+        searchUrlPattern = "https://freewebnovel.com/search", // POST request, query added as form data
         popularUrlPattern = "https://freewebnovel.com/most-popular-novel/{page}",
         latestUrlPattern = "https://freewebnovel.com/latest-release-novels/{page}",
         
         fetchFullCoverFromDetails = false
     )
     
-    // Override search to use POST request
+    // Override search to use POST request with correct headers
     override suspend fun search(query: String, page: Int): List<NovelSearchResult> {
         val response = postForm(
             "$baseUrl/search",
-            mapOf("searchkey" to query)
+            mapOf("searchkey" to query),
+            mapOf(
+                "referer" to baseUrl,
+                "x-requested-with" to "XMLHttpRequest",
+                "content-type" to "application/x-www-form-urlencoded",
+                "accept" to "*/*"
+            )
         )
         val document = parseHtml(response)
-        return parseNovelItems(document, forSearch = true)
+        
+        return document.select("div.li-row > div.li > div.con").mapNotNull { element ->
+            val titleElement = element.selectFirst("div.txt > h3.tit > a") ?: return@mapNotNull null
+            val title = titleElement.attr("title").ifBlank { titleElement.text() }
+            val novelUrl = fixUrl(titleElement.attr("href"))
+            val coverUrl = element.selectFirst("div.pic > img")?.attr("src")?.let { fixUrlOrNull(it) }
+            
+            NovelSearchResult(
+                title = title,
+                url = novelUrl,
+                coverUrl = coverUrl
+            )
+        }
     }
     
     // Override getChapterList to use FreeWebNovel's AJAX API
@@ -77,7 +95,7 @@ class FreeWebNovel : ConfigurableNovelSource() {
         val response = get(novelUrl)
         val responseText = response.body?.string() ?: ""
         
-        // Extract aid from the page
+        // Extract aid from the page - look for pattern like "12345s.jpg"
         val aid = Regex("[0-9]+s.jpg").find(responseText)
             ?.value?.substringBefore("s")
         

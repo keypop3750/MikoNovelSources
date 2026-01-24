@@ -12,14 +12,14 @@ android {
         applicationId "yokai.extension.novel.en.novelfull"
         minSdk 21
         targetSdk 34
-        versionCode 4
-        versionName "1.0.3"
+        versionCode 5
+        versionName "1.0.4"
         
         manifestPlaceholders = [
             extName: "NovelFull",
             extClass: ".NovelFullFactory",
-            extVersionCode: "4",
-            extVersionName: "1.0.3",
+            extVersionCode: "5",
+            extVersionName: "1.0.4",
             extNsfw: "false"
         ]
     }
