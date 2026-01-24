@@ -11,6 +11,12 @@ import yokai.extension.novel.lib.*
  */
 class NovelFull : NovelSource() {
     
+    companion object {
+        // Persistent cover URL cache - maps novel URL to full cover URL
+        // This avoids expensive detail page fetches for novels we've already seen
+        private val coverCache = mutableMapOf<String, String?>()
+    }
+    
     override val id: Long = 6002L
     override val name: String = "NovelFull"
     override val baseUrl: String = "https://novelfull.com"
@@ -18,32 +24,61 @@ class NovelFull : NovelSource() {
     override val hasMainPage: Boolean = true
     override val rateLimitMs: Long = 100L  // Reduced from 500ms to speed up chapter loading
     
-    override suspend fun search(query: String, page: Int): List<NovelSearchResult> {
+    override suspend fun search(query: String, page: Int): List<NovelSearchResult> = coroutineScope {
         val url = "$baseUrl/search?keyword=${query.encodeUrl()}&page=$page"
         val document = getDocument(url)
         
-        // Updated selector for new website structure
-        return document.select("div.list.list-truyen div.row").map { element ->
+        // Parse search results - we'll fetch full covers from detail pages
+        val searchItems = document.select("div.list.list-truyen div.row").map { element ->
             val titleElement = element.selectFirst("h3.truyen-title a") ?: element.selectFirst("a")
             val title = titleElement?.text() ?: ""
             val novelUrl = fixUrl(titleElement?.attr("href") ?: "")
-            // Keep thumbnail URL as-is - NovelFull only provides thumbnails
-            val coverUrl = fixUrlOrNull(element.selectFirst("img")?.attr("src"))
-            
-            NovelSearchResult(
-                title = title,
-                url = novelUrl,
-                coverUrl = coverUrl
-            )
+            Pair(title, novelUrl)
         }
+        
+        // Fetch full covers from detail pages in parallel
+        // This is slower but gives us proper full-size cover images instead of cropped thumbnails
+        searchItems.map { (title, novelUrl) ->
+            async {
+                val coverUrl = getFullCoverUrl(novelUrl)
+                NovelSearchResult(title = title, url = novelUrl, coverUrl = coverUrl)
+            }
+        }.awaitAll()
+    }
+    
+    /**
+     * Fetches the full cover URL from a novel's detail page.
+     * Uses a persistent cache to avoid repeated expensive fetches.
+     */
+    private suspend fun getFullCoverUrl(novelUrl: String): String? {
+        // Check cache first
+        if (coverCache.containsKey(novelUrl)) {
+            return coverCache[novelUrl]
+        }
+        
+        // Fetch from detail page
+        val coverUrl = try {
+            val detailDoc = getDocument(novelUrl)
+            fixUrlOrNull(detailDoc.selectFirst("div.book img")?.attr("src"))
+        } catch (e: Exception) {
+            android.util.Log.e("NOVELFULL", "Error fetching cover for $novelUrl: ${e.message}")
+            null
+        }
+        
+        // Cache the result (even if null, to avoid repeated failed fetches)
+        coverCache[novelUrl] = coverUrl
+        return coverUrl
     }
     
     override suspend fun getNovelDetails(url: String): NovelDetails {
         val document = getDocument(url)
         
         val title = document.selectFirst("h3.title")?.text() ?: ""
-        // Keep thumbnail URL - NovelFull only provides thumbnails
+        // Get full cover URL and cache it
         val coverUrl = fixUrlOrNull(document.selectFirst("div.book img")?.attr("src"))
+        // Update cache with the cover we just fetched
+        coverCache[url] = coverUrl
+        
         val description = document.selectFirst("div.desc-text")?.text()
         val author = document.selectFirst("div.info > div:contains(Author) > a")?.text()
         
@@ -169,24 +204,24 @@ class NovelFull : NovelSource() {
         return parseNovelList(url)
     }
     
-    private suspend fun parseNovelList(url: String): List<NovelSearchResult> {
+    private suspend fun parseNovelList(url: String): List<NovelSearchResult> = coroutineScope {
         val document = getDocument(url)
         
-        // Updated selector for new website structure: div.list.list-truyen contains the novels
-        val novels = document.select("div.list.list-truyen div.row")
-        
-        return novels.map { element ->
+        // Parse novel list items
+        val novelItems = document.select("div.list.list-truyen div.row").map { element ->
             val titleElement = element.selectFirst("h3.truyen-title a") ?: element.selectFirst("a")
             val title = titleElement?.text() ?: ""
             val novelUrl = fixUrl(titleElement?.attr("href") ?: "")
-            // Keep the thumbnail URL as-is - NovelFull only provides thumbnail images
-            val coverUrl = fixUrlOrNull(element.selectFirst("img")?.attr("src"))
-            
-            NovelSearchResult(
-                title = title,
-                url = novelUrl,
-                coverUrl = coverUrl
-            )
+            Pair(title, novelUrl)
         }
+        
+        // Fetch full covers from detail pages in parallel
+        // This is slower but gives us proper full-size cover images instead of cropped thumbnails
+        novelItems.map { (title, novelUrl) ->
+            async {
+                val coverUrl = getFullCoverUrl(novelUrl)
+                NovelSearchResult(title = title, url = novelUrl, coverUrl = coverUrl)
+            }
+        }.awaitAll()
     }
 }
