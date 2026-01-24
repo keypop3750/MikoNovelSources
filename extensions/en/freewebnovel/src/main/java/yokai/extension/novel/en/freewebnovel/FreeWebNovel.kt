@@ -2,6 +2,7 @@ package yokai.extension.novel.en.freewebnovel
 
 import yokai.extension.novel.lib.*
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 
 /**
  * Source for FreeWebNovel (freewebnovel.com)
@@ -53,13 +54,32 @@ class FreeWebNovel : ConfigurableNovelSource() {
             "☞ We are moving Freewebnovel.com to Libread.com, Please visit libread.com for more chapters! ☜"
         ),
         
-        // URL patterns
+        // URL patterns - FIXED: correct URL for popular and latest
         searchUrlPattern = "https://freewebnovel.com/search", // POST request, query added as form data
-        popularUrlPattern = "https://freewebnovel.com/most-popular-novel/{page}",
-        latestUrlPattern = "https://freewebnovel.com/latest-release-novels/{page}",
+        popularUrlPattern = "https://freewebnovel.com/sort/most-popular",  // No pagination
+        latestUrlPattern = "https://freewebnovel.com/sort/latest-release/{page}",
         
         fetchFullCoverFromDetails = false
     )
+    
+    // Override getPopularNovels to handle FreeWebNovel's non-paginated popular page
+    override suspend fun getPopularNovels(page: Int): List<NovelSearchResult> {
+        // FreeWebNovel's popular page shows all popular novels without pagination
+        // Only fetch on page 1 to avoid duplicates
+        if (page > 1) {
+            return emptyList()
+        }
+        
+        val document = getDocument("$baseUrl/sort/most-popular")
+        return parseNovelItems(document, forSearch = false)
+    }
+    
+    // Override getLatestUpdates to use the correct URL pattern
+    override suspend fun getLatestUpdates(page: Int): List<NovelSearchResult> {
+        val url = "$baseUrl/sort/latest-release/$page"
+        val document = getDocument(url)
+        return parseNovelItems(document, forSearch = false)
+    }
     
     // Override search to use POST request with correct headers
     override suspend fun search(query: String, page: Int): List<NovelSearchResult> {
