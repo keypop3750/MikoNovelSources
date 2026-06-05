@@ -42,7 +42,7 @@ This repository contains novel source extensions that can be installed in Miko t
 
 1. Open Miko app
 2. Go to Browse → Extensions → Extension Repos
-3. Add this repository URL: `https://raw.githubusercontent.com/keypop3750/MikoNovelSources/main`
+3. Add this repository URL: `https://raw.githubusercontent.com/keypop3750/MikoNovelSources/main/index.min.json`
 4. Browse available novel extensions and install
 
 ## Building from Source
