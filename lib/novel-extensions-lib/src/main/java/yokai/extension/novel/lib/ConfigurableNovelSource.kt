@@ -326,16 +326,28 @@ abstract class ConfigurableNovelSource : NovelSource() {
      */
     protected open fun parseChaptersFromDocument(document: Document): List<NovelChapter> {
         var chapterElements = document.select(selectors.chapterListSelector)
-        
+
         if (chapterElements.isEmpty() && selectors.chapterListSelectorAlt != null) {
             chapterElements = document.select(selectors.chapterListSelectorAlt!!)
         }
-        
+
         return chapterElements.mapNotNull { element ->
             // Handle both direct links and option elements
             val url = element.attr("href").ifBlank { element.attr("value") }
             if (url.isBlank()) return@mapNotNull null
-            
+
+            // Filter out non-chapter URLs from generic select > option[value] selectors.
+            // Theme/font selectors often have values like "gray", "sepia", "roboto" without
+            // any path structure. Real chapter URLs contain slashes or chapter identifiers.
+            val isOptionElement = element.tagName().lowercase() == "option"
+            if (isOptionElement) {
+                val looksLikeChapterUrl = url.contains("/") ||
+                    url.contains("chapter", ignoreCase = true) ||
+                    url.endsWith(".html", ignoreCase = true) ||
+                    url.startsWith("http", ignoreCase = true)
+                if (!looksLikeChapterUrl) return@mapNotNull null
+            }
+
             NovelChapter(
                 url = fixUrl(url),
                 name = element.text(),

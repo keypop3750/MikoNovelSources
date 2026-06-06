@@ -10,6 +10,9 @@ import yokai.extension.novel.lib.*
  * 
  * Cover images are at https://images.novlove.com/novel_200_89/{slug}.jpg
  * The image appears BEFORE the novel title link in the HTML structure.
+ * 
+ * Supported filters:
+ * - Sort: Trending (hot), Latest
  */
 class BoxNovel : ConfigurableNovelSource() {
     
@@ -20,7 +23,40 @@ class BoxNovel : ConfigurableNovelSource() {
     override val hasMainPage: Boolean = true
     override val rateLimitMs: Long = 500L
     
-    private val imageBaseUrl = "https://images.novlove.com/novel_200_89"
+    /**
+     * Declare this source's filtering capabilities.
+     */
+    override fun getCapabilities(): SourceCapabilities = SourceCapabilities(
+        supportedSorts = listOf("trending", "last_updated"),
+        supportsSortDirection = false,
+        supportedGenres = emptyList(),  // No genre browse available
+        supportsGenreExclusion = false,
+        supportedStatuses = emptyList(),
+        supportedContentWarnings = emptyList(),
+        supportsContentWarningExclusion = false,
+        supportsChapterCountFilter = false,
+        supportsRatingFilter = false,
+        supportsSearch = true,
+        supportsAuthorFilter = false
+    )
+    
+    /**
+     * Browse novels with applied filters.
+     * BoxNovel/NovLove supports basic sort options only.
+     */
+    override suspend fun getBrowseNovels(page: Int, filters: Map<String, String>): List<NovelSearchResult> {
+        val sort = filters["sort"] ?: "trending"
+        
+        return when (sort) {
+            "last_updated" -> getLatestUpdates(page)
+            else -> getPopularNovels(page)  // Default to trending/hot
+        }
+    }
+    
+    // Thumbnail: https://images.novlove.com/novel_200_89/{slug}.jpg
+    // Full cover: https://images.novlove.com/novel/{slug}.jpg
+    private val thumbnailBaseUrl = "https://images.novlove.com/novel_200_89"
+    private val fullCoverBaseUrl = "https://images.novlove.com/novel"
     
     override val selectors = SourceSelectors(
         // Search selectors - Required but we override search anyway
@@ -58,15 +94,24 @@ class BoxNovel : ConfigurableNovelSource() {
         popularUrlPattern = "https://novlove.com/sort/nov-love-hot",
         latestUrlPattern = "https://novlove.com/sort/nov-love-daily-update",
         
+        // No need to fetch from details - we construct full cover URLs directly
         fetchFullCoverFromDetails = false
     )
     
     /**
-     * Build cover URL from novel slug.
+     * Build thumbnail cover URL from novel slug (for quick browse display).
      * Pattern: https://images.novlove.com/novel_200_89/{slug}.jpg
      */
-    private fun buildCoverUrl(slug: String): String {
-        return "$imageBaseUrl/$slug.jpg"
+    private fun buildThumbnailUrl(slug: String): String {
+        return "$thumbnailBaseUrl/$slug.jpg"
+    }
+    
+    /**
+     * Build full cover URL from novel slug.
+     * Pattern: https://images.novlove.com/novel/{slug}.jpg
+     */
+    private fun buildFullCoverUrl(slug: String): String {
+        return "$fullCoverBaseUrl/$slug.jpg"
     }
     
     /**
@@ -105,7 +150,8 @@ class BoxNovel : ConfigurableNovelSource() {
     /**
      * Parse novel list from browse/search pages.
      * The structure is: h3 > a[href*='/novel/'] for title links
-     * Cover images are constructed from the slug.
+     * Cover images are constructed from the slug - using FULL cover URL directly
+     * to avoid the 200x89 cropped thumbnails.
      */
     private suspend fun parseNovelList(url: String): List<NovelSearchResult> {
         val document = getDocument(url)
@@ -119,9 +165,11 @@ class BoxNovel : ConfigurableNovelSource() {
                 return@mapNotNull null
             }
             
-            // Build cover URL from slug
+            // Build FULL cover URL from slug (not thumbnail) for proper 2:3 display
+            // Full covers are at: https://images.novlove.com/novel/{slug}.jpg
+            // Thumbnails would be: https://images.novlove.com/novel_200_89/{slug}.jpg
             val slug = extractSlug(novelUrl)
-            val coverUrl = buildCoverUrl(slug)
+            val coverUrl = buildFullCoverUrl(slug)
             
             NovelSearchResult(
                 title = title,
@@ -175,10 +223,10 @@ class BoxNovel : ConfigurableNovelSource() {
         val title = document.selectFirst("h1")?.text()?.trim() 
             ?: throw Exception("Could not find novel title")
         
-        // Find cover image
-        val coverUrl = document.selectFirst("div.novel-cover img, img.novel-img, img[alt*='cover']")
-            ?.let { it.attr("data-src").ifBlank { it.attr("src") } }
-            ?.let { fixUrl(it) }
+        // Build full cover URL from the novel slug
+        // Full covers are at: https://images.novlove.com/novel/{slug}.jpg
+        val slug = extractSlug(url)
+        val coverUrl = buildFullCoverUrl(slug)
         
         // Find description
         val description = document.select("div.novel-desc p, div.summary p")

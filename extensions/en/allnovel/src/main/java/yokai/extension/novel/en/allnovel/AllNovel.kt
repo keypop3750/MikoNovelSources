@@ -11,6 +11,11 @@ import yokai.extension.novel.lib.*
  * 
  * NOTE: This site uses the same template/structure as NovelFull.
  * Covers in search results are thumbnails; full covers are fetched from details page.
+ * 
+ * Supported filters:
+ * - Sort: Trending (hot), Popular, Latest
+ * - Genres: Action, Adventure, Fantasy, etc. (via /genre/GenreName)
+ * - Status: Completed (via /completed-novel)
  */
 class AllNovel : ConfigurableNovelSource() {
     
@@ -20,6 +25,48 @@ class AllNovel : ConfigurableNovelSource() {
     override val lang: String = "en"
     override val hasMainPage: Boolean = true
     override val rateLimitMs: Long = 300L
+    
+    /**
+     * Declare this source's filtering capabilities.
+     */
+    override fun getCapabilities(): SourceCapabilities = SourceCapabilities(
+        supportedSorts = listOf("trending", "popular", "last_updated"),
+        supportsSortDirection = false,
+        supportedGenres = genreMap.keys.toList(),
+        supportsGenreExclusion = false,
+        supportedStatuses = listOf("completed"),
+        supportedContentWarnings = emptyList(),
+        supportsContentWarningExclusion = false,
+        supportsChapterCountFilter = false,
+        supportsRatingFilter = false,
+        supportsSearch = true,
+        supportsAuthorFilter = false
+    )
+    
+    // Genre mapping - maps app genre values to AllNovel URL segments
+    private val genreMap = mapOf(
+        "action" to "Action",
+        "adventure" to "Adventure",
+        "comedy" to "Comedy",
+        "drama" to "Drama",
+        "fantasy" to "Fantasy",
+        "harem" to "Harem",
+        "historical" to "Historical",
+        "horror" to "Horror",
+        "martial_arts" to "Martial-arts",
+        "mature" to "Mature",
+        "mystery" to "Mystery",
+        "psychological" to "Psychological",
+        "reincarnation" to "Reincarnation",
+        "romance" to "Romance",
+        "sci_fi" to "Sci-fi",
+        "slice_of_life" to "Slice-of-life",
+        "supernatural" to "Supernatural",
+        "tragedy" to "Tragedy",
+        "wuxia" to "Wuxia",
+        "xianxia" to "Xianxia",
+        "xuanhuan" to "Xuanhuan"
+    )
     
     override val selectors = SourceSelectors(
         // Search selectors - Same structure as NovelFull
@@ -113,6 +160,98 @@ class AllNovel : ConfigurableNovelSource() {
         // Remove duplicates and assign chapter numbers
         allChapters.distinctBy { it.url }.mapIndexed { index, chapter ->
             chapter.copy(chapterNumber = (index + 1).toFloat())
+        }
+    }
+    
+    /**
+     * Browse novels with filtering support.
+     */
+    override suspend fun getBrowseNovels(page: Int, filters: Map<String, String>): List<NovelSearchResult> {
+        val sort = filters["sort"]
+        val includedGenres = filters["genres"]
+        val status = filters["status"]
+        
+        // Priority 1: Status filter - completed novels
+        if (status == "completed") {
+            return parseNovelListFromUrl("$baseUrl/completed-novel?page=$page")
+        }
+        
+        // Priority 2: Genre filter
+        if (!includedGenres.isNullOrBlank()) {
+            val firstGenre = includedGenres.split(",").firstOrNull()?.trim()
+            val genreUrlName = genreMap[firstGenre] ?: firstGenre?.replaceFirstChar { it.uppercaseChar() }
+            if (genreUrlName != null) {
+                return parseNovelListFromUrl("$baseUrl/genre/$genreUrlName?page=$page")
+            }
+        }
+        
+        // Priority 3: Sort filter
+        val url = when (sort) {
+            "trending" -> "$baseUrl/hot-novel?page=$page"
+            "popular" -> "$baseUrl/most-popular?page=$page"
+            "last_updated" -> "$baseUrl/latest-release-novel?page=$page"
+            else -> "$baseUrl/most-popular?page=$page"
+        }
+        
+        return parseNovelListFromUrl(url)
+    }
+    
+    private suspend fun parseNovelListFromUrl(url: String): List<NovelSearchResult> = coroutineScope {
+        val document = getDocument(url)
+        
+        var items = document.select(selectors.browseItemSelector)
+        if (items.isEmpty() && selectors.searchItemSelector != null) {
+            items = document.select(selectors.searchItemSelector!!)
+        }
+        
+        val novels = items.mapNotNull { element ->
+            try {
+                val titleElement = element.selectFirst(selectors.browseTitleSelector)
+                    ?: element.selectFirst(selectors.searchTitleSelector ?: return@mapNotNull null)
+                    ?: return@mapNotNull null
+                
+                val title = titleElement.text().trim()
+                val novelUrl = titleElement.attr("href").let { href ->
+                    if (href.startsWith("http")) href else baseUrl + href 
+                }
+                
+                val coverElement = element.selectFirst(selectors.browseCoverSelector)
+                    ?: element.selectFirst(selectors.searchCoverSelector ?: "")
+                val coverUrl = coverElement?.attr(selectors.coverAttribute)?.let { cover ->
+                    when {
+                        cover.startsWith("http") -> cover
+                        cover.startsWith("/") -> baseUrl + cover
+                        else -> null
+                    }
+                }
+                
+                NovelSearchResult(
+                    title = title,
+                    url = novelUrl,
+                    coverUrl = coverUrl
+                )
+            } catch (e: Exception) {
+                null
+            }
+        }
+        
+        // Fetch full covers from detail pages if configured
+        if (selectors.fetchFullCoverFromDetails && novels.isNotEmpty()) {
+            novels.map { novel ->
+                async {
+                    try {
+                        val detailDoc = getDocument(novel.url)
+                        val fullCover = detailDoc.selectFirst(selectors.detailCoverSelector)
+                            ?.attr(selectors.coverAttribute)
+                            ?.let { if (it.startsWith("http")) it else baseUrl + it }
+                        if (fullCover != null) novel.copy(coverUrl = fullCover) else novel
+                    } catch (e: Exception) {
+                        novel
+                    }
+                }
+            }.awaitAll()
+        } else {
+            novels
         }
     }
 }

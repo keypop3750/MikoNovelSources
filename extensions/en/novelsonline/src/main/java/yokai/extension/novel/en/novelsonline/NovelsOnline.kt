@@ -5,6 +5,9 @@ import yokai.extension.novel.lib.*
 /**
  * Source for NovelsOnline (novelsonline.org)
  * Note: Uses Cloudflare protection - may require special handling.
+ * 
+ * Supported filters:
+ * - Sort: Popular (top), Latest
  */
 class NovelsOnline : ConfigurableNovelSource() {
     
@@ -14,6 +17,61 @@ class NovelsOnline : ConfigurableNovelSource() {
     override val lang: String = "en"
     override val hasMainPage: Boolean = true
     override val rateLimitMs: Long = 1000L
+    
+    /**
+     * Declare this source's filtering capabilities.
+     */
+    override fun getCapabilities(): SourceCapabilities = SourceCapabilities(
+        supportedSorts = listOf("popular", "last_updated"),
+        supportsSortDirection = false,
+        supportedGenres = emptyList(),  // Has genres but complex structure
+        supportsGenreExclusion = false,
+        supportedStatuses = emptyList(),
+        supportedContentWarnings = emptyList(),
+        supportsContentWarningExclusion = false,
+        supportsChapterCountFilter = false,
+        supportsRatingFilter = false,
+        supportsSearch = true,
+        supportsAuthorFilter = false
+    )
+    
+    /**
+     * Browse novels with applied filters.
+     * NovelsOnline supports top novels and latest release.
+     */
+    override suspend fun getBrowseNovels(page: Int, filters: Map<String, String>): List<NovelSearchResult> {
+        val sort = filters["sort"] ?: "popular"
+        
+        val url = when (sort) {
+            "last_updated" -> "$baseUrl/latest-release/$page"
+            else -> "$baseUrl/top-novel/$page"  // Default to popular/top
+        }
+        
+        return parseNovelList(getDocument(url))
+    }
+    
+    /**
+     * Parse novel list from browse pages.
+     */
+    private suspend fun parseNovelList(document: org.jsoup.nodes.Document): List<NovelSearchResult> {
+        return document.select("div.top-novel-block").mapNotNull { block ->
+            val titleElement = block.selectFirst("div.top-novel-header h2 a") ?: return@mapNotNull null
+            val title = titleElement.text().trim()
+            val url = titleElement.attr("href")
+            
+            if (title.isBlank() || url.isBlank()) return@mapNotNull null
+            
+            val coverUrl = block.selectFirst("div.top-novel-cover img")
+                ?.attr("src")
+                ?.let { fixUrl(it) }
+            
+            NovelSearchResult(
+                title = title,
+                url = fixUrl(url),
+                coverUrl = coverUrl
+            )
+        }
+    }
     
     override val selectors = SourceSelectors(
         // Search selectors

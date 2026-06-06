@@ -11,6 +11,9 @@ import yokai.extension.novel.lib.*
  * 
  * The site's search uses AJAX with CSRF tokens which makes it complex.
  * Browse pages work better than search.
+ * 
+ * Supported filters:
+ * - Sort: Popular, Latest
  */
 class LightNovelPub : ConfigurableNovelSource() {
     
@@ -20,6 +23,55 @@ class LightNovelPub : ConfigurableNovelSource() {
     override val lang: String = "en"
     override val hasMainPage: Boolean = true
     override val rateLimitMs: Long = 3000L  // Heavy rate limiting due to Cloudflare
+    
+    /**
+     * Declare this source's filtering capabilities.
+     */
+    override fun getCapabilities(): SourceCapabilities = SourceCapabilities(
+        supportedSorts = listOf("popular", "newest"),
+        supportsSortDirection = false,
+        supportedGenres = emptyList(),  // Complex URL structure for genres
+        supportsGenreExclusion = false,
+        supportedStatuses = emptyList(),
+        supportedContentWarnings = emptyList(),
+        supportsContentWarningExclusion = false,
+        supportsChapterCountFilter = false,
+        supportsRatingFilter = false,
+        supportsSearch = true,
+        supportsAuthorFilter = false
+    )
+    
+    /**
+     * Browse novels with applied filters.
+     * LightNovelPub supports basic sort options only.
+     */
+    override suspend fun getBrowseNovels(page: Int, filters: Map<String, String>): List<NovelSearchResult> {
+        val sort = filters["sort"] ?: "popular"
+        
+        val orderPart = when (sort) {
+            "newest" -> "order-new"
+            else -> "order-popular"  // Default to popular
+        }
+        
+        val url = "$baseUrl/browse/genre-all-25060123/$orderPart/status-all?page=$page"
+        val document = getDocument(url)
+        
+        return document.select("li.novel-item").mapNotNull { element ->
+            val link = element.selectFirst("a[title]") ?: return@mapNotNull null
+            val title = link.attr("title").ifBlank { link.text() }
+            val novelUrl = link.attr("href")
+            
+            val coverUrl = element.selectFirst("figure.novel-cover img")?.let {
+                it.attr("data-src").ifBlank { it.attr("src") }
+            }?.let { fixUrl(it) }
+            
+            NovelSearchResult(
+                title = title,
+                url = fixUrl(novelUrl),
+                coverUrl = coverUrl
+            )
+        }
+    }
     
     override val selectors = SourceSelectors(
         // Search selectors

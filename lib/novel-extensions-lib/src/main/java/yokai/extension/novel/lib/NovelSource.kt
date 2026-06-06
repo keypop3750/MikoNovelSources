@@ -124,9 +124,28 @@ abstract class NovelSource {
     open suspend fun getPopularNovels(page: Int = 1): List<NovelSearchResult> = emptyList()
     
     /**
+     * Browse novels with filters.
+     * @param page Page number (1-indexed)
+     * @param filters Filter parameters as key-value pairs
+     * @return List of novels matching filters
+     */
+    open suspend fun getBrowseNovels(page: Int = 1, filters: Map<String, String> = emptyMap()): List<NovelSearchResult> {
+        // Default implementation falls back to popular novels
+        return getPopularNovels(page)
+    }
+    
+    /**
      * Get available filter options for browsing.
      */
     open fun getFilterList(): List<NovelFilter> = emptyList()
+    
+    /**
+     * Declare what filtering/sorting capabilities this source supports.
+     * The app uses this to dynamically show only supported options.
+     * 
+     * Override this to declare your source's capabilities.
+     */
+    open fun getCapabilities(): SourceCapabilities = SourceCapabilities()
     
     // ===== Helper Methods =====
     

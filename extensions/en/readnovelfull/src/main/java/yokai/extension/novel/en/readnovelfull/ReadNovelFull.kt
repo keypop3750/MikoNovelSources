@@ -9,6 +9,9 @@ import org.jsoup.nodes.Document
  * A popular web novel aggregator with extensive library.
  * 
  * Uses AJAX chapter-archive API for chapter lists.
+ * 
+ * Supported filters:
+ * - Sort: Popular, Latest
  */
 class ReadNovelFull : ConfigurableNovelSource() {
     
@@ -18,6 +21,36 @@ class ReadNovelFull : ConfigurableNovelSource() {
     override val lang: String = "en"
     override val hasMainPage: Boolean = true
     override val rateLimitMs: Long = 300L
+    
+    /**
+     * Declare this source's filtering capabilities.
+     */
+    override fun getCapabilities(): SourceCapabilities = SourceCapabilities(
+        supportedSorts = listOf("popular", "last_updated"),
+        supportsSortDirection = false,
+        supportedGenres = emptyList(),  // Has genres but complex URL structure
+        supportsGenreExclusion = false,
+        supportedStatuses = emptyList(),
+        supportedContentWarnings = emptyList(),
+        supportsContentWarningExclusion = false,
+        supportsChapterCountFilter = false,
+        supportsRatingFilter = false,
+        supportsSearch = true,
+        supportsAuthorFilter = false
+    )
+    
+    /**
+     * Browse novels with applied filters.
+     * ReadNovelFull supports popular and latest sort.
+     */
+    override suspend fun getBrowseNovels(page: Int, filters: Map<String, String>): List<NovelSearchResult> {
+        val sort = filters["sort"] ?: "popular"
+        
+        return when (sort) {
+            "last_updated" -> getLatestUpdates(page)
+            else -> getPopularNovels(page)  // Default to popular
+        }
+    }
     
     override val selectors = SourceSelectors(
         // Browse selectors
@@ -54,6 +87,7 @@ class ReadNovelFull : ConfigurableNovelSource() {
         popularUrlPattern = "$baseUrl/novel-list/most-popular-novel?page={page}",
         latestUrlPattern = "$baseUrl/novel-list/latest-release-novel?page={page}",
         
+        // Don't fetch full cover - some novels don't have covers on the site itself
         fetchFullCoverFromDetails = false
     )
     
@@ -91,10 +125,9 @@ class ReadNovelFull : ConfigurableNovelSource() {
             
             if (title.isBlank() || url.isBlank()) return@mapNotNull null
             
-            // Get poster and upgrade to larger size
+            // Get thumbnail as placeholder, full cover will be fetched from details
             val coverUrl = cols.getOrNull(0)?.selectFirst("img")
                 ?.attr("src")
-                ?.replace("t-200x89", "t-300x439")
                 ?.let { fixUrl(it) }
             
             NovelSearchResult(

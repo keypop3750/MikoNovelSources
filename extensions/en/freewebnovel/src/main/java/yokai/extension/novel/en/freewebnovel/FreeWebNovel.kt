@@ -6,18 +6,55 @@ import org.jsoup.nodes.Document
 
 /**
  * Source for FreeWebNovel (freewebnovel.com)
- * Large library of translated web novels.
+ * 
+ * DEPRECATED: FreeWebNovel is migrating to LibRead (libread.com).
+ * This extension is kept for backward compatibility but LibRead is preferred.
+ * LibRead now includes FreeWebNovel as a fallback mirror.
  * 
  * Uses the LibRead-style template - extends LibReadProvider in QuickNovel.
+ * 
+ * Supported filters:
+ * - Sort: Popular, Latest
  */
+@Deprecated("FreeWebNovel is migrating to LibRead. Use LibRead extension instead.")
 class FreeWebNovel : ConfigurableNovelSource() {
     
     override val id: Long = 6004L
-    override val name: String = "FreeWebNovel"
+    override val name: String = "FreeWebNovel (→LibRead)"
     override val baseUrl: String = "https://freewebnovel.com"
     override val lang: String = "en"
     override val hasMainPage: Boolean = true
     override val rateLimitMs: Long = 500L
+    
+    /**
+     * Declare this source's filtering capabilities.
+     */
+    override fun getCapabilities(): SourceCapabilities = SourceCapabilities(
+        supportedSorts = listOf("popular", "last_updated"),
+        supportsSortDirection = false,
+        supportedGenres = emptyList(),  // No genre browse pages
+        supportsGenreExclusion = false,
+        supportedStatuses = emptyList(),
+        supportedContentWarnings = emptyList(),
+        supportsContentWarningExclusion = false,
+        supportsChapterCountFilter = false,
+        supportsRatingFilter = false,
+        supportsSearch = true,
+        supportsAuthorFilter = false
+    )
+    
+    /**
+     * Browse novels with applied filters.
+     * FreeWebNovel supports basic sort options only.
+     */
+    override suspend fun getBrowseNovels(page: Int, filters: Map<String, String>): List<NovelSearchResult> {
+        val sort = filters["sort"] ?: "popular"
+        
+        return when (sort) {
+            "last_updated" -> getLatestUpdates(page)
+            else -> getPopularNovels(page)  // Default to popular
+        }
+    }
     
     override val selectors = SourceSelectors(
         // Search selectors - LibRead/FreeWebNovel style (POST search returns different HTML)

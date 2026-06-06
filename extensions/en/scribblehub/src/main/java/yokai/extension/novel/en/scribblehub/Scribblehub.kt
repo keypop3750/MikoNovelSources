@@ -5,6 +5,12 @@ import yokai.extension.novel.lib.*
 /**
  * Source for Scribble Hub (scribblehub.com)
  * Popular platform for original web fiction and fan translations.
+ * 
+ * Scribblehub has ADVANCED filter support:
+ * - Genres with include/exclude
+ * - Content warnings with include/exclude (Gore, Sexual Content, Strong Language)
+ * - Multiple sort options
+ * - Status filter
  */
 class Scribblehub : NovelSource() {
     
@@ -14,6 +20,54 @@ class Scribblehub : NovelSource() {
     override val lang: String = "en"
     override val hasMainPage: Boolean = true
     override val rateLimitMs: Long = 500L
+    
+    /**
+     * Declare this source's filtering capabilities.
+     * Scribblehub has the most advanced filter support of all sources!
+     */
+    override fun getCapabilities(): SourceCapabilities = SourceCapabilities(
+        supportedSorts = listOf("popular", "views", "rating", "last_updated", "newest", "alphabetical"),
+        supportsSortDirection = true,
+        supportedGenres = genreList,
+        supportsGenreExclusion = true,  // Scribblehub supports genre exclusion!
+        supportedStatuses = listOf("ongoing", "completed", "hiatus"),
+        supportedContentWarnings = listOf("graphic_violence", "sexual_content", "profanity"),
+        supportsContentWarningExclusion = true,  // Can exclude content warnings!
+        supportsChapterCountFilter = false,
+        supportsRatingFilter = false,
+        supportsSearch = true,
+        supportsAuthorFilter = false
+    )
+    
+    // Scribblehub genre IDs
+    private val genreList = listOf(
+        "action", "adult", "adventure", "boys_love", "comedy", "drama", "ecchi",
+        "fanfiction", "fantasy", "gender_bender", "girls_love", "harem", "historical",
+        "horror", "isekai", "josei", "litrpg", "martial_arts", "mature", "mecha",
+        "mystery", "psychological", "romance", "school_life", "sci_fi", "seinen",
+        "slice_of_life", "smut", "sports", "supernatural", "tragedy"
+    )
+    
+    // Map genre query values to Scribblehub IDs
+    private val genreIdMap = mapOf(
+        "action" to 1, "adult" to 2, "adventure" to 3, "boys_love" to 4, "comedy" to 5,
+        "drama" to 6, "ecchi" to 7, "fanfiction" to 8, "fantasy" to 9, "gender_bender" to 10,
+        "girls_love" to 11, "harem" to 12, "historical" to 13, "horror" to 14, "isekai" to 15,
+        "josei" to 16, "litrpg" to 17, "martial_arts" to 18, "mature" to 19, "mecha" to 20,
+        "mystery" to 21, "psychological" to 22, "romance" to 23, "school_life" to 24, "sci_fi" to 25,
+        "seinen" to 26, "slice_of_life" to 27, "smut" to 28, "sports" to 29, "supernatural" to 30,
+        "tragedy" to 31
+    )
+    
+    // Sort mapping
+    private val sortMap = mapOf(
+        "popular" to 5,      // Total Ranking
+        "views" to 1,        // Page Views
+        "rating" to 6,       // Readers
+        "last_updated" to 2, // Last Update
+        "newest" to 3,       // Date Added
+        "alphabetical" to 4  // Alphabetical
+    )
     
     override suspend fun search(query: String, page: Int): List<NovelSearchResult> {
         val url = "$baseUrl/?s=${query.encodeUrl()}&post_type=fictionposts&paged=$page"
@@ -125,6 +179,86 @@ class Scribblehub : NovelSource() {
     
     override suspend fun getLatestUpdates(page: Int): List<NovelSearchResult> {
         val url = "$baseUrl/series-ranking/?sort=1&order=1&pg=$page"
+        return parseNovelList(url)
+    }
+    
+    /**
+     * Browse novels with advanced filtering support.
+     * Scribblehub's series-finder supports:
+     * - Genre include/exclude (gi=1,2,3 / ge=4,5)
+     * - Content warnings include/exclude
+     * - Multiple sort options with direction
+     * - Status filter
+     */
+    override suspend fun getBrowseNovels(page: Int, filters: Map<String, String>): List<NovelSearchResult> {
+        val params = mutableListOf<String>()
+        params.add("sf=1")  // Enable series finder
+        
+        // Sort option
+        val sort = filters["sort"] ?: "popular"
+        val sortValue = sortMap[sort] ?: 5
+        params.add("sort=$sortValue")
+        
+        // Sort direction (1=desc, 2=asc)
+        val order = if (filters["order"] == "asc") 2 else 1
+        params.add("order=$order")
+        
+        // Status filter
+        filters["status"]?.let { status ->
+            val statusValue = when (status.lowercase()) {
+                "ongoing" -> 1
+                "hiatus" -> 2
+                "completed" -> 3
+                else -> null
+            }
+            statusValue?.let { params.add("status=$it") }
+        }
+        
+        // Included genres
+        filters["genres"]?.let { genres ->
+            val genreIds = genres.split(",")
+                .mapNotNull { genreIdMap[it.trim()] }
+            if (genreIds.isNotEmpty()) {
+                params.add("gi=${genreIds.joinToString(",")}")
+                params.add("mgi=and")  // All genres must match
+            }
+        }
+        
+        // Excluded genres
+        filters["exclude_genres"]?.let { excludeGenres ->
+            val excludeIds = excludeGenres.split(",")
+                .mapNotNull { genreIdMap[it.trim()] }
+            if (excludeIds.isNotEmpty()) {
+                params.add("ge=${excludeIds.joinToString(",")}")
+            }
+        }
+        
+        // Content warnings - included
+        filters["include_content_warnings"]?.let { warnings ->
+            warnings.split(",").forEach { warning ->
+                when (warning.trim()) {
+                    "graphic_violence" -> params.add("cp=1")  // Gore
+                    "sexual_content" -> params.add("cp=2")    // Sexual Content
+                    "profanity" -> params.add("cp=3")         // Strong Language
+                }
+            }
+        }
+        
+        // Content warnings - excluded (Scribblehub uses different params for exclude)
+        filters["exclude_content_warnings"]?.let { warnings ->
+            warnings.split(",").forEach { warning ->
+                when (warning.trim()) {
+                    "graphic_violence" -> params.add("cpe=1")
+                    "sexual_content" -> params.add("cpe=2")
+                    "profanity" -> params.add("cpe=3")
+                }
+            }
+        }
+        
+        // Page
+        params.add("pg=$page")
+        
+        val url = "$baseUrl/series-finder/?${params.joinToString("&")}"
         return parseNovelList(url)
     }
     
