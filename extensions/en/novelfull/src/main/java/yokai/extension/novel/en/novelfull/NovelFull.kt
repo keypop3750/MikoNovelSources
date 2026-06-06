@@ -134,11 +134,9 @@ class NovelFull : ConfigurableNovelSource() {
         genreSelector = "div.info > div:nth-child(3) a",
         statusSelector = "div.info > div:nth-child(5) > a",
         
-        // Chapter list selectors - uses allnovel.org AJAX endpoint
-        chapterListSelector = "select > option[value], .list-chapter>li>a",
-        novelIdSelector = "#rating",
-        novelIdAttribute = "data-novel-id",
-        chapterAjaxUrl = "https://allnovel.org/ajax-chapter-option?novelId={id}",
+        // Chapter list selectors - NovelFull lists chapters directly on the novel page
+        chapterListSelector = ".list-chapter li a",
+        chapterListSelectorAlt = "#list-chapter .list-chapter li a",
         
         // Chapter content selectors
         chapterContentSelector = "#chapter-content",

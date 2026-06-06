@@ -111,6 +111,14 @@ abstract class NovelSource {
      */
     abstract suspend fun getChapterContent(chapterUrl: String): String
     
+    /**
+     * Get comments for a chapter.
+     * Only called if [getCapabilities] returns supportsComments = true.
+     * @param chapterUrl URL of the chapter page
+     * @return List of comments for this chapter
+     */
+    open suspend fun getChapterComments(chapterUrl: String): List<NovelComment> = emptyList()
+    
     // ===== Optional Methods =====
     
     /**

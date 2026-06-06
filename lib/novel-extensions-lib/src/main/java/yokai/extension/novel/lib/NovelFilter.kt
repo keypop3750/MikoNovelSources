@@ -167,6 +167,12 @@ data class SourceCapabilities(
     val supportsAuthorFilter: Boolean = false,
     
     /**
+     * Whether this source supports reading chapter comments.
+     * If true, the app will show a comments button in the reader.
+     */
+    val supportsComments: Boolean = false,
+    
+    /**
      * Additional custom filter keys this source supports.
      * These allow source-specific filters beyond the standard ones.
      */

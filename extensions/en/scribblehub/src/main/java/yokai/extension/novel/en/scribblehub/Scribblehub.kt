@@ -117,47 +117,53 @@ class Scribblehub : NovelSource() {
     
     override suspend fun getChapterList(novelUrl: String): List<NovelChapter> {
         val document = getDocument(novelUrl)
-        
-        // Find the story ID for chapter list API
-        val storyId = document.selectFirst("input#mypostid")?.attr("value") ?: return emptyList()
-        
+
+        // Find the story ID for chapter list API - try multiple selectors
+        val storyId = document.selectFirst("input#mypostid")?.attr("value")
+            ?: document.selectFirst("input[name=mypostid]")?.attr("value")
+            ?: document.selectFirst("[data-story-id]")?.attr("data-story-id")
+            ?: return emptyList()
+
         // Scribblehub uses AJAX to load chapters
         val chapterListUrl = "$baseUrl/wp-admin/admin-ajax.php"
         val chapters = mutableListOf<NovelChapter>()
         var page = 1
-        
+
         while (true) {
-            val response = postForm(chapterListUrl, mapOf(
-                "action" to "wi_gettocchp",
-                "strSID" to storyId,
-                "stession" to "",
-                "page" to page.toString()
-            ))
-            
+            val response = postForm(
+                chapterListUrl,
+                mapOf(
+                    "action" to "wi_gettocchp",
+                    "strSID" to storyId,
+                    "page" to page.toString()
+                ),
+                mapOf(
+                    "Referer" to novelUrl,
+                    "X-Requested-With" to "XMLHttpRequest"
+                )
+            )
+
             val chapterDoc = parseHtml(response)
-            val chapterElements = chapterDoc.select("li.toc_w")
-            
+            val chapterElements = chapterDoc.select("li.li_toc")
+
             if (chapterElements.isEmpty()) break
-            
+
             chapterElements.forEach { element ->
                 val linkElement = element.selectFirst("a")
                 val chapterTitle = linkElement?.text() ?: "Chapter ${chapters.size + 1}"
                 val chapterUrl = linkElement?.attr("href") ?: ""
-                val dateText = element.selectFirst("span.fic_date_pub")?.attr("title")
-                val dateUploaded = parseDate(dateText) ?: 0L
-                
+
                 chapters.add(NovelChapter(
                     url = chapterUrl,
                     name = chapterTitle,
-                    dateUpload = dateUploaded,
                     chapterNumber = (chapters.size + 1).toFloat()
                 ))
             }
-            
+
             page++
             if (page > 100) break // Safety limit
         }
-        
+
         return chapters.reversed()
     }
     
