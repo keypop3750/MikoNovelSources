@@ -1,0 +1,62 @@
+[
+  {
+    "source": "AllNovel",
+    "status": "HTTP_404",
+    "chapters_found": 0
+  },
+  {
+    "source": "BoxNovel",
+    "status": "OK",
+    "chapters_found": 0
+  },
+  {
+    "source": "FreeWebNovel",
+    "status": "OK",
+    "chapters_found": 0
+  },
+  {
+    "source": "LibRead",
+    "status": "HTTP_404",
+    "chapters_found": 0
+  },
+  {
+    "source": "LightNovelPub",
+    "status": "OK",
+    "chapters_found": 0
+  },
+  {
+    "source": "NovelBin",
+    "status": "HTTP_404",
+    "chapters_found": 0
+  },
+  {
+    "source": "NovelFull",
+    "status": "OK",
+    "chapters_found": 0
+  },
+  {
+    "source": "NovelsOnline",
+    "status": "OK",
+    "chapters_found": 0
+  },
+  {
+    "source": "ReadLightNovel",
+    "status": "HTTP_522",
+    "chapters_found": 0
+  },
+  {
+    "source": "ReadNovelFull",
+    "status": "OK",
+    "chapters_found": 0
+  },
+  {
+    "source": "RoyalRoad",
+    "status": "OK",
+    "chapters_found": 0
+  },
+  {
+    "source": "ScribbleHub",
+    "status": "HTTP_404",
+    "chapters_found": 0
+  }
+]
