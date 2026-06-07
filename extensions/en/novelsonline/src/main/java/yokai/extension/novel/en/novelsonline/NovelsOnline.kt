@@ -39,15 +39,43 @@ class NovelsOnline : ConfigurableNovelSource() {
      * Browse novels with applied filters.
      * NovelsOnline supports top novels and latest release.
      */
+    override suspend fun getPopularNovels(page: Int): List<NovelSearchResult> {
+        if (page > 1) return emptyList()
+        return parseNovelList(getDocument("$baseUrl/top-novel"))
+    }
+
+    override suspend fun getLatestUpdates(page: Int): List<NovelSearchResult> {
+        if (page > 1) return emptyList()
+        val document = getDocument("$baseUrl/latest-updates")
+        val seenUrls = mutableSetOf<String>()
+        return document.select("div.list-by-word-body ul li a").mapNotNull { link ->
+            val href = link.attr("href")
+            if (href.isBlank()) return@mapNotNull null
+            val fullUrl = fixUrl(href)
+            // Extract novel URL from chapter URL: /novel-slug/chapter-N -> /novel-slug
+            val novelUrl = fullUrl.substringBeforeLast("/chapter-")
+                .substringBeforeLast("/volume-")
+            if (novelUrl.isBlank() || novelUrl == fullUrl) return@mapNotNull null
+            if (!seenUrls.add(novelUrl)) return@mapNotNull null // deduplicate
+            val text = link.text()
+            val title = text.substringBefore(" Ch. ")
+                .substringBefore(" Vol. ")
+                .trim()
+                .ifBlank { return@mapNotNull null }
+            NovelSearchResult(
+                title = title,
+                url = novelUrl,
+                coverUrl = null
+            )
+        }
+    }
+
     override suspend fun getBrowseNovels(page: Int, filters: Map<String, String>): List<NovelSearchResult> {
         val sort = filters["sort"] ?: "popular"
-        
-        val url = when (sort) {
-            "last_updated" -> "$baseUrl/latest-release/$page"
-            else -> "$baseUrl/top-novel/$page"  // Default to popular/top
+        return when (sort) {
+            "last_updated" -> getLatestUpdates(page)
+            else -> getPopularNovels(page)
         }
-        
-        return parseNovelList(getDocument(url))
     }
     
     /**
@@ -107,7 +135,7 @@ class NovelsOnline : ConfigurableNovelSource() {
         // URL patterns
         searchUrlPattern = "https://novelsonline.org/search-ajax?q={query}",
         popularUrlPattern = "https://novelsonline.org/top-novel/{page}",
-        latestUrlPattern = "https://novelsonline.org/latest-release/{page}",
+        latestUrlPattern = "https://novelsonline.org/latest-updates",
         
         fetchFullCoverFromDetails = false
     )
