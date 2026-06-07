@@ -26,8 +26,6 @@ include ':extensions:en:novelfull'
 include ':extensions:en:novelbin'
 include ':extensions:en:freewebnovel'
 include ':extensions:en:novelsonline'
-include ':extensions:en:webnovel'
 
 // New extensions (ported from QuickNovel)
 include ':extensions:en:libread'
-include ':extensions:en:readnovelfull'
