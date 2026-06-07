@@ -18,8 +18,8 @@ android {
         manifestPlaceholders = [
             extName: "LibRead",
             extClass: ".LibReadFactory",
-            extVersionCode: "3",
-            extVersionName: "1.0.2",
+            extVersionCode: "1",
+            extVersionName: "1.0.0",
             extNsfw: "false"
         ]
     }

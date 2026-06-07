@@ -20,7 +20,7 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
  */
 class WebNovel : ConfigurableNovelSource() {
 
-    override val id: Long = 6015L
+    override val id: Long = 6050L
     override val name: String = "WebNovel"
     override val baseUrl: String = "https://www.webnovel.com"
     override val lang: String = "en"
@@ -67,80 +67,56 @@ class WebNovel : ConfigurableNovelSource() {
         fetchFullCoverFromDetails = false
     )
 
-    // ===== Browse / Popular =====
+    // ===== Search =====
 
     override suspend fun getPopularNovels(page: Int): List<NovelSearchResult> {
-        return parseRankingPage("$baseUrl/ranking/power", page)
+        return fetchRankings("pop", page)
     }
 
     override suspend fun getLatestUpdates(page: Int): List<NovelSearchResult> {
-        return parseRankingPage("$baseUrl/ranking/latest", page)
+        return fetchRankings("new", page)
     }
 
-    private suspend fun parseRankingPage(url: String, page: Int): List<NovelSearchResult> {
-        if (page > 1) return emptyList() // Webnovel rankings are single-page
+    private suspend fun fetchRankings(rankType: String, page: Int): List<NovelSearchResult> {
+        if (page > 1) return emptyList()
+
+        val token = getCsrfToken()
+        val url = "$baseUrl/go/pcm/rank/getRank".toHttpUrlOrNull()?.newBuilder()
+            ?.addQueryParameter("_csrfToken", token)
+            ?.addQueryParameter("categoryType", "0")
+            ?.addQueryParameter("rankType", rankType)
+            ?.addQueryParameter("periodType", "4")
+            ?.addQueryParameter("pageIndex", page.toString())
+            ?.addQueryParameter("pageSize", "50")
+            ?.addQueryParameter("encryptType", "3")
+            ?.addQueryParameter("_fsae", "0")
+            ?.build()
+            ?: return emptyList()
+
         return try {
-            val doc = getDocument(url)
-            val results = mutableListOf<NovelSearchResult>()
+            val response = get(url.toString()).body?.string() ?: return emptyList()
+            val json = JSONObject(response)
+            val data = json.optJSONObject("data") ?: return emptyList()
+            val items = data.optJSONArray("items") ?: return emptyList()
 
-            // Primary: ranking list items
-            for (item in doc.select(".j_rank_list .rank-item, .ranking-list li, .m_rank_item")) {
-                val a = item.selectFirst("a[href*=/book/]") ?: continue
-                val href = a.attr("href")
-                val bookId = extractBookId(href)
-                if (bookId.isBlank()) continue
+            (0 until items.length()).mapNotNull { i ->
+                val item = items.getJSONObject(i)
+                val bookId = item.optString("bookId", "")
+                val bookName = item.optString("bookName", "")
+                if (bookId.isBlank() || bookName.isBlank()) return@mapNotNull null
 
-                val title = a.attr("title").ifBlank {
-                    item.selectFirst(".book-title, .title, h3, h4")?.text()
-                } ?: continue
-
-                val cover = item.selectFirst("img")?.attr("src")?.takeIf { it.isNotBlank() }
-                    ?: item.selectFirst("img")?.attr("data-src")?.takeIf { it.isNotBlank() }
-
-                val author = item.selectFirst(".author, .au-name, .book-author")?.text()
-
-                results.add(NovelSearchResult(
-                    title = title,
-                    url = fixUrl(href),
-                    coverUrl = cover?.let { fixUrl(it) },
-                    author = author?.takeIf { it.isNotBlank() }
-                ))
+                NovelSearchResult(
+                    title = bookName,
+                    url = "$baseUrl/book/$bookId",
+                    coverUrl = item.optString("cover", "").takeIf { it.isNotBlank() },
+                    author = item.optString("authorName", "").takeIf { it.isNotBlank() }
+                )
             }
-
-            // Fallback: stories/novel page grid items
-            if (results.isEmpty()) {
-                for (item in doc.select(".j_book_list .book-item, .g_book_item, .c_0007 .book-info")) {
-                    val a = item.selectFirst("a[href*=/book/]") ?: continue
-                    val href = a.attr("href")
-                    val bookId = extractBookId(href)
-                    if (bookId.isBlank()) continue
-
-                    val title = a.attr("title").ifBlank {
-                        item.selectFirst(".book-title, .title, h3")?.text()
-                    } ?: continue
-
-                    val cover = item.selectFirst("img")?.attr("src")?.takeIf { it.isNotBlank() }
-                        ?: item.selectFirst("img")?.attr("data-src")?.takeIf { it.isNotBlank() }
-
-                    val author = item.selectFirst(".author, .au-name")?.text()
-
-                    results.add(NovelSearchResult(
-                        title = title,
-                        url = fixUrl(href),
-                        coverUrl = cover?.let { fixUrl(it) },
-                        author = author?.takeIf { it.isNotBlank() }
-                    ))
-                }
-            }
-
-            results
         } catch (e: Exception) {
-            android.util.Log.e("WebNovel", "Ranking parse error: ${e.message}")
+            android.util.Log.e("WebNovel", "Ranking error: ${e.message}")
             emptyList()
         }
     }
-
-    // ===== Search =====
 
     override suspend fun search(query: String, page: Int): List<NovelSearchResult> {
         if (page > 1) return emptyList()
@@ -228,154 +204,57 @@ class WebNovel : ConfigurableNovelSource() {
     // ===== Chapter List =====
 
     override suspend fun getChapterList(novelUrl: String): List<NovelChapter> {
+        val chapters = mutableListOf<NovelChapter>()
         val bookId = extractBookId(novelUrl)
-        if (bookId.isBlank()) return emptyList()
 
-        // Try to get full chapter list from API first
-        val apiChapters = fetchChapterListFromApi(bookId)
-        if (apiChapters.isNotEmpty()) return apiChapters
+        // Fetch all catalog pages
+        for (page in 1..100) {
+            val catalogUrl = "$novelUrl/catalog?page=$page"
+            val document = getDocument(catalogUrl)
+            var pageChapters = 0
 
-        // Fallback: parse catalog page HTML
-        return parseChapterListFromHtml("$novelUrl/catalog")
-    }
+            // Try primary selector
+            for (div in document.select(".j_catalog_list .volume-item")) {
+                for (a in div.select("ol > li > a[href]")) {
+                    val li = a.parent() ?: continue
+                    val cid = li.attr("data-report-cid")
+                    if (cid.isBlank()) continue
+                    // Skip locked chapters (marked with svg icon)
+                    if (a.selectFirst("svg._icon") != null) continue
 
-    private suspend fun fetchChapterListFromApi(bookId: String): List<NovelChapter> {
-        return try {
-            val token = getCsrfToken()
-            // Try the book-detail API which often contains chapter info
-            val url = "$baseUrl/go/pcm/chapter/getContent".toHttpUrlOrNull()?.newBuilder()
-                ?.addQueryParameter("_csrfToken", token)
-                ?.addQueryParameter("bookId", bookId)
-                ?.addQueryParameter("chapterId", "0")
-                ?.addQueryParameter("encryptType", "3")
-                ?.addQueryParameter("_fsae", "0")
-                ?.build() ?: return emptyList()
+                    val chapterUrl = fixUrl(a.attr("href"))
+                    val chapterTitle = a.text().ifBlank { a.attr("title") }
 
-            val response = get(url.toString()).body?.string() ?: return emptyList()
-            val json = JSONObject(response)
-            val data = json.optJSONObject("data") ?: return emptyList()
-
-            // Check if chapterItems or catalog info is present
-            val chapterItems = data.optJSONArray("chapterItems")
-            if (chapterItems != null) {
-                return parseChapterJsonArray(chapterItems, bookId)
-            }
-
-            // Alternative: check for catalogItems
-            val catalogItems = data.optJSONArray("catalogItems")
-            if (catalogItems != null) {
-                return parseCatalogJsonArray(catalogItems, bookId)
-            }
-
-            emptyList()
-        } catch (e: Exception) {
-            android.util.Log.e("WebNovel", "API chapter list error: ${e.message}")
-            emptyList()
-        }
-    }
-
-    private fun parseChapterJsonArray(arr: org.json.JSONArray, bookId: String): List<NovelChapter> {
-        val chapters = mutableListOf<NovelChapter>()
-        for (i in 0 until arr.length()) {
-            val item = arr.getJSONObject(i)
-            val chapterId = item.optString("chapterId", "")
-            val chapterName = item.optString("chapterName", item.optString("name", ""))
-            if (chapterId.isBlank() || chapterName.isBlank()) continue
-            chapters.add(NovelChapter(
-                url = "$baseUrl/book/$bookId/chapter/$chapterId",
-                name = chapterName,
-                chapterNumber = item.optDouble("chapterIndex", (chapters.size + 1).toDouble()).toFloat()
-            ))
-        }
-        return chapters
-    }
-
-    private fun parseCatalogJsonArray(arr: org.json.JSONArray, bookId: String): List<NovelChapter> {
-        val chapters = mutableListOf<NovelChapter>()
-        for (i in 0 until arr.length()) {
-            val vol = arr.getJSONObject(i)
-            val volChapters = vol.optJSONArray("chapterItems") ?: continue
-            for (j in 0 until volChapters.length()) {
-                val ch = volChapters.getJSONObject(j)
-                val chapterId = ch.optString("chapterId", "")
-                val chapterName = ch.optString("chapterName", ch.optString("name", ""))
-                if (chapterId.isBlank() || chapterName.isBlank()) continue
-                chapters.add(NovelChapter(
-                    url = "$baseUrl/book/$bookId/chapter/$chapterId",
-                    name = chapterName,
-                    chapterNumber = ch.optDouble("chapterIndex", (chapters.size + 1).toDouble()).toFloat()
-                ))
-            }
-        }
-        return chapters
-    }
-
-    private suspend fun parseChapterListFromHtml(catalogUrl: String): List<NovelChapter> {
-        val document = getDocument(catalogUrl)
-        val chapters = mutableListOf<NovelChapter>()
-
-        // Look for embedded JSON data in script tags (React/Vue initial state)
-        for (script in document.select("script")) {
-            val text = script.data()
-            if (text.contains("chapterItems") || text.contains("catalogItems")) {
-                val jsonMatch = Regex("""window\.__INITIAL_STATE__\s*=\s*(\{.*?\});""", RegexOption.DOT_MATCHES_ALL)
-                    .find(text)?.groupValues?.get(1)
-                    ?: Regex(""""chapterItems"\s*:\s*(\[.*?\])""", RegexOption.DOT_MATCHES_ALL)
-                        .find(text)?.groupValues?.get(1)
-                if (jsonMatch != null) {
-                    try {
-                        val json = org.json.JSONObject(jsonMatch)
-                        val items = json.optJSONArray("chapterItems")
-                            ?: json.optJSONArray("catalogItems")
-                        if (items != null) {
-                            return parseChapterJsonArray(items, extractBookId(catalogUrl))
-                        }
-                    } catch (_: Exception) {
-                        // JSON parse failed, try as array directly
-                        try {
-                            val arr = org.json.JSONArray(jsonMatch)
-                            return parseChapterJsonArray(arr, extractBookId(catalogUrl))
-                        } catch (_: Exception) {}
-                    }
+                    chapters.add(NovelChapter(
+                        url = chapterUrl,
+                        name = chapterTitle,
+                        chapterNumber = (chapters.size + 1).toFloat()
+                    ))
+                    pageChapters++
                 }
             }
-        }
 
-        // Try primary selector
-        for (div in document.select(".j_catalog_list .volume-item")) {
-            for (a in div.select("ol > li > a[href]")) {
-                val li = a.parent() ?: continue
-                val cid = li.attr("data-report-cid")
-                if (cid.isBlank()) continue
-                // Skip locked chapters (marked with svg icon)
-                if (a.selectFirst("svg._icon") != null) continue
+            // Fallback selector
+            if (pageChapters == 0) {
+                for (li in document.select(".j_catalog_list li[data-report-cid]")) {
+                    val a = li.selectFirst("a[href]") ?: continue
+                    val cid = li.attr("data-report-cid")
+                    if (cid.isBlank()) continue
+                    if (a.selectFirst("svg._icon") != null) continue
+                    val chapterUrl = fixUrl(a.attr("href"))
+                    val chapterTitle = a.text().ifBlank { a.attr("title") }
 
-                val chapterUrl = fixUrl(a.attr("href"))
-                val chapterTitle = a.attr("title").ifBlank { a.text() }
-
-                chapters.add(NovelChapter(
-                    url = chapterUrl,
-                    name = chapterTitle,
-                    chapterNumber = (chapters.size + 1).toFloat()
-                ))
+                    chapters.add(NovelChapter(
+                        url = chapterUrl,
+                        name = chapterTitle,
+                        chapterNumber = (chapters.size + 1).toFloat()
+                    ))
+                    pageChapters++
+                }
             }
-        }
 
-        // Fallback selector
-        if (chapters.isEmpty()) {
-            for (li in document.select(".j_catalog_list li[data-report-cid]")) {
-                val a = li.selectFirst("a[href]") ?: continue
-                val cid = li.attr("data-report-cid")
-                if (cid.isBlank()) continue
-                val chapterUrl = fixUrl(a.attr("href"))
-                val chapterTitle = a.attr("title").ifBlank { a.text() }
-
-                chapters.add(NovelChapter(
-                    url = chapterUrl,
-                    name = chapterTitle,
-                    chapterNumber = (chapters.size + 1).toFloat()
-                ))
-            }
+            // If no chapters on this page, we've reached the end
+            if (pageChapters == 0) break
         }
 
         return chapters
