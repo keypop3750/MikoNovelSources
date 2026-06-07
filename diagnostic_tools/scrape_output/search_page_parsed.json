@@ -1,0 +1,2642 @@
+{
+  "props": {
+    "isServer": true,
+    "initialState": {
+      "entities": {
+        "users": {},
+        "loginUser": "",
+        "nonce": "d2Vibm92ZWw=",
+        "tags": {
+          "ACTION": {
+            "id": 41000121,
+            "tagName": "ACTION",
+            "enTagName": "ACTION",
+            "likeCount": 0,
+            "like": false
+          },
+          "ROMANCE": {
+            "id": 41000010,
+            "tagName": "ROMANCE",
+            "enTagName": "ROMANCE",
+            "likeCount": 0,
+            "like": false
+          },
+          "ADVENTURE": {
+            "id": 41000120,
+            "tagName": "ADVENTURE",
+            "enTagName": "ADVENTURE",
+            "likeCount": 0,
+            "like": false
+          },
+          "SYSTEM": {
+            "id": 41000016,
+            "tagName": "SYSTEM",
+            "enTagName": "SYSTEM",
+            "likeCount": 0,
+            "like": false
+          },
+          "MAGIC": {
+            "id": 41000884,
+            "tagName": "MAGIC",
+            "enTagName": "MAGIC",
+            "likeCount": 0,
+            "like": false
+          },
+          "WEAKTOSTRONG": {
+            "id": 41000074,
+            "tagName": "WEAKTOSTRONG",
+            "enTagName": "WEAKTOSTRONG",
+            "likeCount": 0,
+            "like": false
+          },
+          "SUPERPOWERS": {
+            "id": 41001330,
+            "tagName": "SUPERPOWERS",
+            "enTagName": "SUPERPOWERS",
+            "likeCount": 0,
+            "like": false
+          },
+          "TRANSMIGRATION": {
+            "id": 41000132,
+            "tagName": "TRANSMIGRATION",
+            "enTagName": "TRANSMIGRATION",
+            "likeCount": 0,
+            "like": false
+          },
+          "ANTIHERO": {
+            "id": 41000015,
+            "tagName": "ANTIHERO",
+            "enTagName": "ANTIHERO",
+            "likeCount": 0,
+            "like": false
+          },
+          "THESTRONGACTINGWEAK": {
+            "id": 51063747,
+            "tagName": "THESTRONGACTINGWEAK",
+            "enTagName": "THESTRONGACTINGWEAK",
+            "likeCount": 0,
+            "like": false
+          },
+          "SLICEOFLIFE": {
+            "id": 41001297,
+            "tagName": "SLICEOFLIFE",
+            "enTagName": "SLICEOFLIFE",
+            "likeCount": 2,
+            "like": false
+          },
+          "ROYALFAMILY": {
+            "id": 51008739,
+            "tagName": "ROYALFAMILY",
+            "enTagName": "ROYALFAMILY",
+            "likeCount": 0,
+            "like": false
+          },
+          "ABANDONED": {
+            "id": 41000683,
+            "tagName": "ABANDONED",
+            "enTagName": "ABANDONED",
+            "likeCount": 2,
+            "like": false
+          },
+          "YURI": {
+            "id": 41001289,
+            "tagName": "YURI",
+            "enTagName": "YURI",
+            "likeCount": 6,
+            "like": false
+          },
+          "FAKEIDENTITY": {
+            "id": 41005936,
+            "tagName": "FAKEIDENTITY",
+            "enTagName": "FAKEIDENTITY",
+            "likeCount": 1,
+            "like": false
+          },
+          "THE TYRANT FALLS IN LOVE": {
+            "id": 51066883,
+            "tagName": "THE TYRANT FALLS IN LOVE",
+            "enTagName": "THE TYRANT FALLS IN LOVE",
+            "likeCount": 0,
+            "like": false
+          },
+          "R18": {
+            "id": 41000147,
+            "tagName": "R18",
+            "enTagName": "R18",
+            "likeCount": 1,
+            "like": false
+          },
+          "DARK": {
+            "id": 41000165,
+            "tagName": "DARK",
+            "enTagName": "DARK",
+            "likeCount": 0,
+            "like": false
+          },
+          "SMUT": {
+            "id": 41000499,
+            "tagName": "SMUT",
+            "enTagName": "SMUT",
+            "likeCount": 0,
+            "like": false
+          },
+          "DRAMATIC": {
+            "id": 51065559,
+            "tagName": "DRAMATIC",
+            "enTagName": "DRAMATIC",
+            "likeCount": 0,
+            "like": false
+          },
+          "HISTORICAL": {
+            "id": 41000444,
+            "tagName": "HISTORICAL",
+            "enTagName": "HISTORICAL",
+            "likeCount": 0,
+            "like": false
+          },
+          "BL": {
+            "id": 41000096,
+            "tagName": "BL",
+            "enTagName": "BL",
+            "likeCount": 0,
+            "like": false
+          },
+          "YAOI": {
+            "id": 41000091,
+            "tagName": "YAOI",
+            "enTagName": "YAOI",
+            "likeCount": 0,
+            "like": false
+          },
+          "ABUSIVELOVE": {
+            "id": 51065556,
+            "tagName": "ABUSIVELOVE",
+            "enTagName": "ABUSIVELOVE",
+            "likeCount": 0,
+            "like": false
+          },
+          "GENIUS": {
+            "id": 41001092,
+            "tagName": "GENIUS",
+            "enTagName": "GENIUS",
+            "likeCount": 0,
+            "like": false
+          },
+          "REINCARNATION": {
+            "id": 41000075,
+            "tagName": "REINCARNATION",
+            "enTagName": "REINCARNATION",
+            "likeCount": 0,
+            "like": false
+          },
+          "HAREM": {
+            "id": 41000037,
+            "tagName": "HAREM",
+            "enTagName": "HAREM",
+            "likeCount": 0,
+            "like": false
+          },
+          "OVERPOWERED": {
+            "id": 41000799,
+            "tagName": "OVERPOWERED",
+            "enTagName": "OVERPOWERED",
+            "likeCount": 0,
+            "like": false
+          },
+          "KINGDOMBUILDING": {
+            "id": 41001351,
+            "tagName": "KINGDOMBUILDING",
+            "enTagName": "KINGDOMBUILDING",
+            "likeCount": 0,
+            "like": false
+          },
+          "LEVELUP": {
+            "id": 41000578,
+            "tagName": "LEVELUP",
+            "enTagName": "LEVELUP",
+            "likeCount": 0,
+            "like": false
+          },
+          "UNPRINCIPLED": {
+            "id": 51064558,
+            "tagName": "UNPRINCIPLED",
+            "enTagName": "UNPRINCIPLED",
+            "likeCount": 0,
+            "like": false
+          },
+          "WEREWOLF": {
+            "id": 41000025,
+            "tagName": "WEREWOLF",
+            "enTagName": "WEREWOLF",
+            "likeCount": 10,
+            "like": false
+          },
+          "VAMPIRE": {
+            "id": 41000024,
+            "tagName": "VAMPIRE",
+            "enTagName": "VAMPIRE",
+            "likeCount": 10,
+            "like": false
+          },
+          "TIMETRAVEL": {
+            "id": 51067230,
+            "tagName": "TIMETRAVEL",
+            "enTagName": "TIMETRAVEL",
+            "likeCount": 0,
+            "like": false
+          },
+          "COMEDY": {
+            "id": 41000170,
+            "tagName": "COMEDY",
+            "enTagName": "COMEDY",
+            "likeCount": 1,
+            "like": false
+          },
+          "MYSTERY": {
+            "id": 41000066,
+            "tagName": "MYSTERY",
+            "enTagName": "MYSTERY",
+            "likeCount": 0,
+            "like": false
+          },
+          "ISEKAI": {
+            "id": 41000057,
+            "tagName": "ISEKAI",
+            "enTagName": "ISEKAI",
+            "likeCount": 0,
+            "like": false
+          },
+          "NONHUMAN": {
+            "id": 51001182,
+            "tagName": "NONHUMAN",
+            "enTagName": "NONHUMAN",
+            "likeCount": 0,
+            "like": false
+          },
+          "SERIOUS": {
+            "id": 41006586,
+            "tagName": "SERIOUS",
+            "enTagName": "SERIOUS",
+            "likeCount": 0,
+            "like": false
+          },
+          "DETAILED": {
+            "id": 51065560,
+            "tagName": "DETAILED",
+            "enTagName": "DETAILED",
+            "likeCount": 0,
+            "like": false
+          },
+          "VILLAIN": {
+            "id": 41001702,
+            "tagName": "VILLAIN",
+            "enTagName": "VILLAIN",
+            "likeCount": 0,
+            "like": false
+          },
+          "REVENGE": {
+            "id": 41000019,
+            "tagName": "REVENGE",
+            "enTagName": "REVENGE",
+            "likeCount": 0,
+            "like": false
+          },
+          "DEVIL": {
+            "id": 41000676,
+            "tagName": "DEVIL",
+            "enTagName": "DEVIL",
+            "likeCount": 0,
+            "like": false
+          }
+        },
+        "books": {
+          "22196546206090805": {
+            "bookId": "22196546206090805",
+            "bookName": "Shadow Slave",
+            "novelType": 0,
+            "description": "Growing up in poverty, Sunny never expected anything good from life. However, even he did not anticipate being chosen by the Nightmare Spell and becoming one of the Awakened - an elite group of people gifted with supernatural powers. Transported into a ruined magical world, he found himself facing against terrible monsters - and other Awakened - in a deadly battle of survival.\nWhat's worse, the divine power he received happened to possess a small, but potentially fatal side effect...\n\nCharacter art by @Catphinee\nDiscord: discord.gg/guiltythree\nWiki: shadowslave.fandom.com\nOST: youtube.com/@skeuzmusic\nReddit: reddit.com/r/shadowslave",
+            "categoryId": 70002,
+            "categoryName": "FANTASY",
+            "authorName": "Guiltythree",
+            "totalScore": 4.71,
+            "translateMode": -1,
+            "tagInfo": [
+              "ACTION",
+              "ROMANCE",
+              "ADVENTURE",
+              "SYSTEM",
+              "MAGIC",
+              "WEAKTOSTRONG",
+              "SUPERPOWERS",
+              "TRANSMIGRATION",
+              "ANTIHERO",
+              "THESTRONGACTINGWEAK"
+            ],
+            "coverUpdateTime": 1705256017438
+          },
+          "29070682700815405": {
+            "bookId": "29070682700815405",
+            "bookName": "Diary of a Slave to Queen",
+            "novelType": 0,
+            "description": "*Yuri* Princess X Slave with a hidden identity\r\n\r\n'Sui, don't raise your head, and don't let yourself fall for the glamour of the Imperial Harem. Keep your head down and be as invisible as you can.'\r\n\r\nThose words were Sui's shackles ever since she could remember. This was Sui's mother's last advice before she perished.\r\n\r\nLiving by these words, Sui always showed herself off as a simple servant of the Imperial Harem. From attending to the Concubines to serving the guests, she did all the tasks she was asked to.\r\n\r\nHowever, Sui could never curb her burning desire to learn more, and she ended up getting entangled with the one and only Imperial Princess, who had secrets of her own.\r\n______\r\n This is Yuri so enjoy it. The rating will change.",
+            "categoryId": 70016,
+            "categoryName": "FANTASY",
+            "authorName": "Holy_mackrel",
+            "totalScore": 4.46,
+            "translateMode": -1,
+            "tagInfo": [
+              "SLICEOFLIFE",
+              "ROYALFAMILY",
+              "ABANDONED",
+              "THESTRONGACTINGWEAK",
+              "YURI",
+              "FAKEIDENTITY",
+              "THE TYRANT FALLS IN LOVE"
+            ],
+            "coverUpdateTime": 1710748531149
+          },
+          "32697979400443205": {
+            "bookId": "32697979400443205",
+            "bookName": "Priceless Slave (BL)",
+            "novelType": 0,
+            "description": "\"Your name is Kai. Not 1508. Remember that.\"\n\"Yes, Master.\"\n\nHe was born weak and sickly, his left leg crippled from years of beatings.\nSlave 1508 consideres as nothing more than a worthless thing.\n\nIn the shadows of Omino Village, women are forced to breed, and children are raised only to be sold. Mercy does not exist for the useless. At eighteen, when the time came for him to be sold at the market, Kai was rejected again and again. No one wanted him.\n\nSo, was this his fate? To be taken down?\n\nThen he arrived.\n\nSylas, a prince with a gentle heart bought Kai. He gave the slave a name, and touched him as though he were fragile.\n\n\"You're not a slave anymore. You are worth the world to me.\"\n\nKai doesn’t understand kindness. He only knows how to serve. But Sylas’s warmth is intoxicating, a tenderness that Kai has never known nor believed possible.\n\nYet beside the prince, new trials await. The world beyond Omino is far more dangerous than the barbaric life he left behind. \n\nThe prince’s love sparks jealousy, and jealousy can kill. \nHow will he survive?\n\nNote: you can find many others walk this world: a vampire bound to a royal knight, a witch who dares to love a vampire, a wizard tempted by a demon, and a ruthless pack of werewolves.\n\n***\nWarnings!! \nThis story contains dark themes, slavery, physical/emotional trauma, mature content (18+), and power imbalance. Reader discretion is advised.",
+            "categoryId": 70019,
+            "categoryName": "LGBT+",
+            "authorName": "Moe_Cara",
+            "totalScore": 0,
+            "translateMode": -1,
+            "tagInfo": [
+              "R18",
+              "WEAKTOSTRONG",
+              "DARK",
+              "SMUT",
+              "DRAMATIC",
+              "HISTORICAL",
+              "BL",
+              "ROYALFAMILY",
+              "YAOI",
+              "ABUSIVELOVE"
+            ],
+            "coverUpdateTime": 1765621653690
+          },
+          "29708011308334405": {
+            "bookId": "29708011308334405",
+            "bookName": "Slave To The Wolf King",
+            "novelType": 0,
+            "description": "Jesse is a normal girl from a fucked-up family. The only thing she wants is freedom.\nCasimir, the dark and ruthless Wolf King, reigns in the underground dens of the wolf world with the power to compel anyone to do anything he commands. But he needs a new mate because the last two killed themselves.\nAfter watching Casimir steal the minds and wills of the other women kidnapped as potential mates, Jesse knows he is even more powerful than the urban legends she's heard. Fearing that she might lose herself forever, Jesse offers to submit to Casimir's dominance, make herself his slave, and bear his heir. But in return, he must vow never to use that compulsion on her.\nFascinated by her boldness and the surge in his power when she offers herself, Casimir accepts her as his mate.\nBut Casimir isn't the only wolf who wants Jesse.\nWhile Jesse cannot deny the sizzling chemistry between herself and Casimir, the King is emotionless and sometimes cruel. She's often drawn to the tender safety offered by a much less powerful wolf. A male Casimir would kill if he knew how deeply they connected.\nWill Casimir break Jesse just as he broke two mates before her? Will he discover her potentially deadly connection with another male? Or, will the smart and resourceful Jesse betray him and flee with the other wolf?\nHas the Wolf King finally met his match?\n***\n\"The position of Queen requires three things,\" I snapped impatiently. \"First, the ability to bear heirs. Second, submission to me as King and Mate. And third, acceptance that I will not offer love.\"\n\nI stopped for a moment, \"My Queen will receive anything material she wishes. But she will submit to me, and I will not bow. She will share my bed, my power, and my wealth... She will not share my heart.\"\nI waited, but none of them spoke. Good. I turned back to my servant to order them moved to the next challenge when a quiet but strong voice rose behind me.\n\"Are you violent?\"\nI turned back to the fire-haired woman with a flat smile. \"Show me a wolf who isn't. And I am the King of the others. What do you think?\"\nHer throat bobbed. The tear in the neckline of her cotton shirt offered a fleeting glimpse of plump cleavage. My cock twitched.\n\"I meant with your Queen… um, Sire,\" she said uncertainly. \"You said you have to dominate, that she has to submit. What is she submitting to?\"\nI smirked. \"I don't make a habit of leaving bruises,\" I said, letting a dark promise seep into my tone. \"But they've been known to happen.\"\nIt was quite thrilling when she paled. I once again turned away, gesturing to my man to start moving them when her voice rose one more time.\n\"I'll volunteer,\" she said. When I whirled, she licked her lips then stepped forward. \"I will be your mate… if you'll have me.\"\nHiding my shock, I offered my most predatory grin to the poor, naive idiot. \"My mate, like everyone else in this kingdom, is my slave. Now... are you certain?\"",
+            "categoryId": 70014,
+            "categoryName": "URBAN",
+            "authorName": "Aimee Lynn Lane",
+            "totalScore": 0,
+            "translateMode": -1,
+            "tagInfo": [],
+            "coverUpdateTime": 1717121719676
+          },
+          "35269532208811905": {
+            "bookId": "35269532208811905",
+            "bookName": "Shadow Slave: Returner",
+            "novelType": 0,
+            "description": "Sunny has regressed to when he just finished the third nightmare. The horror he experienced in the future was unlike any other. He believed that their realm was the last, but that was a lie\n\nArmed with knowledge of the future Sunny vows not to let what happened in the future occur in this timeline.",
+            "categoryId": 70012,
+            "categoryName": "ACTION",
+            "authorName": "Kelal_",
+            "totalScore": 0,
+            "translateMode": -1,
+            "tagInfo": [
+              "GENIUS",
+              "ANTIHERO"
+            ],
+            "coverUpdateTime": 1772785458999
+          },
+          "34959288108944605": {
+            "bookId": "34959288108944605",
+            "bookName": "Combat Slave Harem",
+            "novelType": 0,
+            "description": "[ Caution: Dark (18+) ]\nHenry Lukas never got to live.\n\nAt just twenty years old, he died as a withered old man, his body ravaged by a cruel disease that stole his youth, his future, and every chance at happiness. Abandoned by family, rejected by love, and forgotten by the world, his life ended in a silent hospital room with nothing but regret and bitterness to keep him company.\n\nBut death was not the end.\n\nChosen by a sadistic Goddess of Mischief, Henry is reborn as Egon Novos in a brutal world he once escaped into through fiction. A world of monsters, slaves, and ruthless survival where the weak are trampled and the strong claim everything.\n\nThere is just one problem.\n\nHe is not the protagonist.\n\nHe is a disposable extra. A nameless sword slave fated to die before the real story even begins.\n\nBut fate made a mistake.\n\nBecause Egon remembers everything.\n\nArmed with forbidden knowledge of the future, a mysterious trait that lets him see beyond the present, and a heart filled with resentment toward a world that never gave him a chance, Egon refuses to be forgotten again.\n\nHe will steal what was never meant to be his.\n\nThe protagonist’s power. Luck. Destiny. everything.\n\nIn a world where loyalty can be bought and strength is absolute, Egon will rise from nothing and carve his name into legend.\n\nNot as a hero…\n\nbut as the one who devours gods.\n\n---\n\nTags: Isekai, Antihero Protagonist, Dark Fantasy, Harem (Transformative), Revenge, Leveling Systems, Multiple Worlds, Emotional Trauma, Ruthless MC, Psychological Growth, NSFW (After 20), No NTR, No Netorare\n\n---\n\nIf You're a reader who enjoy brutal isekai with emotional depth, morally grey decisions, and worlds that push both power and sanity to the limit.\n\n\nCurrent Schedule: 14 Chapters / Week.",
+            "categoryId": 70002,
+            "categoryName": "FANTASY",
+            "authorName": "Gagarmaru",
+            "totalScore": 0,
+            "translateMode": -1,
+            "tagInfo": [
+              "ACTION",
+              "REINCARNATION",
+              "R18",
+              "HAREM",
+              "OVERPOWERED",
+              "ANTIHERO",
+              "KINGDOMBUILDING",
+              "LEVELUP",
+              "UNPRINCIPLED"
+            ],
+            "coverUpdateTime": 1772563036149
+          },
+          "13386461205631405": {
+            "bookId": "13386461205631405",
+            "bookName": "Slave to the Darkness",
+            "novelType": 0,
+            "description": "The world belongs to the humans but what they do not know is that in the dark hours of the night there is a slave market that happens in the woods. No one knows about it except those that are wealthy and pay a fee for the membership. As the slave market moves from town to town, finally they reach its destination where they call up the buyer letting him know that they have arrived with some intriguing goods that he might be interested in. \r\n\r\nThe slave that was bought from the Slave Market in the middle of the night was taken to her new home by her first Master. She feels safe with him but doesn’t remember anything from her past and doesn’t know what secrets lurk in her mind. \r\n\r\nThe Master that bought a new toy thought since she was what he was looking for. He hoped that she would last longer than the rest but what he didn’t expect was the past to come back to him after a hundred years without it. With his new memories he softens up but only for her as she is now his everything, he will stop at nothing to protect her and help each other remember their past together.\r\n\r\nExcerpt\r\n\r\n\"Just who do you think you are? I will get you thrown out of this area if you continue to loiter around here. I was just having a chat with my soon to be man when you interrupted me.\" The girl pointed at Yuki blaming her.\r\n\r\n\"Darling, were you going to pick up someone else when you already have me by your side?\" Yuki turned and pressed her body up against his side. She rubbed her chest on his side to show that he was hers.\r\n\r\n\"You know that I can not replace you, Liliana. I was only telling these ladies that they couldn't have the purse that I specially ordered for you.\" He moved his hand to her ass and squeezed.\r\n\r\nThe ladies looked embarrassed for a moment. \"No, I will get what I want. I want that man and that purse!\" The lady screamed and her face turned beet red.\r\n\r\nYuki turned her head over, \"you can not control someone's feelings. You can not compare to me in any way shape or form.\" Yuki turned her head away shapely.\r\n\r\n\"Oh is that so. THEN I CHALLENGE YOU TO A BEAUTY CONTEST!! There is a competition for the queen of the beach today and if you win I will leave you alone and bow down to you but if I win I want that purse and your man!\"\r\n\r\nCover is a commissioned Product and all rights belong to me and the artist that created it for me.",
+            "categoryId": 70016,
+            "categoryName": "FANTASY",
+            "authorName": "Shirokitsune",
+            "totalScore": 4.65,
+            "translateMode": -1,
+            "tagInfo": [
+              "R18",
+              "WEREWOLF",
+              "VAMPIRE"
+            ],
+            "coverUpdateTime": 1689890316525
+          },
+          "35018144308981005": {
+            "bookId": "35018144308981005",
+            "bookName": "Shadow Slave: The Shadow Lost in Time",
+            "novelType": 0,
+            "description": "",
+            "categoryId": 70002,
+            "categoryName": "FANTASY",
+            "authorName": "Avenhart",
+            "totalScore": 0,
+            "translateMode": -1,
+            "tagInfo": [
+              "TIMETRAVEL"
+            ],
+            "coverUpdateTime": 1770366293048
+          },
+          "28970512900604005": {
+            "bookId": "28970512900604005",
+            "bookName": "Shadow Slave FF | A Slave Once Again",
+            "novelType": 0,
+            "description": "The treacherous Lost from Light finds himself in a dangerous situation after surviving a devastating battle against one of the Old Ghouls who he lost all of his companions to. Facing an inevitable doom his precious attribute [Fated] comes to the rescue, as he stumbles upon a strange divine memory. In a desperate attempt The treacherous lost from light activates the unknown enchantment only to find himself once again in the Dark City. \n\nIs this a dream? And if so would he wake up?\nIs this a reality? And if so would he make use of it and correct his mistakes?\n\nOnly our treacherous Lost from light will find out.\n\n\n________________________________\n\nTHIS IS A FAN FICTION!\n\nI OWN NOTHING FROM THE CHARACTERS ALL THE CREDIT GOES TO Guiltythree THE AUTHOR OF SHADOW SLAVE\n\n\nenjoy!",
+            "categoryId": 70001,
+            "categoryName": "URBAN",
+            "authorName": "Ve_om",
+            "totalScore": 0,
+            "translateMode": -1,
+            "tagInfo": [
+              "ACTION",
+              "ROMANCE",
+              "ADVENTURE",
+              "COMEDY",
+              "MYSTERY",
+              "DARK"
+            ],
+            "coverUpdateTime": 1744113622881
+          },
+          "35301367500469605": {
+            "bookId": "35301367500469605",
+            "bookName": "shadow slave: The ice child",
+            "novelType": 0,
+            "description": "A shadow slave x reader fic about a gn reader insert with a ice based divine aspect. Starting with their first nightmare going through the story of shadow slave. A first person story with a very flawed narrator. a repost from ao3 and wattpad because I was asked to",
+            "categoryId": 70001,
+            "categoryName": "URBAN",
+            "authorName": "the_last_1_percent",
+            "totalScore": 0,
+            "translateMode": -1,
+            "tagInfo": [
+              "ACTION",
+              "ADVENTURE",
+              "MYSTERY",
+              "DARK"
+            ],
+            "coverUpdateTime": 1775193446424
+          },
+          "25355326105700105": {
+            "bookId": "25355326105700105",
+            "bookName": "Slave To The Ruthless Master",
+            "novelType": 0,
+            "description": "Damien is the Ruthless and Merciless Master of the Guthram clan, which is the biggest and most powerful clan among the seven clans of the Carran community. Anyone who goes against his words and rules dies in a twinkle of an eye and he would turn their daughters into his sex slaves and wives into laborers, the male children wiped off to end the generation of the offender. \n\nNothing gave him joy more than War, swords, and Blood shedding. Mercy was nowhere near his books. The villagers serve and worshipped him as their god. Nobody dare to utter a word when he spoke. They all trembled at the mention of the name DAMIEN. \n\nAll that and more was he until he met her and she slowly melted his cold stoned heart. Galene- just like the meaning of her name; peace, she slowly brought peace and serenity to Damien. Sold to him by her drunk and gambler father, Naive, beautiful, and endowed was she. Just like molten lava, she melted him and brought out the human in him. Power of love!!!!!!",
+            "categoryId": 70014,
+            "categoryName": "URBAN",
+            "authorName": "Ezeh Blessing",
+            "totalScore": 0,
+            "translateMode": -1,
+            "tagInfo": [],
+            "coverUpdateTime": 1673594866933
+          },
+          "34696127808034005": {
+            "bookId": "34696127808034005",
+            "bookName": "Skygge Slave",
+            "novelType": 0,
+            "description": "Opvokset i fattigdom forventede Sunny aldrig noget godt af livet. Men selv han forudså ikke at blive udvalgt af Mareridt Formularen og blive en af de Vågne - en elitegruppe af mennesker begavet med overnaturlige kræfter. Transporteret til en ruineret magisk verden stod han over for frygtelige monstre - og andre Vågne - i en dødelig kamp for overlevelse.\nHvad værre er, viste den guddommelige kraft, han modtog, sig at have en lille, men potentielt dødelig bivirkning...",
+            "categoryId": 70002,
+            "categoryName": "FANTASY",
+            "authorName": "Guiltythree",
+            "totalScore": 0,
+            "translateMode": 1,
+            "tagInfo": [
+              "ACTION",
+              "ROMANCE",
+              "ADVENTURE",
+              "SYSTEM",
+              "MAGIC",
+              "WEAKTOSTRONG",
+              "SUPERPOWERS",
+              "TRANSMIGRATION",
+              "ANTIHERO",
+              "THESTRONGACTINGWEAK"
+            ],
+            "coverUpdateTime": 1767664362444
+          },
+          "21655029406171205": {
+            "bookId": "21655029406171205",
+            "bookName": "Slave to Reality",
+            "novelType": 0,
+            "description": "A catgirl escapes from slavery in her fantasy world to the real world and must learn everything from scratch.\r\n\r\nVivian is a catgirl, born in a world in which all beast-kin are considered as nothing more than intelligent animals and are kept as slaves. Her new owner horribly abuses her, but eventually with the help of a friend she manages to escape, and while running for her life she passes through a portal to the real world. There she finds herself trapped in the apartment of young man who must be a powerful mage, considering all the impressive artifacts he possesses, and who kindly teaches her his language and his world.\r\n\r\nVolume 1 Is about falling into and escaping from abuse. The story gets lighter afterwards.\r\n\r\n———————————————\r\n\r\n\"Please, master, don't do this. I'm your sister!\"\r\n\r\n\"Animals and people can't be family! Besides, even if they could, we're not related by blood. Now take off you clothes and get on the bed!\"\r\n\r\n\"No!\"\r\n\r\n\"Fine, it's you who's asking for punishment.\"\r\n\r\n\"AAARGH!\"\r\n\r\n———————————————\r\n\r\n\"Vivian, even if my world was filled with beautiful cat girls and bunny girls, and every other kind of beast-kin, you'd still be the only one for me. Will you marry me?\"\r\n\r\n\"Yes!\"\r\n\r\n———————————————\r\n\r\n\"How much for the orange-haired beauty?\"\r\n\r\n\"She's not for sale.\"\r\n\r\n\"How about for rent, then? How much for a night?\"\r\n\r\n\"She's not for rent, either.\"\r\n\r\n\"Come on, you can't expect to walk in here with property like this and not share!\"\r\n\r\n\"Vivian, this man is annoying me. Please get rid of him.\"\r\n\r\n\"Yes master!\"\r\n\r\n\"Hey, let go of me! How dare you lay a hand on a human! You can't just throw me out! Ouch!\"\r\n\r\nCRASH.",
+            "categoryId": 70016,
+            "categoryName": "FANTASY",
+            "authorName": "Moss_Plains",
+            "totalScore": 0,
+            "translateMode": -1,
+            "tagInfo": [
+              "MAGIC",
+              "R18",
+              "ISEKAI",
+              "NONHUMAN",
+              "SERIOUS",
+              "DETAILED"
+            ],
+            "coverUpdateTime": 1732056532623
+          },
+          "35680564808508005": {
+            "bookId": "35680564808508005",
+            "bookName": "SHADOW SLAVE  MASTER",
+            "novelType": 0,
+            "description": "",
+            "categoryId": 70012,
+            "categoryName": "ACTION",
+            "authorName": "Malik_Rehan10",
+            "totalScore": 0,
+            "translateMode": -1,
+            "tagInfo": [
+              "ACTION",
+              "ROMANCE",
+              "SYSTEM",
+              "MAGIC",
+              "SUPERPOWERS",
+              "TRANSMIGRATION",
+              "VILLAIN",
+              "REVENGE",
+              "LEVELUP",
+              "DEVIL"
+            ],
+            "coverUpdateTime": 1776911185631
+          },
+          "34036696300893705": {
+            "bookId": "34036696300893705",
+            "bookName": "Shadow Slave: Primordial Endling",
+            "novelType": 0,
+            "description": "In a world on the brink of destruction a lone awakened desperately struggles for a place in these tumultuous times with his bestial strength. Through hardship and struggle he slowly finds his purpose and builds his strength. He must learn how to use his versatile ability to transform into the monsters he has killed to survive against nightmare creatures and people alike.\n\nThis is a journey of self improvement for a very flawed person. Don’t expect an easy boost in power from this story.",
+            "categoryId": 70002,
+            "categoryName": "FANTASY",
+            "authorName": "Jorogan11",
+            "totalScore": 0,
+            "translateMode": -1,
+            "tagInfo": [],
+            "coverUpdateTime": 1766543716122
+          },
+          "35039904400414805": {
+            "bookId": "35039904400414805",
+            "bookName": "Slave to the vampire lords",
+            "novelType": 0,
+            "description": "[WARNING: EXTREMELY MATURE CONTENT]\n  \n    kidnapped from her village by bandits,\n Miranda was taken to the kingdom of valgeria. a kingdom filled with corrupt bloodsuckers, she was to be sold to the vampire lords as a blood slave. A mere livestock who was going to be drained dry before the end of the week.\n\n\n But as fate would have it she caught the eyes of the notorious and crazy lord Desmond who took her as a pet because of her rare silver hair.\nNot only did she have to avoid getting killed by 'Accident' by lord Desmond. she also had to survive in a castle filled with scheming and manipulative bloodsuckers. \nwhat started as a master/pet relationship turned into a full blown twisted obsession, Desmond didn't just want her body. He wanted her soul, her attention her time, the very air she breathes, his twisted mind craved for Miranda in ways that scared and aroused Miranda at the same time \n\nBut then the reserved and cold Lord Artemis, the closest to Desmond starts craving Miranda too. He craved her body like never before. just one whiff of her arousal made his blood burn with desire.\nBut Desmond was a possessive man who hated sharing his properties, he had no intention of sharing his swan with Artemis, and Artemis had no intention to letting her go.",
+            "categoryId": 70016,
+            "categoryName": "FANTASY",
+            "authorName": "kamado tanjiro",
+            "totalScore": 0,
+            "translateMode": -1,
+            "tagInfo": [],
+            "coverUpdateTime": 1775300587569
+          },
+          "35170682200252705": {
+            "bookId": "35170682200252705",
+            "bookName": "Shadow Slave: A Shadow's Return",
+            "novelType": 0,
+            "description": "Sunny as a Spirit is thrown into the past with the help of the gods and sets out to fix his past mistakes and save those close to him.",
+            "categoryId": 70001,
+            "categoryName": "URBAN",
+            "authorName": "Stl_Sri",
+            "totalScore": 0,
+            "translateMode": -1,
+            "tagInfo": [
+              "ACTION",
+              "ROMANCE",
+              "REINCARNATION"
+            ],
+            "coverUpdateTime": 1771791726700
+          },
+          "26930341506042005": {
+            "bookId": "26930341506042005",
+            "bookName": "shadow slave reborn",
+            "novelType": 0,
+            "description": "Kyle is thrown into the chaotic world of shadow slave.\r\nWhat will he do?",
+            "categoryId": 70002,
+            "categoryName": "FANTASY",
+            "authorName": "Kamuiglazer",
+            "totalScore": 0,
+            "translateMode": -1,
+            "tagInfo": [],
+            "coverUpdateTime": 1690906702959
+          },
+          "35938112700078505": {
+            "bookId": "35938112700078505",
+            "bookName": "Shadow slave: Elección",
+            "novelType": 0,
+            "description": "En un mundo donde el destino dicta cada evento, un Demonio Divino, harto de las artimañas de su hermano mayor, decide rebelarse. Al encarnar el concepto mismo de la Elección, el demonio mueve sus propios hilos y otorga este poder prohibido a un joven, en un mundo donde la elección no existe (o, más precisamente, nunca ha existido).\n\n\n\nAdvertencia \n\n\nEl protagonista se vuelve fuerte ligeramente más rápido y a diferencia de Sunny nether le dejo más ayuda directa debido a algo relacionado al destino",
+            "categoryId": 70001,
+            "categoryName": "URBAN",
+            "authorName": "DaoistPWpXlq",
+            "totalScore": 0,
+            "translateMode": -1,
+            "tagInfo": [
+              "ISEKAI"
+            ],
+            "coverUpdateTime": 1779509508990
+          },
+          "35300098800380005": {
+            "bookId": "35300098800380005",
+            "bookName": "Shadow Slave For Audiobook private",
+            "novelType": 0,
+            "description": "",
+            "categoryId": 70002,
+            "categoryName": "FANTASY",
+            "authorName": "SaltyStalyx",
+            "totalScore": 0,
+            "translateMode": -1,
+            "tagInfo": [],
+            "coverUpdateTime": 1773069622564
+          }
+        },
+        "searchResultList": {
+          "Shadow Slave-1-novel-1": {
+            "bookInfo": {
+              "total": 445,
+              "isLast": 0,
+              "bookItems": [
+                "22196546206090805",
+                "29070682700815405",
+                "32697979400443205",
+                "29708011308334405",
+                "35269532208811905",
+                "34959288108944605",
+                "13386461205631405",
+                "35018144308981005",
+                "28970512900604005",
+                "35301367500469605",
+                "25355326105700105",
+                "34696127808034005",
+                "21655029406171205",
+                "35680564808508005",
+                "34036696300893705",
+                "35039904400414805",
+                "35170682200252705",
+                "26930341506042005",
+                "35938112700078505",
+                "35300098800380005"
+              ]
+            },
+            "comicInfo": null,
+            "publishBookInfo": null,
+            "fanficBookInfo": null,
+            "tagInfo": null,
+            "powerRank": null,
+            "categoryInfo": null,
+            "recommendInfo": [],
+            "keywords": "Shadow Slave",
+            "type": "novel",
+            "relatedWords": [],
+            "relatedSearch": [
+              {
+                "name": "shadow of slave"
+              },
+              {
+                "name": "shadow slave"
+              },
+              {
+                "name": "shadow slave 600"
+              },
+              {
+                "name": "the shadow slave"
+              },
+              {
+                "name": "shadow slave 1673"
+              },
+              {
+                "name": "the shadow of the slave"
+              },
+              {
+                "name": "slave shadow"
+              },
+              {
+                "name": "shadow slave:"
+              },
+              {
+                "name": "in shadow slave"
+              },
+              {
+                "name": "shadow slave"
+              }
+            ],
+            "popularSearch": [
+              {
+                "name": "yuri manga recommendations"
+              },
+              {
+                "name": "soviet architecture brutalism"
+              },
+              {
+                "name": "the duke's cursed charm"
+              },
+              {
+                "name": "help forge danmachi webnovel"
+              },
+              {
+                "name": "jinmyaku cheat de hajimeru"
+              },
+              {
+                "name": "anime reinarcnated as pop stars children"
+              },
+              {
+                "name": "hydra villains"
+              },
+              {
+                "name": "naruko sasuke"
+              },
+              {
+                "name": "muscly guy"
+              },
+              {
+                "name": "surat bakara"
+              }
+            ],
+            "user": {
+              "avatar": "",
+              "nickName": "",
+              "userName": "",
+              "authorName": "",
+              "penName": "",
+              "guid": 0,
+              "status": -1,
+              "role": 0,
+              "gender": 0,
+              "SS": 0,
+              "vSS": 0,
+              "vbSS": 0,
+              "bSS": 0,
+              "expiringTime": 0,
+              "grade": 0,
+              "ES": 0,
+              "totalES": 0,
+              "PS": 0,
+              "totalPS": 0,
+              "email": "",
+              "emailStatus": 0,
+              "isCheckIn": 0,
+              "UUT": 0,
+              "fastPass": 0,
+              "membershipQua": 0,
+              "membershipStatus": 0,
+              "membershipExpireTime": 0,
+              "membershipClaimStatus": false,
+              "membershipIsFree": false,
+              "membershipType": 0
+            },
+            "riskStatus": 0,
+            "pageIndex": 1,
+            "keyword": "Shadow Slave",
+            "orderBy": 1
+          }
+        }
+      },
+      "apiStatus": {
+        "/go/pcm/search/result": {
+          "statusText": "success"
+        }
+      },
+      "ui": {
+        "isSupportWebp": false,
+        "isOpenMenu": false,
+        "isShowAvatarDot": false,
+        "shouldScrollToTop": true,
+        "isHeaderShow": true,
+        "contentLang": "en",
+        "messageStatus": 0,
+        "notificationStatus": 0,
+        "systemNotificationStatus": 0,
+        "showAutoUnlockTipModal": false,
+        "emojiMap": null,
+        "rechargeInfo": null
+      },
+      "status": {
+        "isPageBundleLoading": false
+      }
+    },
+    "initialProps": {
+      "pageProps": {
+        "normalizedData": {
+          "entities": {
+            "tags": {
+              "ACTION": {
+                "id": 41000121,
+                "tagName": "ACTION",
+                "enTagName": "ACTION",
+                "likeCount": 0,
+                "like": false
+              },
+              "ROMANCE": {
+                "id": 41000010,
+                "tagName": "ROMANCE",
+                "enTagName": "ROMANCE",
+                "likeCount": 0,
+                "like": false
+              },
+              "ADVENTURE": {
+                "id": 41000120,
+                "tagName": "ADVENTURE",
+                "enTagName": "ADVENTURE",
+                "likeCount": 0,
+                "like": false
+              },
+              "SYSTEM": {
+                "id": 41000016,
+                "tagName": "SYSTEM",
+                "enTagName": "SYSTEM",
+                "likeCount": 0,
+                "like": false
+              },
+              "MAGIC": {
+                "id": 41000884,
+                "tagName": "MAGIC",
+                "enTagName": "MAGIC",
+                "likeCount": 0,
+                "like": false
+              },
+              "WEAKTOSTRONG": {
+                "id": 41000074,
+                "tagName": "WEAKTOSTRONG",
+                "enTagName": "WEAKTOSTRONG",
+                "likeCount": 0,
+                "like": false
+              },
+              "SUPERPOWERS": {
+                "id": 41001330,
+                "tagName": "SUPERPOWERS",
+                "enTagName": "SUPERPOWERS",
+                "likeCount": 0,
+                "like": false
+              },
+              "TRANSMIGRATION": {
+                "id": 41000132,
+                "tagName": "TRANSMIGRATION",
+                "enTagName": "TRANSMIGRATION",
+                "likeCount": 0,
+                "like": false
+              },
+              "ANTIHERO": {
+                "id": 41000015,
+                "tagName": "ANTIHERO",
+                "enTagName": "ANTIHERO",
+                "likeCount": 0,
+                "like": false
+              },
+              "THESTRONGACTINGWEAK": {
+                "id": 51063747,
+                "tagName": "THESTRONGACTINGWEAK",
+                "enTagName": "THESTRONGACTINGWEAK",
+                "likeCount": 0,
+                "like": false
+              },
+              "SLICEOFLIFE": {
+                "id": 41001297,
+                "tagName": "SLICEOFLIFE",
+                "enTagName": "SLICEOFLIFE",
+                "likeCount": 2,
+                "like": false
+              },
+              "ROYALFAMILY": {
+                "id": 51008739,
+                "tagName": "ROYALFAMILY",
+                "enTagName": "ROYALFAMILY",
+                "likeCount": 0,
+                "like": false
+              },
+              "ABANDONED": {
+                "id": 41000683,
+                "tagName": "ABANDONED",
+                "enTagName": "ABANDONED",
+                "likeCount": 2,
+                "like": false
+              },
+              "YURI": {
+                "id": 41001289,
+                "tagName": "YURI",
+                "enTagName": "YURI",
+                "likeCount": 6,
+                "like": false
+              },
+              "FAKEIDENTITY": {
+                "id": 41005936,
+                "tagName": "FAKEIDENTITY",
+                "enTagName": "FAKEIDENTITY",
+                "likeCount": 1,
+                "like": false
+              },
+              "THE TYRANT FALLS IN LOVE": {
+                "id": 51066883,
+                "tagName": "THE TYRANT FALLS IN LOVE",
+                "enTagName": "THE TYRANT FALLS IN LOVE",
+                "likeCount": 0,
+                "like": false
+              },
+              "R18": {
+                "id": 41000147,
+                "tagName": "R18",
+                "enTagName": "R18",
+                "likeCount": 1,
+                "like": false
+              },
+              "DARK": {
+                "id": 41000165,
+                "tagName": "DARK",
+                "enTagName": "DARK",
+                "likeCount": 0,
+                "like": false
+              },
+              "SMUT": {
+                "id": 41000499,
+                "tagName": "SMUT",
+                "enTagName": "SMUT",
+                "likeCount": 0,
+                "like": false
+              },
+              "DRAMATIC": {
+                "id": 51065559,
+                "tagName": "DRAMATIC",
+                "enTagName": "DRAMATIC",
+                "likeCount": 0,
+                "like": false
+              },
+              "HISTORICAL": {
+                "id": 41000444,
+                "tagName": "HISTORICAL",
+                "enTagName": "HISTORICAL",
+                "likeCount": 0,
+                "like": false
+              },
+              "BL": {
+                "id": 41000096,
+                "tagName": "BL",
+                "enTagName": "BL",
+                "likeCount": 0,
+                "like": false
+              },
+              "YAOI": {
+                "id": 41000091,
+                "tagName": "YAOI",
+                "enTagName": "YAOI",
+                "likeCount": 0,
+                "like": false
+              },
+              "ABUSIVELOVE": {
+                "id": 51065556,
+                "tagName": "ABUSIVELOVE",
+                "enTagName": "ABUSIVELOVE",
+                "likeCount": 0,
+                "like": false
+              },
+              "GENIUS": {
+                "id": 41001092,
+                "tagName": "GENIUS",
+                "enTagName": "GENIUS",
+                "likeCount": 0,
+                "like": false
+              },
+              "REINCARNATION": {
+                "id": 41000075,
+                "tagName": "REINCARNATION",
+                "enTagName": "REINCARNATION",
+                "likeCount": 0,
+                "like": false
+              },
+              "HAREM": {
+                "id": 41000037,
+                "tagName": "HAREM",
+                "enTagName": "HAREM",
+                "likeCount": 0,
+                "like": false
+              },
+              "OVERPOWERED": {
+                "id": 41000799,
+                "tagName": "OVERPOWERED",
+                "enTagName": "OVERPOWERED",
+                "likeCount": 0,
+                "like": false
+              },
+              "KINGDOMBUILDING": {
+                "id": 41001351,
+                "tagName": "KINGDOMBUILDING",
+                "enTagName": "KINGDOMBUILDING",
+                "likeCount": 0,
+                "like": false
+              },
+              "LEVELUP": {
+                "id": 41000578,
+                "tagName": "LEVELUP",
+                "enTagName": "LEVELUP",
+                "likeCount": 0,
+                "like": false
+              },
+              "UNPRINCIPLED": {
+                "id": 51064558,
+                "tagName": "UNPRINCIPLED",
+                "enTagName": "UNPRINCIPLED",
+                "likeCount": 0,
+                "like": false
+              },
+              "WEREWOLF": {
+                "id": 41000025,
+                "tagName": "WEREWOLF",
+                "enTagName": "WEREWOLF",
+                "likeCount": 10,
+                "like": false
+              },
+              "VAMPIRE": {
+                "id": 41000024,
+                "tagName": "VAMPIRE",
+                "enTagName": "VAMPIRE",
+                "likeCount": 10,
+                "like": false
+              },
+              "TIMETRAVEL": {
+                "id": 51067230,
+                "tagName": "TIMETRAVEL",
+                "enTagName": "TIMETRAVEL",
+                "likeCount": 0,
+                "like": false
+              },
+              "COMEDY": {
+                "id": 41000170,
+                "tagName": "COMEDY",
+                "enTagName": "COMEDY",
+                "likeCount": 1,
+                "like": false
+              },
+              "MYSTERY": {
+                "id": 41000066,
+                "tagName": "MYSTERY",
+                "enTagName": "MYSTERY",
+                "likeCount": 0,
+                "like": false
+              },
+              "ISEKAI": {
+                "id": 41000057,
+                "tagName": "ISEKAI",
+                "enTagName": "ISEKAI",
+                "likeCount": 0,
+                "like": false
+              },
+              "NONHUMAN": {
+                "id": 51001182,
+                "tagName": "NONHUMAN",
+                "enTagName": "NONHUMAN",
+                "likeCount": 0,
+                "like": false
+              },
+              "SERIOUS": {
+                "id": 41006586,
+                "tagName": "SERIOUS",
+                "enTagName": "SERIOUS",
+                "likeCount": 0,
+                "like": false
+              },
+              "DETAILED": {
+                "id": 51065560,
+                "tagName": "DETAILED",
+                "enTagName": "DETAILED",
+                "likeCount": 0,
+                "like": false
+              },
+              "VILLAIN": {
+                "id": 41001702,
+                "tagName": "VILLAIN",
+                "enTagName": "VILLAIN",
+                "likeCount": 0,
+                "like": false
+              },
+              "REVENGE": {
+                "id": 41000019,
+                "tagName": "REVENGE",
+                "enTagName": "REVENGE",
+                "likeCount": 0,
+                "like": false
+              },
+              "DEVIL": {
+                "id": 41000676,
+                "tagName": "DEVIL",
+                "enTagName": "DEVIL",
+                "likeCount": 0,
+                "like": false
+              }
+            },
+            "books": {
+              "22196546206090805": {
+                "bookId": "22196546206090805",
+                "bookName": "Shadow Slave",
+                "novelType": 0,
+                "description": "Growing up in poverty, Sunny never expected anything good from life. However, even he did not anticipate being chosen by the Nightmare Spell and becoming one of the Awakened - an elite group of people gifted with supernatural powers. Transported into a ruined magical world, he found himself facing against terrible monsters - and other Awakened - in a deadly battle of survival.\nWhat's worse, the divine power he received happened to possess a small, but potentially fatal side effect...\n\nCharacter art by @Catphinee\nDiscord: discord.gg/guiltythree\nWiki: shadowslave.fandom.com\nOST: youtube.com/@skeuzmusic\nReddit: reddit.com/r/shadowslave",
+                "categoryId": 70002,
+                "categoryName": "FANTASY",
+                "authorName": "Guiltythree",
+                "totalScore": 4.71,
+                "translateMode": -1,
+                "tagInfo": [
+                  "ACTION",
+                  "ROMANCE",
+                  "ADVENTURE",
+                  "SYSTEM",
+                  "MAGIC",
+                  "WEAKTOSTRONG",
+                  "SUPERPOWERS",
+                  "TRANSMIGRATION",
+                  "ANTIHERO",
+                  "THESTRONGACTINGWEAK"
+                ],
+                "coverUpdateTime": 1705256017438
+              },
+              "29070682700815405": {
+                "bookId": "29070682700815405",
+                "bookName": "Diary of a Slave to Queen",
+                "novelType": 0,
+                "description": "*Yuri* Princess X Slave with a hidden identity\r\n\r\n'Sui, don't raise your head, and don't let yourself fall for the glamour of the Imperial Harem. Keep your head down and be as invisible as you can.'\r\n\r\nThose words were Sui's shackles ever since she could remember. This was Sui's mother's last advice before she perished.\r\n\r\nLiving by these words, Sui always showed herself off as a simple servant of the Imperial Harem. From attending to the Concubines to serving the guests, she did all the tasks she was asked to.\r\n\r\nHowever, Sui could never curb her burning desire to learn more, and she ended up getting entangled with the one and only Imperial Princess, who had secrets of her own.\r\n______\r\n This is Yuri so enjoy it. The rating will change.",
+                "categoryId": 70016,
+                "categoryName": "FANTASY",
+                "authorName": "Holy_mackrel",
+                "totalScore": 4.46,
+                "translateMode": -1,
+                "tagInfo": [
+                  "SLICEOFLIFE",
+                  "ROYALFAMILY",
+                  "ABANDONED",
+                  "THESTRONGACTINGWEAK",
+                  "YURI",
+                  "FAKEIDENTITY",
+                  "THE TYRANT FALLS IN LOVE"
+                ],
+                "coverUpdateTime": 1710748531149
+              },
+              "32697979400443205": {
+                "bookId": "32697979400443205",
+                "bookName": "Priceless Slave (BL)",
+                "novelType": 0,
+                "description": "\"Your name is Kai. Not 1508. Remember that.\"\n\"Yes, Master.\"\n\nHe was born weak and sickly, his left leg crippled from years of beatings.\nSlave 1508 consideres as nothing more than a worthless thing.\n\nIn the shadows of Omino Village, women are forced to breed, and children are raised only to be sold. Mercy does not exist for the useless. At eighteen, when the time came for him to be sold at the market, Kai was rejected again and again. No one wanted him.\n\nSo, was this his fate? To be taken down?\n\nThen he arrived.\n\nSylas, a prince with a gentle heart bought Kai. He gave the slave a name, and touched him as though he were fragile.\n\n\"You're not a slave anymore. You are worth the world to me.\"\n\nKai doesn’t understand kindness. He only knows how to serve. But Sylas’s warmth is intoxicating, a tenderness that Kai has never known nor believed possible.\n\nYet beside the prince, new trials await. The world beyond Omino is far more dangerous than the barbaric life he left behind. \n\nThe prince’s love sparks jealousy, and jealousy can kill. \nHow will he survive?\n\nNote: you can find many others walk this world: a vampire bound to a royal knight, a witch who dares to love a vampire, a wizard tempted by a demon, and a ruthless pack of werewolves.\n\n***\nWarnings!! \nThis story contains dark themes, slavery, physical/emotional trauma, mature content (18+), and power imbalance. Reader discretion is advised.",
+                "categoryId": 70019,
+                "categoryName": "LGBT+",
+                "authorName": "Moe_Cara",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [
+                  "R18",
+                  "WEAKTOSTRONG",
+                  "DARK",
+                  "SMUT",
+                  "DRAMATIC",
+                  "HISTORICAL",
+                  "BL",
+                  "ROYALFAMILY",
+                  "YAOI",
+                  "ABUSIVELOVE"
+                ],
+                "coverUpdateTime": 1765621653690
+              },
+              "29708011308334405": {
+                "bookId": "29708011308334405",
+                "bookName": "Slave To The Wolf King",
+                "novelType": 0,
+                "description": "Jesse is a normal girl from a fucked-up family. The only thing she wants is freedom.\nCasimir, the dark and ruthless Wolf King, reigns in the underground dens of the wolf world with the power to compel anyone to do anything he commands. But he needs a new mate because the last two killed themselves.\nAfter watching Casimir steal the minds and wills of the other women kidnapped as potential mates, Jesse knows he is even more powerful than the urban legends she's heard. Fearing that she might lose herself forever, Jesse offers to submit to Casimir's dominance, make herself his slave, and bear his heir. But in return, he must vow never to use that compulsion on her.\nFascinated by her boldness and the surge in his power when she offers herself, Casimir accepts her as his mate.\nBut Casimir isn't the only wolf who wants Jesse.\nWhile Jesse cannot deny the sizzling chemistry between herself and Casimir, the King is emotionless and sometimes cruel. She's often drawn to the tender safety offered by a much less powerful wolf. A male Casimir would kill if he knew how deeply they connected.\nWill Casimir break Jesse just as he broke two mates before her? Will he discover her potentially deadly connection with another male? Or, will the smart and resourceful Jesse betray him and flee with the other wolf?\nHas the Wolf King finally met his match?\n***\n\"The position of Queen requires three things,\" I snapped impatiently. \"First, the ability to bear heirs. Second, submission to me as King and Mate. And third, acceptance that I will not offer love.\"\n\nI stopped for a moment, \"My Queen will receive anything material she wishes. But she will submit to me, and I will not bow. She will share my bed, my power, and my wealth... She will not share my heart.\"\nI waited, but none of them spoke. Good. I turned back to my servant to order them moved to the next challenge when a quiet but strong voice rose behind me.\n\"Are you violent?\"\nI turned back to the fire-haired woman with a flat smile. \"Show me a wolf who isn't. And I am the King of the others. What do you think?\"\nHer throat bobbed. The tear in the neckline of her cotton shirt offered a fleeting glimpse of plump cleavage. My cock twitched.\n\"I meant with your Queen… um, Sire,\" she said uncertainly. \"You said you have to dominate, that she has to submit. What is she submitting to?\"\nI smirked. \"I don't make a habit of leaving bruises,\" I said, letting a dark promise seep into my tone. \"But they've been known to happen.\"\nIt was quite thrilling when she paled. I once again turned away, gesturing to my man to start moving them when her voice rose one more time.\n\"I'll volunteer,\" she said. When I whirled, she licked her lips then stepped forward. \"I will be your mate… if you'll have me.\"\nHiding my shock, I offered my most predatory grin to the poor, naive idiot. \"My mate, like everyone else in this kingdom, is my slave. Now... are you certain?\"",
+                "categoryId": 70014,
+                "categoryName": "URBAN",
+                "authorName": "Aimee Lynn Lane",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [],
+                "coverUpdateTime": 1717121719676
+              },
+              "35269532208811905": {
+                "bookId": "35269532208811905",
+                "bookName": "Shadow Slave: Returner",
+                "novelType": 0,
+                "description": "Sunny has regressed to when he just finished the third nightmare. The horror he experienced in the future was unlike any other. He believed that their realm was the last, but that was a lie\n\nArmed with knowledge of the future Sunny vows not to let what happened in the future occur in this timeline.",
+                "categoryId": 70012,
+                "categoryName": "ACTION",
+                "authorName": "Kelal_",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [
+                  "GENIUS",
+                  "ANTIHERO"
+                ],
+                "coverUpdateTime": 1772785458999
+              },
+              "34959288108944605": {
+                "bookId": "34959288108944605",
+                "bookName": "Combat Slave Harem",
+                "novelType": 0,
+                "description": "[ Caution: Dark (18+) ]\nHenry Lukas never got to live.\n\nAt just twenty years old, he died as a withered old man, his body ravaged by a cruel disease that stole his youth, his future, and every chance at happiness. Abandoned by family, rejected by love, and forgotten by the world, his life ended in a silent hospital room with nothing but regret and bitterness to keep him company.\n\nBut death was not the end.\n\nChosen by a sadistic Goddess of Mischief, Henry is reborn as Egon Novos in a brutal world he once escaped into through fiction. A world of monsters, slaves, and ruthless survival where the weak are trampled and the strong claim everything.\n\nThere is just one problem.\n\nHe is not the protagonist.\n\nHe is a disposable extra. A nameless sword slave fated to die before the real story even begins.\n\nBut fate made a mistake.\n\nBecause Egon remembers everything.\n\nArmed with forbidden knowledge of the future, a mysterious trait that lets him see beyond the present, and a heart filled with resentment toward a world that never gave him a chance, Egon refuses to be forgotten again.\n\nHe will steal what was never meant to be his.\n\nThe protagonist’s power. Luck. Destiny. everything.\n\nIn a world where loyalty can be bought and strength is absolute, Egon will rise from nothing and carve his name into legend.\n\nNot as a hero…\n\nbut as the one who devours gods.\n\n---\n\nTags: Isekai, Antihero Protagonist, Dark Fantasy, Harem (Transformative), Revenge, Leveling Systems, Multiple Worlds, Emotional Trauma, Ruthless MC, Psychological Growth, NSFW (After 20), No NTR, No Netorare\n\n---\n\nIf You're a reader who enjoy brutal isekai with emotional depth, morally grey decisions, and worlds that push both power and sanity to the limit.\n\n\nCurrent Schedule: 14 Chapters / Week.",
+                "categoryId": 70002,
+                "categoryName": "FANTASY",
+                "authorName": "Gagarmaru",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [
+                  "ACTION",
+                  "REINCARNATION",
+                  "R18",
+                  "HAREM",
+                  "OVERPOWERED",
+                  "ANTIHERO",
+                  "KINGDOMBUILDING",
+                  "LEVELUP",
+                  "UNPRINCIPLED"
+                ],
+                "coverUpdateTime": 1772563036149
+              },
+              "13386461205631405": {
+                "bookId": "13386461205631405",
+                "bookName": "Slave to the Darkness",
+                "novelType": 0,
+                "description": "The world belongs to the humans but what they do not know is that in the dark hours of the night there is a slave market that happens in the woods. No one knows about it except those that are wealthy and pay a fee for the membership. As the slave market moves from town to town, finally they reach its destination where they call up the buyer letting him know that they have arrived with some intriguing goods that he might be interested in. \r\n\r\nThe slave that was bought from the Slave Market in the middle of the night was taken to her new home by her first Master. She feels safe with him but doesn’t remember anything from her past and doesn’t know what secrets lurk in her mind. \r\n\r\nThe Master that bought a new toy thought since she was what he was looking for. He hoped that she would last longer than the rest but what he didn’t expect was the past to come back to him after a hundred years without it. With his new memories he softens up but only for her as she is now his everything, he will stop at nothing to protect her and help each other remember their past together.\r\n\r\nExcerpt\r\n\r\n\"Just who do you think you are? I will get you thrown out of this area if you continue to loiter around here. I was just having a chat with my soon to be man when you interrupted me.\" The girl pointed at Yuki blaming her.\r\n\r\n\"Darling, were you going to pick up someone else when you already have me by your side?\" Yuki turned and pressed her body up against his side. She rubbed her chest on his side to show that he was hers.\r\n\r\n\"You know that I can not replace you, Liliana. I was only telling these ladies that they couldn't have the purse that I specially ordered for you.\" He moved his hand to her ass and squeezed.\r\n\r\nThe ladies looked embarrassed for a moment. \"No, I will get what I want. I want that man and that purse!\" The lady screamed and her face turned beet red.\r\n\r\nYuki turned her head over, \"you can not control someone's feelings. You can not compare to me in any way shape or form.\" Yuki turned her head away shapely.\r\n\r\n\"Oh is that so. THEN I CHALLENGE YOU TO A BEAUTY CONTEST!! There is a competition for the queen of the beach today and if you win I will leave you alone and bow down to you but if I win I want that purse and your man!\"\r\n\r\nCover is a commissioned Product and all rights belong to me and the artist that created it for me.",
+                "categoryId": 70016,
+                "categoryName": "FANTASY",
+                "authorName": "Shirokitsune",
+                "totalScore": 4.65,
+                "translateMode": -1,
+                "tagInfo": [
+                  "R18",
+                  "WEREWOLF",
+                  "VAMPIRE"
+                ],
+                "coverUpdateTime": 1689890316525
+              },
+              "35018144308981005": {
+                "bookId": "35018144308981005",
+                "bookName": "Shadow Slave: The Shadow Lost in Time",
+                "novelType": 0,
+                "description": "",
+                "categoryId": 70002,
+                "categoryName": "FANTASY",
+                "authorName": "Avenhart",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [
+                  "TIMETRAVEL"
+                ],
+                "coverUpdateTime": 1770366293048
+              },
+              "28970512900604005": {
+                "bookId": "28970512900604005",
+                "bookName": "Shadow Slave FF | A Slave Once Again",
+                "novelType": 0,
+                "description": "The treacherous Lost from Light finds himself in a dangerous situation after surviving a devastating battle against one of the Old Ghouls who he lost all of his companions to. Facing an inevitable doom his precious attribute [Fated] comes to the rescue, as he stumbles upon a strange divine memory. In a desperate attempt The treacherous lost from light activates the unknown enchantment only to find himself once again in the Dark City. \n\nIs this a dream? And if so would he wake up?\nIs this a reality? And if so would he make use of it and correct his mistakes?\n\nOnly our treacherous Lost from light will find out.\n\n\n________________________________\n\nTHIS IS A FAN FICTION!\n\nI OWN NOTHING FROM THE CHARACTERS ALL THE CREDIT GOES TO Guiltythree THE AUTHOR OF SHADOW SLAVE\n\n\nenjoy!",
+                "categoryId": 70001,
+                "categoryName": "URBAN",
+                "authorName": "Ve_om",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [
+                  "ACTION",
+                  "ROMANCE",
+                  "ADVENTURE",
+                  "COMEDY",
+                  "MYSTERY",
+                  "DARK"
+                ],
+                "coverUpdateTime": 1744113622881
+              },
+              "35301367500469605": {
+                "bookId": "35301367500469605",
+                "bookName": "shadow slave: The ice child",
+                "novelType": 0,
+                "description": "A shadow slave x reader fic about a gn reader insert with a ice based divine aspect. Starting with their first nightmare going through the story of shadow slave. A first person story with a very flawed narrator. a repost from ao3 and wattpad because I was asked to",
+                "categoryId": 70001,
+                "categoryName": "URBAN",
+                "authorName": "the_last_1_percent",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [
+                  "ACTION",
+                  "ADVENTURE",
+                  "MYSTERY",
+                  "DARK"
+                ],
+                "coverUpdateTime": 1775193446424
+              },
+              "25355326105700105": {
+                "bookId": "25355326105700105",
+                "bookName": "Slave To The Ruthless Master",
+                "novelType": 0,
+                "description": "Damien is the Ruthless and Merciless Master of the Guthram clan, which is the biggest and most powerful clan among the seven clans of the Carran community. Anyone who goes against his words and rules dies in a twinkle of an eye and he would turn their daughters into his sex slaves and wives into laborers, the male children wiped off to end the generation of the offender. \n\nNothing gave him joy more than War, swords, and Blood shedding. Mercy was nowhere near his books. The villagers serve and worshipped him as their god. Nobody dare to utter a word when he spoke. They all trembled at the mention of the name DAMIEN. \n\nAll that and more was he until he met her and she slowly melted his cold stoned heart. Galene- just like the meaning of her name; peace, she slowly brought peace and serenity to Damien. Sold to him by her drunk and gambler father, Naive, beautiful, and endowed was she. Just like molten lava, she melted him and brought out the human in him. Power of love!!!!!!",
+                "categoryId": 70014,
+                "categoryName": "URBAN",
+                "authorName": "Ezeh Blessing",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [],
+                "coverUpdateTime": 1673594866933
+              },
+              "34696127808034005": {
+                "bookId": "34696127808034005",
+                "bookName": "Skygge Slave",
+                "novelType": 0,
+                "description": "Opvokset i fattigdom forventede Sunny aldrig noget godt af livet. Men selv han forudså ikke at blive udvalgt af Mareridt Formularen og blive en af de Vågne - en elitegruppe af mennesker begavet med overnaturlige kræfter. Transporteret til en ruineret magisk verden stod han over for frygtelige monstre - og andre Vågne - i en dødelig kamp for overlevelse.\nHvad værre er, viste den guddommelige kraft, han modtog, sig at have en lille, men potentielt dødelig bivirkning...",
+                "categoryId": 70002,
+                "categoryName": "FANTASY",
+                "authorName": "Guiltythree",
+                "totalScore": 0,
+                "translateMode": 1,
+                "tagInfo": [
+                  "ACTION",
+                  "ROMANCE",
+                  "ADVENTURE",
+                  "SYSTEM",
+                  "MAGIC",
+                  "WEAKTOSTRONG",
+                  "SUPERPOWERS",
+                  "TRANSMIGRATION",
+                  "ANTIHERO",
+                  "THESTRONGACTINGWEAK"
+                ],
+                "coverUpdateTime": 1767664362444
+              },
+              "21655029406171205": {
+                "bookId": "21655029406171205",
+                "bookName": "Slave to Reality",
+                "novelType": 0,
+                "description": "A catgirl escapes from slavery in her fantasy world to the real world and must learn everything from scratch.\r\n\r\nVivian is a catgirl, born in a world in which all beast-kin are considered as nothing more than intelligent animals and are kept as slaves. Her new owner horribly abuses her, but eventually with the help of a friend she manages to escape, and while running for her life she passes through a portal to the real world. There she finds herself trapped in the apartment of young man who must be a powerful mage, considering all the impressive artifacts he possesses, and who kindly teaches her his language and his world.\r\n\r\nVolume 1 Is about falling into and escaping from abuse. The story gets lighter afterwards.\r\n\r\n———————————————\r\n\r\n\"Please, master, don't do this. I'm your sister!\"\r\n\r\n\"Animals and people can't be family! Besides, even if they could, we're not related by blood. Now take off you clothes and get on the bed!\"\r\n\r\n\"No!\"\r\n\r\n\"Fine, it's you who's asking for punishment.\"\r\n\r\n\"AAARGH!\"\r\n\r\n———————————————\r\n\r\n\"Vivian, even if my world was filled with beautiful cat girls and bunny girls, and every other kind of beast-kin, you'd still be the only one for me. Will you marry me?\"\r\n\r\n\"Yes!\"\r\n\r\n———————————————\r\n\r\n\"How much for the orange-haired beauty?\"\r\n\r\n\"She's not for sale.\"\r\n\r\n\"How about for rent, then? How much for a night?\"\r\n\r\n\"She's not for rent, either.\"\r\n\r\n\"Come on, you can't expect to walk in here with property like this and not share!\"\r\n\r\n\"Vivian, this man is annoying me. Please get rid of him.\"\r\n\r\n\"Yes master!\"\r\n\r\n\"Hey, let go of me! How dare you lay a hand on a human! You can't just throw me out! Ouch!\"\r\n\r\nCRASH.",
+                "categoryId": 70016,
+                "categoryName": "FANTASY",
+                "authorName": "Moss_Plains",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [
+                  "MAGIC",
+                  "R18",
+                  "ISEKAI",
+                  "NONHUMAN",
+                  "SERIOUS",
+                  "DETAILED"
+                ],
+                "coverUpdateTime": 1732056532623
+              },
+              "35680564808508005": {
+                "bookId": "35680564808508005",
+                "bookName": "SHADOW SLAVE  MASTER",
+                "novelType": 0,
+                "description": "",
+                "categoryId": 70012,
+                "categoryName": "ACTION",
+                "authorName": "Malik_Rehan10",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [
+                  "ACTION",
+                  "ROMANCE",
+                  "SYSTEM",
+                  "MAGIC",
+                  "SUPERPOWERS",
+                  "TRANSMIGRATION",
+                  "VILLAIN",
+                  "REVENGE",
+                  "LEVELUP",
+                  "DEVIL"
+                ],
+                "coverUpdateTime": 1776911185631
+              },
+              "34036696300893705": {
+                "bookId": "34036696300893705",
+                "bookName": "Shadow Slave: Primordial Endling",
+                "novelType": 0,
+                "description": "In a world on the brink of destruction a lone awakened desperately struggles for a place in these tumultuous times with his bestial strength. Through hardship and struggle he slowly finds his purpose and builds his strength. He must learn how to use his versatile ability to transform into the monsters he has killed to survive against nightmare creatures and people alike.\n\nThis is a journey of self improvement for a very flawed person. Don’t expect an easy boost in power from this story.",
+                "categoryId": 70002,
+                "categoryName": "FANTASY",
+                "authorName": "Jorogan11",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [],
+                "coverUpdateTime": 1766543716122
+              },
+              "35039904400414805": {
+                "bookId": "35039904400414805",
+                "bookName": "Slave to the vampire lords",
+                "novelType": 0,
+                "description": "[WARNING: EXTREMELY MATURE CONTENT]\n  \n    kidnapped from her village by bandits,\n Miranda was taken to the kingdom of valgeria. a kingdom filled with corrupt bloodsuckers, she was to be sold to the vampire lords as a blood slave. A mere livestock who was going to be drained dry before the end of the week.\n\n\n But as fate would have it she caught the eyes of the notorious and crazy lord Desmond who took her as a pet because of her rare silver hair.\nNot only did she have to avoid getting killed by 'Accident' by lord Desmond. she also had to survive in a castle filled with scheming and manipulative bloodsuckers. \nwhat started as a master/pet relationship turned into a full blown twisted obsession, Desmond didn't just want her body. He wanted her soul, her attention her time, the very air she breathes, his twisted mind craved for Miranda in ways that scared and aroused Miranda at the same time \n\nBut then the reserved and cold Lord Artemis, the closest to Desmond starts craving Miranda too. He craved her body like never before. just one whiff of her arousal made his blood burn with desire.\nBut Desmond was a possessive man who hated sharing his properties, he had no intention of sharing his swan with Artemis, and Artemis had no intention to letting her go.",
+                "categoryId": 70016,
+                "categoryName": "FANTASY",
+                "authorName": "kamado tanjiro",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [],
+                "coverUpdateTime": 1775300587569
+              },
+              "35170682200252705": {
+                "bookId": "35170682200252705",
+                "bookName": "Shadow Slave: A Shadow's Return",
+                "novelType": 0,
+                "description": "Sunny as a Spirit is thrown into the past with the help of the gods and sets out to fix his past mistakes and save those close to him.",
+                "categoryId": 70001,
+                "categoryName": "URBAN",
+                "authorName": "Stl_Sri",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [
+                  "ACTION",
+                  "ROMANCE",
+                  "REINCARNATION"
+                ],
+                "coverUpdateTime": 1771791726700
+              },
+              "26930341506042005": {
+                "bookId": "26930341506042005",
+                "bookName": "shadow slave reborn",
+                "novelType": 0,
+                "description": "Kyle is thrown into the chaotic world of shadow slave.\r\nWhat will he do?",
+                "categoryId": 70002,
+                "categoryName": "FANTASY",
+                "authorName": "Kamuiglazer",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [],
+                "coverUpdateTime": 1690906702959
+              },
+              "35938112700078505": {
+                "bookId": "35938112700078505",
+                "bookName": "Shadow slave: Elección",
+                "novelType": 0,
+                "description": "En un mundo donde el destino dicta cada evento, un Demonio Divino, harto de las artimañas de su hermano mayor, decide rebelarse. Al encarnar el concepto mismo de la Elección, el demonio mueve sus propios hilos y otorga este poder prohibido a un joven, en un mundo donde la elección no existe (o, más precisamente, nunca ha existido).\n\n\n\nAdvertencia \n\n\nEl protagonista se vuelve fuerte ligeramente más rápido y a diferencia de Sunny nether le dejo más ayuda directa debido a algo relacionado al destino",
+                "categoryId": 70001,
+                "categoryName": "URBAN",
+                "authorName": "DaoistPWpXlq",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [
+                  "ISEKAI"
+                ],
+                "coverUpdateTime": 1779509508990
+              },
+              "35300098800380005": {
+                "bookId": "35300098800380005",
+                "bookName": "Shadow Slave For Audiobook private",
+                "novelType": 0,
+                "description": "",
+                "categoryId": 70002,
+                "categoryName": "FANTASY",
+                "authorName": "SaltyStalyx",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [],
+                "coverUpdateTime": 1773069622564
+              }
+            },
+            "searchResultList": {
+              "Shadow Slave-1-novel-1": {
+                "bookInfo": {
+                  "total": 445,
+                  "isLast": 0,
+                  "bookItems": [
+                    "22196546206090805",
+                    "29070682700815405",
+                    "32697979400443205",
+                    "29708011308334405",
+                    "35269532208811905",
+                    "34959288108944605",
+                    "13386461205631405",
+                    "35018144308981005",
+                    "28970512900604005",
+                    "35301367500469605",
+                    "25355326105700105",
+                    "34696127808034005",
+                    "21655029406171205",
+                    "35680564808508005",
+                    "34036696300893705",
+                    "35039904400414805",
+                    "35170682200252705",
+                    "26930341506042005",
+                    "35938112700078505",
+                    "35300098800380005"
+                  ]
+                },
+                "comicInfo": null,
+                "publishBookInfo": null,
+                "fanficBookInfo": null,
+                "tagInfo": null,
+                "powerRank": null,
+                "categoryInfo": null,
+                "recommendInfo": [],
+                "keywords": "Shadow Slave",
+                "type": "novel",
+                "relatedWords": [],
+                "relatedSearch": [
+                  {
+                    "name": "shadow of slave"
+                  },
+                  {
+                    "name": "shadow slave"
+                  },
+                  {
+                    "name": "shadow slave 600"
+                  },
+                  {
+                    "name": "the shadow slave"
+                  },
+                  {
+                    "name": "shadow slave 1673"
+                  },
+                  {
+                    "name": "the shadow of the slave"
+                  },
+                  {
+                    "name": "slave shadow"
+                  },
+                  {
+                    "name": "shadow slave:"
+                  },
+                  {
+                    "name": "in shadow slave"
+                  },
+                  {
+                    "name": "shadow slave"
+                  }
+                ],
+                "popularSearch": [
+                  {
+                    "name": "yuri manga recommendations"
+                  },
+                  {
+                    "name": "soviet architecture brutalism"
+                  },
+                  {
+                    "name": "the duke's cursed charm"
+                  },
+                  {
+                    "name": "help forge danmachi webnovel"
+                  },
+                  {
+                    "name": "jinmyaku cheat de hajimeru"
+                  },
+                  {
+                    "name": "anime reinarcnated as pop stars children"
+                  },
+                  {
+                    "name": "hydra villains"
+                  },
+                  {
+                    "name": "naruko sasuke"
+                  },
+                  {
+                    "name": "muscly guy"
+                  },
+                  {
+                    "name": "surat bakara"
+                  }
+                ],
+                "user": {
+                  "avatar": "",
+                  "nickName": "",
+                  "userName": "",
+                  "authorName": "",
+                  "penName": "",
+                  "guid": 0,
+                  "status": -1,
+                  "role": 0,
+                  "gender": 0,
+                  "SS": 0,
+                  "vSS": 0,
+                  "vbSS": 0,
+                  "bSS": 0,
+                  "expiringTime": 0,
+                  "grade": 0,
+                  "ES": 0,
+                  "totalES": 0,
+                  "PS": 0,
+                  "totalPS": 0,
+                  "email": "",
+                  "emailStatus": 0,
+                  "isCheckIn": 0,
+                  "UUT": 0,
+                  "fastPass": 0,
+                  "membershipQua": 0,
+                  "membershipStatus": 0,
+                  "membershipExpireTime": 0,
+                  "membershipClaimStatus": false,
+                  "membershipIsFree": false,
+                  "membershipType": 0
+                },
+                "riskStatus": 0,
+                "pageIndex": 1,
+                "keyword": "Shadow Slave",
+                "orderBy": 1
+              }
+            }
+          },
+          "result": "Shadow Slave-1-novel-1"
+        },
+        "rawData": {
+          "bookInfo": {
+            "total": 445,
+            "isLast": 0,
+            "bookItems": [
+              {
+                "bookId": "22196546206090805",
+                "bookName": "Shadow Slave",
+                "novelType": 0,
+                "description": "Growing up in poverty, Sunny never expected anything good from life. However, even he did not anticipate being chosen by the Nightmare Spell and becoming one of the Awakened - an elite group of people gifted with supernatural powers. Transported into a ruined magical world, he found himself facing against terrible monsters - and other Awakened - in a deadly battle of survival.\nWhat's worse, the divine power he received happened to possess a small, but potentially fatal side effect...\n\nCharacter art by @Catphinee\nDiscord: discord.gg/guiltythree\nWiki: shadowslave.fandom.com\nOST: youtube.com/@skeuzmusic\nReddit: reddit.com/r/shadowslave",
+                "categoryId": 70002,
+                "categoryName": "FANTASY",
+                "authorName": "Guiltythree",
+                "totalScore": 4.71,
+                "translateMode": -1,
+                "tagInfo": [
+                  {
+                    "id": 41000121,
+                    "tagName": "ACTION",
+                    "enTagName": "ACTION",
+                    "likeCount": 355,
+                    "like": false
+                  },
+                  {
+                    "id": 41000010,
+                    "tagName": "ROMANCE",
+                    "enTagName": "ROMANCE",
+                    "likeCount": 301,
+                    "like": false
+                  },
+                  {
+                    "id": 41000120,
+                    "tagName": "ADVENTURE",
+                    "enTagName": "ADVENTURE",
+                    "likeCount": 307,
+                    "like": false
+                  },
+                  {
+                    "id": 41000016,
+                    "tagName": "SYSTEM",
+                    "enTagName": "SYSTEM",
+                    "likeCount": 292,
+                    "like": false
+                  },
+                  {
+                    "id": 41000884,
+                    "tagName": "MAGIC",
+                    "enTagName": "MAGIC",
+                    "likeCount": 280,
+                    "like": false
+                  },
+                  {
+                    "id": 41000074,
+                    "tagName": "WEAKTOSTRONG",
+                    "enTagName": "WEAKTOSTRONG",
+                    "likeCount": 253,
+                    "like": false
+                  },
+                  {
+                    "id": 41001330,
+                    "tagName": "SUPERPOWERS",
+                    "enTagName": "SUPERPOWERS",
+                    "likeCount": 176,
+                    "like": false
+                  },
+                  {
+                    "id": 41000132,
+                    "tagName": "TRANSMIGRATION",
+                    "enTagName": "TRANSMIGRATION",
+                    "likeCount": 162,
+                    "like": false
+                  },
+                  {
+                    "id": 41000015,
+                    "tagName": "ANTIHERO",
+                    "enTagName": "ANTIHERO",
+                    "likeCount": 282,
+                    "like": false
+                  },
+                  {
+                    "id": 51063747,
+                    "tagName": "THESTRONGACTINGWEAK",
+                    "enTagName": "THESTRONGACTINGWEAK",
+                    "likeCount": 163,
+                    "like": false
+                  }
+                ],
+                "coverUpdateTime": 1705256017438
+              },
+              {
+                "bookId": "29070682700815405",
+                "bookName": "Diary of a Slave to Queen",
+                "novelType": 0,
+                "description": "*Yuri* Princess X Slave with a hidden identity\r\n\r\n'Sui, don't raise your head, and don't let yourself fall for the glamour of the Imperial Harem. Keep your head down and be as invisible as you can.'\r\n\r\nThose words were Sui's shackles ever since she could remember. This was Sui's mother's last advice before she perished.\r\n\r\nLiving by these words, Sui always showed herself off as a simple servant of the Imperial Harem. From attending to the Concubines to serving the guests, she did all the tasks she was asked to.\r\n\r\nHowever, Sui could never curb her burning desire to learn more, and she ended up getting entangled with the one and only Imperial Princess, who had secrets of her own.\r\n______\r\n This is Yuri so enjoy it. The rating will change.",
+                "categoryId": 70016,
+                "categoryName": "FANTASY",
+                "authorName": "Holy_mackrel",
+                "totalScore": 4.46,
+                "translateMode": -1,
+                "tagInfo": [
+                  {
+                    "id": 41001297,
+                    "tagName": "SLICEOFLIFE",
+                    "enTagName": "SLICEOFLIFE",
+                    "likeCount": 2,
+                    "like": false
+                  },
+                  {
+                    "id": 51008739,
+                    "tagName": "ROYALFAMILY",
+                    "enTagName": "ROYALFAMILY",
+                    "likeCount": 2,
+                    "like": false
+                  },
+                  {
+                    "id": 41000683,
+                    "tagName": "ABANDONED",
+                    "enTagName": "ABANDONED",
+                    "likeCount": 2,
+                    "like": false
+                  },
+                  {
+                    "id": 51063747,
+                    "tagName": "THESTRONGACTINGWEAK",
+                    "enTagName": "THESTRONGACTINGWEAK",
+                    "likeCount": 1,
+                    "like": false
+                  },
+                  {
+                    "id": 41001289,
+                    "tagName": "YURI",
+                    "enTagName": "YURI",
+                    "likeCount": 6,
+                    "like": false
+                  },
+                  {
+                    "id": 41005936,
+                    "tagName": "FAKEIDENTITY",
+                    "enTagName": "FAKEIDENTITY",
+                    "likeCount": 1,
+                    "like": false
+                  },
+                  {
+                    "id": 51066883,
+                    "tagName": "THE TYRANT FALLS IN LOVE",
+                    "enTagName": "THE TYRANT FALLS IN LOVE",
+                    "likeCount": 0,
+                    "like": false
+                  }
+                ],
+                "coverUpdateTime": 1710748531149
+              },
+              {
+                "bookId": "32697979400443205",
+                "bookName": "Priceless Slave (BL)",
+                "novelType": 0,
+                "description": "\"Your name is Kai. Not 1508. Remember that.\"\n\"Yes, Master.\"\n\nHe was born weak and sickly, his left leg crippled from years of beatings.\nSlave 1508 consideres as nothing more than a worthless thing.\n\nIn the shadows of Omino Village, women are forced to breed, and children are raised only to be sold. Mercy does not exist for the useless. At eighteen, when the time came for him to be sold at the market, Kai was rejected again and again. No one wanted him.\n\nSo, was this his fate? To be taken down?\n\nThen he arrived.\n\nSylas, a prince with a gentle heart bought Kai. He gave the slave a name, and touched him as though he were fragile.\n\n\"You're not a slave anymore. You are worth the world to me.\"\n\nKai doesn’t understand kindness. He only knows how to serve. But Sylas’s warmth is intoxicating, a tenderness that Kai has never known nor believed possible.\n\nYet beside the prince, new trials await. The world beyond Omino is far more dangerous than the barbaric life he left behind. \n\nThe prince’s love sparks jealousy, and jealousy can kill. \nHow will he survive?\n\nNote: you can find many others walk this world: a vampire bound to a royal knight, a witch who dares to love a vampire, a wizard tempted by a demon, and a ruthless pack of werewolves.\n\n***\nWarnings!! \nThis story contains dark themes, slavery, physical/emotional trauma, mature content (18+), and power imbalance. Reader discretion is advised.",
+                "categoryId": 70019,
+                "categoryName": "LGBT+",
+                "authorName": "Moe_Cara",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [
+                  {
+                    "id": 41000147,
+                    "tagName": "R18",
+                    "enTagName": "R18",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000074,
+                    "tagName": "WEAKTOSTRONG",
+                    "enTagName": "WEAKTOSTRONG",
+                    "likeCount": 1,
+                    "like": false
+                  },
+                  {
+                    "id": 41000165,
+                    "tagName": "DARK",
+                    "enTagName": "DARK",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000499,
+                    "tagName": "SMUT",
+                    "enTagName": "SMUT",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 51065559,
+                    "tagName": "DRAMATIC",
+                    "enTagName": "DRAMATIC",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000444,
+                    "tagName": "HISTORICAL",
+                    "enTagName": "HISTORICAL",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000096,
+                    "tagName": "BL",
+                    "enTagName": "BL",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 51008739,
+                    "tagName": "ROYALFAMILY",
+                    "enTagName": "ROYALFAMILY",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000091,
+                    "tagName": "YAOI",
+                    "enTagName": "YAOI",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 51065556,
+                    "tagName": "ABUSIVELOVE",
+                    "enTagName": "ABUSIVELOVE",
+                    "likeCount": 0,
+                    "like": false
+                  }
+                ],
+                "coverUpdateTime": 1765621653690
+              },
+              {
+                "bookId": "29708011308334405",
+                "bookName": "Slave To The Wolf King",
+                "novelType": 0,
+                "description": "Jesse is a normal girl from a fucked-up family. The only thing she wants is freedom.\nCasimir, the dark and ruthless Wolf King, reigns in the underground dens of the wolf world with the power to compel anyone to do anything he commands. But he needs a new mate because the last two killed themselves.\nAfter watching Casimir steal the minds and wills of the other women kidnapped as potential mates, Jesse knows he is even more powerful than the urban legends she's heard. Fearing that she might lose herself forever, Jesse offers to submit to Casimir's dominance, make herself his slave, and bear his heir. But in return, he must vow never to use that compulsion on her.\nFascinated by her boldness and the surge in his power when she offers herself, Casimir accepts her as his mate.\nBut Casimir isn't the only wolf who wants Jesse.\nWhile Jesse cannot deny the sizzling chemistry between herself and Casimir, the King is emotionless and sometimes cruel. She's often drawn to the tender safety offered by a much less powerful wolf. A male Casimir would kill if he knew how deeply they connected.\nWill Casimir break Jesse just as he broke two mates before her? Will he discover her potentially deadly connection with another male? Or, will the smart and resourceful Jesse betray him and flee with the other wolf?\nHas the Wolf King finally met his match?\n***\n\"The position of Queen requires three things,\" I snapped impatiently. \"First, the ability to bear heirs. Second, submission to me as King and Mate. And third, acceptance that I will not offer love.\"\n\nI stopped for a moment, \"My Queen will receive anything material she wishes. But she will submit to me, and I will not bow. She will share my bed, my power, and my wealth... She will not share my heart.\"\nI waited, but none of them spoke. Good. I turned back to my servant to order them moved to the next challenge when a quiet but strong voice rose behind me.\n\"Are you violent?\"\nI turned back to the fire-haired woman with a flat smile. \"Show me a wolf who isn't. And I am the King of the others. What do you think?\"\nHer throat bobbed. The tear in the neckline of her cotton shirt offered a fleeting glimpse of plump cleavage. My cock twitched.\n\"I meant with your Queen… um, Sire,\" she said uncertainly. \"You said you have to dominate, that she has to submit. What is she submitting to?\"\nI smirked. \"I don't make a habit of leaving bruises,\" I said, letting a dark promise seep into my tone. \"But they've been known to happen.\"\nIt was quite thrilling when she paled. I once again turned away, gesturing to my man to start moving them when her voice rose one more time.\n\"I'll volunteer,\" she said. When I whirled, she licked her lips then stepped forward. \"I will be your mate… if you'll have me.\"\nHiding my shock, I offered my most predatory grin to the poor, naive idiot. \"My mate, like everyone else in this kingdom, is my slave. Now... are you certain?\"",
+                "categoryId": 70014,
+                "categoryName": "URBAN",
+                "authorName": "Aimee Lynn Lane",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [],
+                "coverUpdateTime": 1717121719676
+              },
+              {
+                "bookId": "35269532208811905",
+                "bookName": "Shadow Slave: Returner",
+                "novelType": 0,
+                "description": "Sunny has regressed to when he just finished the third nightmare. The horror he experienced in the future was unlike any other. He believed that their realm was the last, but that was a lie\n\nArmed with knowledge of the future Sunny vows not to let what happened in the future occur in this timeline.",
+                "categoryId": 70012,
+                "categoryName": "ACTION",
+                "authorName": "Kelal_",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [
+                  {
+                    "id": 41001092,
+                    "tagName": "GENIUS",
+                    "enTagName": "GENIUS",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000015,
+                    "tagName": "ANTIHERO",
+                    "enTagName": "ANTIHERO",
+                    "likeCount": 0,
+                    "like": false
+                  }
+                ],
+                "coverUpdateTime": 1772785458999
+              },
+              {
+                "bookId": "34959288108944605",
+                "bookName": "Combat Slave Harem",
+                "novelType": 0,
+                "description": "[ Caution: Dark (18+) ]\nHenry Lukas never got to live.\n\nAt just twenty years old, he died as a withered old man, his body ravaged by a cruel disease that stole his youth, his future, and every chance at happiness. Abandoned by family, rejected by love, and forgotten by the world, his life ended in a silent hospital room with nothing but regret and bitterness to keep him company.\n\nBut death was not the end.\n\nChosen by a sadistic Goddess of Mischief, Henry is reborn as Egon Novos in a brutal world he once escaped into through fiction. A world of monsters, slaves, and ruthless survival where the weak are trampled and the strong claim everything.\n\nThere is just one problem.\n\nHe is not the protagonist.\n\nHe is a disposable extra. A nameless sword slave fated to die before the real story even begins.\n\nBut fate made a mistake.\n\nBecause Egon remembers everything.\n\nArmed with forbidden knowledge of the future, a mysterious trait that lets him see beyond the present, and a heart filled with resentment toward a world that never gave him a chance, Egon refuses to be forgotten again.\n\nHe will steal what was never meant to be his.\n\nThe protagonist’s power. Luck. Destiny. everything.\n\nIn a world where loyalty can be bought and strength is absolute, Egon will rise from nothing and carve his name into legend.\n\nNot as a hero…\n\nbut as the one who devours gods.\n\n---\n\nTags: Isekai, Antihero Protagonist, Dark Fantasy, Harem (Transformative), Revenge, Leveling Systems, Multiple Worlds, Emotional Trauma, Ruthless MC, Psychological Growth, NSFW (After 20), No NTR, No Netorare\n\n---\n\nIf You're a reader who enjoy brutal isekai with emotional depth, morally grey decisions, and worlds that push both power and sanity to the limit.\n\n\nCurrent Schedule: 14 Chapters / Week.",
+                "categoryId": 70002,
+                "categoryName": "FANTASY",
+                "authorName": "Gagarmaru",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [
+                  {
+                    "id": 41000121,
+                    "tagName": "ACTION",
+                    "enTagName": "ACTION",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000075,
+                    "tagName": "REINCARNATION",
+                    "enTagName": "REINCARNATION",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000147,
+                    "tagName": "R18",
+                    "enTagName": "R18",
+                    "likeCount": 1,
+                    "like": false
+                  },
+                  {
+                    "id": 41000037,
+                    "tagName": "HAREM",
+                    "enTagName": "HAREM",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000799,
+                    "tagName": "OVERPOWERED",
+                    "enTagName": "OVERPOWERED",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000015,
+                    "tagName": "ANTIHERO",
+                    "enTagName": "ANTIHERO",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41001351,
+                    "tagName": "KINGDOMBUILDING",
+                    "enTagName": "KINGDOMBUILDING",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000578,
+                    "tagName": "LEVELUP",
+                    "enTagName": "LEVELUP",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 51064558,
+                    "tagName": "UNPRINCIPLED",
+                    "enTagName": "UNPRINCIPLED",
+                    "likeCount": 0,
+                    "like": false
+                  }
+                ],
+                "coverUpdateTime": 1772563036149
+              },
+              {
+                "bookId": "13386461205631405",
+                "bookName": "Slave to the Darkness",
+                "novelType": 0,
+                "description": "The world belongs to the humans but what they do not know is that in the dark hours of the night there is a slave market that happens in the woods. No one knows about it except those that are wealthy and pay a fee for the membership. As the slave market moves from town to town, finally they reach its destination where they call up the buyer letting him know that they have arrived with some intriguing goods that he might be interested in. \r\n\r\nThe slave that was bought from the Slave Market in the middle of the night was taken to her new home by her first Master. She feels safe with him but doesn’t remember anything from her past and doesn’t know what secrets lurk in her mind. \r\n\r\nThe Master that bought a new toy thought since she was what he was looking for. He hoped that she would last longer than the rest but what he didn’t expect was the past to come back to him after a hundred years without it. With his new memories he softens up but only for her as she is now his everything, he will stop at nothing to protect her and help each other remember their past together.\r\n\r\nExcerpt\r\n\r\n\"Just who do you think you are? I will get you thrown out of this area if you continue to loiter around here. I was just having a chat with my soon to be man when you interrupted me.\" The girl pointed at Yuki blaming her.\r\n\r\n\"Darling, were you going to pick up someone else when you already have me by your side?\" Yuki turned and pressed her body up against his side. She rubbed her chest on his side to show that he was hers.\r\n\r\n\"You know that I can not replace you, Liliana. I was only telling these ladies that they couldn't have the purse that I specially ordered for you.\" He moved his hand to her ass and squeezed.\r\n\r\nThe ladies looked embarrassed for a moment. \"No, I will get what I want. I want that man and that purse!\" The lady screamed and her face turned beet red.\r\n\r\nYuki turned her head over, \"you can not control someone's feelings. You can not compare to me in any way shape or form.\" Yuki turned her head away shapely.\r\n\r\n\"Oh is that so. THEN I CHALLENGE YOU TO A BEAUTY CONTEST!! There is a competition for the queen of the beach today and if you win I will leave you alone and bow down to you but if I win I want that purse and your man!\"\r\n\r\nCover is a commissioned Product and all rights belong to me and the artist that created it for me.",
+                "categoryId": 70016,
+                "categoryName": "FANTASY",
+                "authorName": "Shirokitsune",
+                "totalScore": 4.65,
+                "translateMode": -1,
+                "tagInfo": [
+                  {
+                    "id": 41000147,
+                    "tagName": "R18",
+                    "enTagName": "R18",
+                    "likeCount": 13,
+                    "like": false
+                  },
+                  {
+                    "id": 41000025,
+                    "tagName": "WEREWOLF",
+                    "enTagName": "WEREWOLF",
+                    "likeCount": 10,
+                    "like": false
+                  },
+                  {
+                    "id": 41000024,
+                    "tagName": "VAMPIRE",
+                    "enTagName": "VAMPIRE",
+                    "likeCount": 10,
+                    "like": false
+                  }
+                ],
+                "coverUpdateTime": 1689890316525
+              },
+              {
+                "bookId": "35018144308981005",
+                "bookName": "Shadow Slave: The Shadow Lost in Time",
+                "novelType": 0,
+                "description": "",
+                "categoryId": 70002,
+                "categoryName": "FANTASY",
+                "authorName": "Avenhart",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [
+                  {
+                    "id": 51067230,
+                    "tagName": "TIMETRAVEL",
+                    "enTagName": "TIMETRAVEL",
+                    "likeCount": 0,
+                    "like": false
+                  }
+                ],
+                "coverUpdateTime": 1770366293048
+              },
+              {
+                "bookId": "28970512900604005",
+                "bookName": "Shadow Slave FF | A Slave Once Again",
+                "novelType": 0,
+                "description": "The treacherous Lost from Light finds himself in a dangerous situation after surviving a devastating battle against one of the Old Ghouls who he lost all of his companions to. Facing an inevitable doom his precious attribute [Fated] comes to the rescue, as he stumbles upon a strange divine memory. In a desperate attempt The treacherous lost from light activates the unknown enchantment only to find himself once again in the Dark City. \n\nIs this a dream? And if so would he wake up?\nIs this a reality? And if so would he make use of it and correct his mistakes?\n\nOnly our treacherous Lost from light will find out.\n\n\n________________________________\n\nTHIS IS A FAN FICTION!\n\nI OWN NOTHING FROM THE CHARACTERS ALL THE CREDIT GOES TO Guiltythree THE AUTHOR OF SHADOW SLAVE\n\n\nenjoy!",
+                "categoryId": 70001,
+                "categoryName": "URBAN",
+                "authorName": "Ve_om",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [
+                  {
+                    "id": 41000121,
+                    "tagName": "ACTION",
+                    "enTagName": "ACTION",
+                    "likeCount": 1,
+                    "like": false
+                  },
+                  {
+                    "id": 41000010,
+                    "tagName": "ROMANCE",
+                    "enTagName": "ROMANCE",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000120,
+                    "tagName": "ADVENTURE",
+                    "enTagName": "ADVENTURE",
+                    "likeCount": 1,
+                    "like": false
+                  },
+                  {
+                    "id": 41000170,
+                    "tagName": "COMEDY",
+                    "enTagName": "COMEDY",
+                    "likeCount": 1,
+                    "like": false
+                  },
+                  {
+                    "id": 41000066,
+                    "tagName": "MYSTERY",
+                    "enTagName": "MYSTERY",
+                    "likeCount": 1,
+                    "like": false
+                  },
+                  {
+                    "id": 41000165,
+                    "tagName": "DARK",
+                    "enTagName": "DARK",
+                    "likeCount": 1,
+                    "like": false
+                  }
+                ],
+                "coverUpdateTime": 1744113622881
+              },
+              {
+                "bookId": "35301367500469605",
+                "bookName": "shadow slave: The ice child",
+                "novelType": 0,
+                "description": "A shadow slave x reader fic about a gn reader insert with a ice based divine aspect. Starting with their first nightmare going through the story of shadow slave. A first person story with a very flawed narrator. a repost from ao3 and wattpad because I was asked to",
+                "categoryId": 70001,
+                "categoryName": "URBAN",
+                "authorName": "the_last_1_percent",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [
+                  {
+                    "id": 41000121,
+                    "tagName": "ACTION",
+                    "enTagName": "ACTION",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000120,
+                    "tagName": "ADVENTURE",
+                    "enTagName": "ADVENTURE",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000066,
+                    "tagName": "MYSTERY",
+                    "enTagName": "MYSTERY",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000165,
+                    "tagName": "DARK",
+                    "enTagName": "DARK",
+                    "likeCount": 0,
+                    "like": false
+                  }
+                ],
+                "coverUpdateTime": 1775193446424
+              },
+              {
+                "bookId": "25355326105700105",
+                "bookName": "Slave To The Ruthless Master",
+                "novelType": 0,
+                "description": "Damien is the Ruthless and Merciless Master of the Guthram clan, which is the biggest and most powerful clan among the seven clans of the Carran community. Anyone who goes against his words and rules dies in a twinkle of an eye and he would turn their daughters into his sex slaves and wives into laborers, the male children wiped off to end the generation of the offender. \n\nNothing gave him joy more than War, swords, and Blood shedding. Mercy was nowhere near his books. The villagers serve and worshipped him as their god. Nobody dare to utter a word when he spoke. They all trembled at the mention of the name DAMIEN. \n\nAll that and more was he until he met her and she slowly melted his cold stoned heart. Galene- just like the meaning of her name; peace, she slowly brought peace and serenity to Damien. Sold to him by her drunk and gambler father, Naive, beautiful, and endowed was she. Just like molten lava, she melted him and brought out the human in him. Power of love!!!!!!",
+                "categoryId": 70014,
+                "categoryName": "URBAN",
+                "authorName": "Ezeh Blessing",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [],
+                "coverUpdateTime": 1673594866933
+              },
+              {
+                "bookId": "34696127808034005",
+                "bookName": "Skygge Slave",
+                "novelType": 0,
+                "description": "Opvokset i fattigdom forventede Sunny aldrig noget godt af livet. Men selv han forudså ikke at blive udvalgt af Mareridt Formularen og blive en af de Vågne - en elitegruppe af mennesker begavet med overnaturlige kræfter. Transporteret til en ruineret magisk verden stod han over for frygtelige monstre - og andre Vågne - i en dødelig kamp for overlevelse.\nHvad værre er, viste den guddommelige kraft, han modtog, sig at have en lille, men potentielt dødelig bivirkning...",
+                "categoryId": 70002,
+                "categoryName": "FANTASY",
+                "authorName": "Guiltythree",
+                "totalScore": 0,
+                "translateMode": 1,
+                "tagInfo": [
+                  {
+                    "id": 41000121,
+                    "tagName": "ACTION",
+                    "enTagName": "ACTION",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000010,
+                    "tagName": "ROMANCE",
+                    "enTagName": "ROMANCE",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000120,
+                    "tagName": "ADVENTURE",
+                    "enTagName": "ADVENTURE",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000016,
+                    "tagName": "SYSTEM",
+                    "enTagName": "SYSTEM",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000884,
+                    "tagName": "MAGIC",
+                    "enTagName": "MAGIC",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000074,
+                    "tagName": "WEAKTOSTRONG",
+                    "enTagName": "WEAKTOSTRONG",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41001330,
+                    "tagName": "SUPERPOWERS",
+                    "enTagName": "SUPERPOWERS",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000132,
+                    "tagName": "TRANSMIGRATION",
+                    "enTagName": "TRANSMIGRATION",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000015,
+                    "tagName": "ANTIHERO",
+                    "enTagName": "ANTIHERO",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 51063747,
+                    "tagName": "THESTRONGACTINGWEAK",
+                    "enTagName": "THESTRONGACTINGWEAK",
+                    "likeCount": 0,
+                    "like": false
+                  }
+                ],
+                "coverUpdateTime": 1767664362444
+              },
+              {
+                "bookId": "21655029406171205",
+                "bookName": "Slave to Reality",
+                "novelType": 0,
+                "description": "A catgirl escapes from slavery in her fantasy world to the real world and must learn everything from scratch.\r\n\r\nVivian is a catgirl, born in a world in which all beast-kin are considered as nothing more than intelligent animals and are kept as slaves. Her new owner horribly abuses her, but eventually with the help of a friend she manages to escape, and while running for her life she passes through a portal to the real world. There she finds herself trapped in the apartment of young man who must be a powerful mage, considering all the impressive artifacts he possesses, and who kindly teaches her his language and his world.\r\n\r\nVolume 1 Is about falling into and escaping from abuse. The story gets lighter afterwards.\r\n\r\n———————————————\r\n\r\n\"Please, master, don't do this. I'm your sister!\"\r\n\r\n\"Animals and people can't be family! Besides, even if they could, we're not related by blood. Now take off you clothes and get on the bed!\"\r\n\r\n\"No!\"\r\n\r\n\"Fine, it's you who's asking for punishment.\"\r\n\r\n\"AAARGH!\"\r\n\r\n———————————————\r\n\r\n\"Vivian, even if my world was filled with beautiful cat girls and bunny girls, and every other kind of beast-kin, you'd still be the only one for me. Will you marry me?\"\r\n\r\n\"Yes!\"\r\n\r\n———————————————\r\n\r\n\"How much for the orange-haired beauty?\"\r\n\r\n\"She's not for sale.\"\r\n\r\n\"How about for rent, then? How much for a night?\"\r\n\r\n\"She's not for rent, either.\"\r\n\r\n\"Come on, you can't expect to walk in here with property like this and not share!\"\r\n\r\n\"Vivian, this man is annoying me. Please get rid of him.\"\r\n\r\n\"Yes master!\"\r\n\r\n\"Hey, let go of me! How dare you lay a hand on a human! You can't just throw me out! Ouch!\"\r\n\r\nCRASH.",
+                "categoryId": 70016,
+                "categoryName": "FANTASY",
+                "authorName": "Moss_Plains",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [
+                  {
+                    "id": 41000884,
+                    "tagName": "MAGIC",
+                    "enTagName": "MAGIC",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000147,
+                    "tagName": "R18",
+                    "enTagName": "R18",
+                    "likeCount": 1,
+                    "like": false
+                  },
+                  {
+                    "id": 41000057,
+                    "tagName": "ISEKAI",
+                    "enTagName": "ISEKAI",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 51001182,
+                    "tagName": "NONHUMAN",
+                    "enTagName": "NONHUMAN",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41006586,
+                    "tagName": "SERIOUS",
+                    "enTagName": "SERIOUS",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 51065560,
+                    "tagName": "DETAILED",
+                    "enTagName": "DETAILED",
+                    "likeCount": 0,
+                    "like": false
+                  }
+                ],
+                "coverUpdateTime": 1732056532623
+              },
+              {
+                "bookId": "35680564808508005",
+                "bookName": "SHADOW SLAVE  MASTER",
+                "novelType": 0,
+                "description": "",
+                "categoryId": 70012,
+                "categoryName": "ACTION",
+                "authorName": "Malik_Rehan10",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [
+                  {
+                    "id": 41000121,
+                    "tagName": "ACTION",
+                    "enTagName": "ACTION",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000010,
+                    "tagName": "ROMANCE",
+                    "enTagName": "ROMANCE",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000016,
+                    "tagName": "SYSTEM",
+                    "enTagName": "SYSTEM",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000884,
+                    "tagName": "MAGIC",
+                    "enTagName": "MAGIC",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41001330,
+                    "tagName": "SUPERPOWERS",
+                    "enTagName": "SUPERPOWERS",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000132,
+                    "tagName": "TRANSMIGRATION",
+                    "enTagName": "TRANSMIGRATION",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41001702,
+                    "tagName": "VILLAIN",
+                    "enTagName": "VILLAIN",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000019,
+                    "tagName": "REVENGE",
+                    "enTagName": "REVENGE",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000578,
+                    "tagName": "LEVELUP",
+                    "enTagName": "LEVELUP",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000676,
+                    "tagName": "DEVIL",
+                    "enTagName": "DEVIL",
+                    "likeCount": 0,
+                    "like": false
+                  }
+                ],
+                "coverUpdateTime": 1776911185631
+              },
+              {
+                "bookId": "34036696300893705",
+                "bookName": "Shadow Slave: Primordial Endling",
+                "novelType": 0,
+                "description": "In a world on the brink of destruction a lone awakened desperately struggles for a place in these tumultuous times with his bestial strength. Through hardship and struggle he slowly finds his purpose and builds his strength. He must learn how to use his versatile ability to transform into the monsters he has killed to survive against nightmare creatures and people alike.\n\nThis is a journey of self improvement for a very flawed person. Don’t expect an easy boost in power from this story.",
+                "categoryId": 70002,
+                "categoryName": "FANTASY",
+                "authorName": "Jorogan11",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [],
+                "coverUpdateTime": 1766543716122
+              },
+              {
+                "bookId": "35039904400414805",
+                "bookName": "Slave to the vampire lords",
+                "novelType": 0,
+                "description": "[WARNING: EXTREMELY MATURE CONTENT]\n  \n    kidnapped from her village by bandits,\n Miranda was taken to the kingdom of valgeria. a kingdom filled with corrupt bloodsuckers, she was to be sold to the vampire lords as a blood slave. A mere livestock who was going to be drained dry before the end of the week.\n\n\n But as fate would have it she caught the eyes of the notorious and crazy lord Desmond who took her as a pet because of her rare silver hair.\nNot only did she have to avoid getting killed by 'Accident' by lord Desmond. she also had to survive in a castle filled with scheming and manipulative bloodsuckers. \nwhat started as a master/pet relationship turned into a full blown twisted obsession, Desmond didn't just want her body. He wanted her soul, her attention her time, the very air she breathes, his twisted mind craved for Miranda in ways that scared and aroused Miranda at the same time \n\nBut then the reserved and cold Lord Artemis, the closest to Desmond starts craving Miranda too. He craved her body like never before. just one whiff of her arousal made his blood burn with desire.\nBut Desmond was a possessive man who hated sharing his properties, he had no intention of sharing his swan with Artemis, and Artemis had no intention to letting her go.",
+                "categoryId": 70016,
+                "categoryName": "FANTASY",
+                "authorName": "kamado tanjiro",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [],
+                "coverUpdateTime": 1775300587569
+              },
+              {
+                "bookId": "35170682200252705",
+                "bookName": "Shadow Slave: A Shadow's Return",
+                "novelType": 0,
+                "description": "Sunny as a Spirit is thrown into the past with the help of the gods and sets out to fix his past mistakes and save those close to him.",
+                "categoryId": 70001,
+                "categoryName": "URBAN",
+                "authorName": "Stl_Sri",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [
+                  {
+                    "id": 41000121,
+                    "tagName": "ACTION",
+                    "enTagName": "ACTION",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000010,
+                    "tagName": "ROMANCE",
+                    "enTagName": "ROMANCE",
+                    "likeCount": 0,
+                    "like": false
+                  },
+                  {
+                    "id": 41000075,
+                    "tagName": "REINCARNATION",
+                    "enTagName": "REINCARNATION",
+                    "likeCount": 0,
+                    "like": false
+                  }
+                ],
+                "coverUpdateTime": 1771791726700
+              },
+              {
+                "bookId": "26930341506042005",
+                "bookName": "shadow slave reborn",
+                "novelType": 0,
+                "description": "Kyle is thrown into the chaotic world of shadow slave.\r\nWhat will he do?",
+                "categoryId": 70002,
+                "categoryName": "FANTASY",
+                "authorName": "Kamuiglazer",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [],
+                "coverUpdateTime": 1690906702959
+              },
+              {
+                "bookId": "35938112700078505",
+                "bookName": "Shadow slave: Elección",
+                "novelType": 0,
+                "description": "En un mundo donde el destino dicta cada evento, un Demonio Divino, harto de las artimañas de su hermano mayor, decide rebelarse. Al encarnar el concepto mismo de la Elección, el demonio mueve sus propios hilos y otorga este poder prohibido a un joven, en un mundo donde la elección no existe (o, más precisamente, nunca ha existido).\n\n\n\nAdvertencia \n\n\nEl protagonista se vuelve fuerte ligeramente más rápido y a diferencia de Sunny nether le dejo más ayuda directa debido a algo relacionado al destino",
+                "categoryId": 70001,
+                "categoryName": "URBAN",
+                "authorName": "DaoistPWpXlq",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [
+                  {
+                    "id": 41000057,
+                    "tagName": "ISEKAI",
+                    "enTagName": "ISEKAI",
+                    "likeCount": 0,
+                    "like": false
+                  }
+                ],
+                "coverUpdateTime": 1779509508990
+              },
+              {
+                "bookId": "35300098800380005",
+                "bookName": "Shadow Slave For Audiobook private",
+                "novelType": 0,
+                "description": "",
+                "categoryId": 70002,
+                "categoryName": "FANTASY",
+                "authorName": "SaltyStalyx",
+                "totalScore": 0,
+                "translateMode": -1,
+                "tagInfo": [],
+                "coverUpdateTime": 1773069622564
+              }
+            ]
+          },
+          "comicInfo": null,
+          "publishBookInfo": null,
+          "fanficBookInfo": null,
+          "tagInfo": null,
+          "powerRank": null,
+          "categoryInfo": null,
+          "recommendInfo": [],
+          "keywords": "Shadow Slave",
+          "type": 1,
+          "relatedWords": [],
+          "relatedSearch": [
+            {
+              "name": "shadow of slave"
+            },
+            {
+              "name": "shadow slave"
+            },
+            {
+              "name": "shadow slave 600"
+            },
+            {
+              "name": "the shadow slave"
+            },
+            {
+              "name": "shadow slave 1673"
+            },
+            {
+              "name": "the shadow of the slave"
+            },
+            {
+              "name": "slave shadow"
+            },
+            {
+              "name": "shadow slave:"
+            },
+            {
+              "name": "in shadow slave"
+            },
+            {
+              "name": "shadow slave"
+            }
+          ],
+          "popularSearch": [
+            {
+              "name": "yuri manga recommendations"
+            },
+            {
+              "name": "soviet architecture brutalism"
+            },
+            {
+              "name": "the duke's cursed charm"
+            },
+            {
+              "name": "help forge danmachi webnovel"
+            },
+            {
+              "name": "jinmyaku cheat de hajimeru"
+            },
+            {
+              "name": "anime reinarcnated as pop stars children"
+            },
+            {
+              "name": "hydra villains"
+            },
+            {
+              "name": "naruko sasuke"
+            },
+            {
+              "name": "muscly guy"
+            },
+            {
+              "name": "surat bakara"
+            }
+          ],
+          "user": {
+            "avatar": "",
+            "nickName": "",
+            "userName": "",
+            "authorName": "",
+            "penName": "",
+            "guid": 0,
+            "status": -1,
+            "role": 0,
+            "gender": 0,
+            "SS": 0,
+            "vSS": 0,
+            "vbSS": 0,
+            "bSS": 0,
+            "expiringTime": 0,
+            "grade": 0,
+            "ES": 0,
+            "totalES": 0,
+            "PS": 0,
+            "totalPS": 0,
+            "email": "",
+            "emailStatus": 0,
+            "isCheckIn": 0,
+            "UUT": 0,
+            "fastPass": 0,
+            "membershipQua": 0,
+            "membershipStatus": 0,
+            "membershipExpireTime": 0,
+            "membershipClaimStatus": false,
+            "membershipIsFree": false,
+            "membershipType": 0
+          },
+          "riskStatus": 0
+        }
+      },
+      "lang": "en",
+      "isBot": false
+    }
+  },
+  "page": "/search",
+  "query": {
+    "keywords": "Shadow Slave"
+  },
+  "buildId": "20260529141541",
+  "assetPrefix": "https://www.yueimg.com/overseamnext",
+  "isFallback": false,
+  "dynamicIds": [
+    37208
+  ],
+  "gip": true,
+  "appGip": true,
+  "locale": "en",
+  "locales": [
+    "en",
+    "th",
+    "ms",
+    "vi",
+    "es",
+    "zh",
+    "id",
+    "fil",
+    "fr",
+    "pt",
+    "ja",
+    "de",
+    "ko",
+    "tr",
+    "it"
+  ],
+  "defaultLocale": "en",
+  "scriptLoader": []
+}

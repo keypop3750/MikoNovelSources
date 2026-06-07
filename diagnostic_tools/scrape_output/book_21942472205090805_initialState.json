@@ -1,0 +1,3413 @@
+{
+  "isServer": true,
+  "initialState": {
+    "entities": {
+      "users": {},
+      "loginUser": "",
+      "nonce": "d2Vibm92ZWw=",
+      "bookcityPage": {
+        "69048f8112e89a3a2ffeeb56_1": {
+          "pageId": "69048f8112e89a3a2ffeeb56",
+          "bookCityName": "Fanfic",
+          "countryItems": [
+            "Global"
+          ],
+          "blackCountryItems": [],
+          "languageItems": [
+            "en"
+          ],
+          "sexItems": [
+            1
+          ],
+          "remark": "novel",
+          "pageType": 20,
+          "blockItems": [
+            "69048f8112e89a3a2ffeeb57",
+            "69048f8112e89a3a2ffeeb5a",
+            "69048f8112e89a3a2ffeeb5d",
+            "69048f8112e89a3a2ffeeb61",
+            "69048f8112e89a3a2ffeeb5f",
+            "69048f8112e89a3a2ffeeb63"
+          ],
+          "bookCityType": 1
+        },
+        "62e0e647fa4dd01e0665854f_1": {
+          "pageId": "62e0e647fa4dd01e0665854f",
+          "bookCityName": "Novel",
+          "countryItems": [
+            "Global"
+          ],
+          "blackCountryItems": [],
+          "languageItems": [
+            "en"
+          ],
+          "sexItems": [
+            1
+          ],
+          "remark": "精选"
+        },
+        "6194dd99f4ac042ae9231238_1": {
+          "pageId": "6194dd99f4ac042ae9231238",
+          "bookCityName": "New Novel",
+          "countryItems": [
+            "Global"
+          ],
+          "blackCountryItems": [],
+          "languageItems": [
+            "en"
+          ],
+          "sexItems": [
+            1
+          ],
+          "remark": "new novel"
+        },
+        "6221cc2cb1faaa63c13d634b_1": {
+          "pageId": "6221cc2cb1faaa63c13d634b",
+          "bookCityName": "Comic",
+          "countryItems": [
+            "Global"
+          ],
+          "blackCountryItems": [],
+          "languageItems": [
+            "en"
+          ],
+          "sexItems": [
+            1
+          ],
+          "remark": "comic"
+        },
+        "69048f8112e89a3a2ffeeb56_2": {
+          "pageId": "69048f8112e89a3a2ffeeb56",
+          "pageType": 20,
+          "bookCityName": "Fanfic",
+          "countryItems": [
+            "Global"
+          ],
+          "blackCountryItems": [],
+          "languageItems": [
+            "en"
+          ],
+          "sexItems": [
+            1
+          ],
+          "remark": "novel",
+          "blockItems": [
+            "69048f8112e89a3a2ffeeb57",
+            "69048f8112e89a3a2ffeeb5a",
+            "69048f8112e89a3a2ffeeb5d",
+            "69048f8112e89a3a2ffeeb61",
+            "69048f8112e89a3a2ffeeb5f",
+            "69048f8112e89a3a2ffeeb63"
+          ],
+          "bookCityType": 2
+        }
+      },
+      "bookcityBlock": {
+        "69048f8112e89a3a2ffeeb57": {
+          "id": "69048f8112e89a3a2ffeeb57",
+          "title": "tag墙",
+          "subTitle": "",
+          "type": 3009,
+          "background": "",
+          "contentId": "69048f8112e89a3a2ffeeb58",
+          "abReportInfo": "",
+          "abType": 0,
+          "contentItems": [
+            {
+              "chapterCount": 772473,
+              "addChapterCount": 1249,
+              "tagId": 41000059,
+              "tagName": "ANIME",
+              "items": [
+                {
+                  "bookId": "35952717908269805",
+                  "bookName": "Average Omniversal Travel Enjoyer",
+                  "coverUpdateTime": 1779624213103,
+                  "bookType": 0,
+                  "authorName": "Evans_The_Writer",
+                  "cornerMark": "New Chapters"
+                },
+                {
+                  "bookId": "35895620900165105",
+                  "bookName": "Marvel: Power of Imagination",
+                  "coverUpdateTime": 1779191088740,
+                  "bookType": 0,
+                  "authorName": "Cermon",
+                  "cornerMark": ""
+                },
+                {
+                  "bookId": "35940231008046705",
+                  "bookName": "My Hero Academia: Gura Gura no Mi",
+                  "coverUpdateTime": 1779476495221,
+                  "bookType": 0,
+                  "authorName": "TheDevotedReader",
+                  "cornerMark": "New Chapters"
+                },
+                {
+                  "bookId": "35893811908073105",
+                  "bookName": "The Only Kryptonian in One Piece",
+                  "coverUpdateTime": 1779025648782,
+                  "bookType": 0,
+                  "authorName": "Asiki",
+                  "cornerMark": ""
+                },
+                {
+                  "bookId": "24312057805500605",
+                  "bookName": "Naruto: Back in Ancient Times",
+                  "coverUpdateTime": 1675158898662,
+                  "bookType": 0,
+                  "authorName": "This_Young_Lord",
+                  "cornerMark": ""
+                },
+                {
+                  "bookId": "23492322906122905",
+                  "bookName": "One Piece: Reborn as Enel",
+                  "coverUpdateTime": 1657222718940,
+                  "bookType": 0,
+                  "authorName": "VeganMaster",
+                  "cornerMark": ""
+                },
+                {
+                  "bookId": "21705260805097805",
+                  "bookName": "My Upgrades Are Invincible Old/Betrayed/Forgotten/Dead",
+                  "coverUpdateTime": 1684500257888,
+                  "bookType": 0,
+                  "authorName": "Azazyel",
+                  "cornerMark": ""
+                },
+                {
+                  "bookId": "21257234406969205",
+                  "bookName": "Reborn as Thor!",
+                  "coverUpdateTime": 1672364736697,
+                  "bookType": 0,
+                  "authorName": "Ghost_84",
+                  "cornerMark": ""
+                },
+                {
+                  "bookId": "36017132708483505",
+                  "bookName": "Planting a tree starts in the HAZBIN UNIVERSE",
+                  "coverUpdateTime": 1780324216200,
+                  "bookType": 0,
+                  "authorName": "Reader_of_dreams",
+                  "cornerMark": "New Chapters"
+                },
+                {
+                  "bookId": "35747341908566305",
+                  "bookName": "Dragon ball: Primal instinct",
+                  "coverUpdateTime": 1779454395123,
+                  "bookType": 0,
+                  "authorName": "quan_Webb",
+                  "cornerMark": "New Chapters"
+                },
+                {
+                  "bookId": "32344561108468405",
+                  "bookName": "One Piece: Global improvement system",
+                  "coverUpdateTime": 1743597919963,
+                  "bookType": 0,
+                  "authorName": "Croto",
+                  "cornerMark": "New Chapters"
+                },
+                {
+                  "bookId": "35929515200916005",
+                  "bookName": "DanMachi: Emiya the Giant Hero",
+                  "coverUpdateTime": 1779367625256,
+                  "bookType": 0,
+                  "authorName": "DaoisttGfZ2X",
+                  "cornerMark": "New Chapters"
+                }
+              ]
+            },
+            {
+              "chapterCount": 489179,
+              "addChapterCount": 599,
+              "tagId": 41000057,
+              "tagName": "ISEKAI",
+              "items": []
+            },
+            {
+              "chapterCount": 469784,
+              "addChapterCount": 746,
+              "tagId": 41000069,
+              "tagName": "NARUTO",
+              "items": []
+            },
+            {
+              "chapterCount": 251194,
+              "addChapterCount": 341,
+              "tagId": 41000197,
+              "tagName": "MARVEL",
+              "items": []
+            },
+            {
+              "chapterCount": 264474,
+              "addChapterCount": 475,
+              "tagId": 41001958,
+              "tagName": "ONE PIECE",
+              "items": []
+            },
+            {
+              "chapterCount": 111787,
+              "addChapterCount": 187,
+              "tagId": 41000499,
+              "tagName": "SMUT",
+              "items": []
+            },
+            {
+              "chapterCount": 196102,
+              "addChapterCount": 251,
+              "tagId": 41000413,
+              "tagName": "HARRY POTTER",
+              "items": []
+            },
+            {
+              "chapterCount": 139125,
+              "addChapterCount": 279,
+              "tagId": 51065923,
+              "tagName": "SUPERNATURAL",
+              "items": []
+            },
+            {
+              "chapterCount": 55021,
+              "addChapterCount": 85,
+              "tagId": 41006270,
+              "tagName": "MY HERO ACADEMIA",
+              "items": []
+            },
+            {
+              "chapterCount": 94583,
+              "addChapterCount": 142,
+              "tagId": 41000038,
+              "tagName": "DC",
+              "items": []
+            }
+          ],
+          "expireTime": 0,
+          "blockExtend": null,
+          "changeable": false,
+          "apiType": 0,
+          "apiParam": "",
+          "moreType": -1,
+          "moreParam": "",
+          "userTagId": "",
+          "moreActionUrl": "",
+          "reportInfo": {
+            "strategy": -1,
+            "days": -1,
+            "sourceType": -1
+          },
+          "recomBookName": "",
+          "order": 0
+        },
+        "69048f8112e89a3a2ffeeb5a": {
+          "id": "69048f8112e89a3a2ffeeb5a",
+          "title": "Hot Tags",
+          "subTitle": "",
+          "type": 3010,
+          "background": "",
+          "contentId": "69048f8112e89a3a2ffeeb5b",
+          "abReportInfo": "",
+          "abType": 0,
+          "contentItems": [
+            {
+              "newUpdateCount": 25556,
+              "tagInfo": [
+                {
+                  "tagId": 41000059,
+                  "tagName": "ANIME",
+                  "bookCount": 31412
+                },
+                {
+                  "tagId": 41000057,
+                  "tagName": "ISEKAI",
+                  "bookCount": 21244
+                },
+                {
+                  "tagId": 41000069,
+                  "tagName": "NARUTO",
+                  "bookCount": 16271
+                },
+                {
+                  "tagId": 41000197,
+                  "tagName": "MARVEL",
+                  "bookCount": 10281
+                },
+                {
+                  "tagId": 41001958,
+                  "tagName": "ONE PIECE",
+                  "bookCount": 8792
+                },
+                {
+                  "tagId": 41000499,
+                  "tagName": "SMUT",
+                  "bookCount": 6275
+                },
+                {
+                  "tagId": 41000413,
+                  "tagName": "HARRY POTTER",
+                  "bookCount": 6224
+                },
+                {
+                  "tagId": 51065923,
+                  "tagName": "SUPERNATURAL",
+                  "bookCount": 5926
+                },
+                {
+                  "tagId": 41006270,
+                  "tagName": "MY HERO ACADEMIA",
+                  "bookCount": 5287
+                },
+                {
+                  "tagId": 41000038,
+                  "tagName": "DC",
+                  "bookCount": 4853
+                },
+                {
+                  "tagId": 41000121,
+                  "tagName": "ACTION",
+                  "bookCount": 87313
+                },
+                {
+                  "tagId": 41000120,
+                  "tagName": "ADVENTURE",
+                  "bookCount": 72900
+                },
+                {
+                  "tagId": 41000075,
+                  "tagName": "REINCARNATION",
+                  "bookCount": 52062
+                },
+                {
+                  "tagId": 41000010,
+                  "tagName": "ROMANCE",
+                  "bookCount": 50833
+                },
+                {
+                  "tagId": 41000016,
+                  "tagName": "SYSTEM",
+                  "bookCount": 40271
+                },
+                {
+                  "tagId": 41000147,
+                  "tagName": "R18",
+                  "bookCount": 32942
+                },
+                {
+                  "tagId": 41000037,
+                  "tagName": "HAREM",
+                  "bookCount": 32822
+                },
+                {
+                  "tagId": 41000799,
+                  "tagName": "OVERPOWERED",
+                  "bookCount": 31377
+                },
+                {
+                  "tagId": 41000170,
+                  "tagName": "COMEDY",
+                  "bookCount": 27025
+                },
+                {
+                  "tagId": 41000074,
+                  "tagName": "WEAKTOSTRONG",
+                  "bookCount": 24207
+                }
+              ]
+            }
+          ],
+          "expireTime": 0,
+          "blockExtend": null,
+          "changeable": false,
+          "apiType": 0,
+          "apiParam": "",
+          "moreType": 3002,
+          "moreParam": "",
+          "userTagId": "",
+          "moreActionUrl": "/search/advancedTags?from=fanfic",
+          "reportInfo": {
+            "strategy": -1,
+            "days": -1,
+            "sourceType": -1
+          },
+          "recomBookName": "",
+          "order": 1
+        },
+        "69048f8112e89a3a2ffeeb5d": {
+          "id": "69048f8112e89a3a2ffeeb5d",
+          "title": "Popular Ranking",
+          "subTitle": "According to the release time of the book.",
+          "type": 3011,
+          "background": "",
+          "contentId": "",
+          "abReportInfo": "",
+          "abType": 0,
+          "contentItems": [
+            {
+              "listTypeList": [
+                {
+                  "listTypeName": "Monthly",
+                  "listType": 5,
+                  "selected": true,
+                  "items": [
+                    {
+                      "bookId": "35912094000491805",
+                      "bookName": "The Boys: I Became The Deep",
+                      "coverUpdateTime": 1779204972924,
+                      "tagInfo": [
+                        {
+                          "id": 41000121,
+                          "tagName": "ACTION",
+                          "enTagName": "ACTION",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000147,
+                          "tagName": "R18",
+                          "enTagName": "R18",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000170,
+                          "tagName": "COMEDY",
+                          "enTagName": "COMEDY",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41001330,
+                          "tagName": "SUPERPOWERS",
+                          "enTagName": "SUPERPOWERS",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000037,
+                          "tagName": "HAREM",
+                          "enTagName": "HAREM",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000132,
+                          "tagName": "TRANSMIGRATION",
+                          "enTagName": "TRANSMIGRATION",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41001702,
+                          "tagName": "VILLAIN",
+                          "enTagName": "VILLAIN",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000057,
+                          "tagName": "ISEKAI",
+                          "enTagName": "ISEKAI",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000059,
+                          "tagName": "ANIME",
+                          "enTagName": "ANIME",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000015,
+                          "tagName": "ANTIHERO",
+                          "enTagName": "ANTIHERO",
+                          "likeCount": 0,
+                          "like": false
+                        }
+                      ]
+                    },
+                    {
+                      "bookId": "35835026408021905",
+                      "bookName": "MHA: The Reincarnation of Satoru Gojo",
+                      "coverUpdateTime": 1780285394744,
+                      "tagInfo": [
+                        {
+                          "id": 41000010,
+                          "tagName": "ROMANCE",
+                          "enTagName": "ROMANCE",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000074,
+                          "tagName": "WEAKTOSTRONG",
+                          "enTagName": "WEAKTOSTRONG",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41001330,
+                          "tagName": "SUPERPOWERS",
+                          "enTagName": "SUPERPOWERS",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000059,
+                          "tagName": "ANIME",
+                          "enTagName": "ANIME",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000015,
+                          "tagName": "ANTIHERO",
+                          "enTagName": "ANTIHERO",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41006270,
+                          "tagName": "MY HERO ACADEMIA",
+                          "enTagName": "MY HERO ACADEMIA",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 51063749,
+                          "tagName": "HIGHIQ",
+                          "enTagName": "HIGHIQ",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000776,
+                          "tagName": "LIGHTNOVEL",
+                          "enTagName": "LIGHTNOVEL",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 51010858,
+                          "tagName": "INVINCIBLE",
+                          "enTagName": "INVINCIBLE",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 51067046,
+                          "tagName": "JUJUTSU KAISEN",
+                          "enTagName": "JUJUTSU KAISEN",
+                          "likeCount": 0,
+                          "like": false
+                        }
+                      ]
+                    },
+                    {
+                      "bookId": "35872749708715205",
+                      "bookName": "Naruto: Konoha’s Most Dangerous Medical Ninja",
+                      "coverUpdateTime": 1778842947102,
+                      "tagInfo": [
+                        {
+                          "id": 41000059,
+                          "tagName": "ANIME",
+                          "enTagName": "ANIME",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000069,
+                          "tagName": "NARUTO",
+                          "enTagName": "NARUTO",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 51065923,
+                          "tagName": "SUPERNATURAL",
+                          "enTagName": "SUPERNATURAL",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 51066152,
+                          "tagName": "ORIGINAL",
+                          "enTagName": "ORIGINAL",
+                          "likeCount": 0,
+                          "like": false
+                        }
+                      ]
+                    },
+                    {
+                      "bookId": "35876025600831005",
+                      "bookName": "(R-18) I Received an App That Turns JAV Codes into Reality Scenario",
+                      "coverUpdateTime": 1778859145143,
+                      "tagInfo": [
+                        {
+                          "id": 41000010,
+                          "tagName": "ROMANCE",
+                          "enTagName": "ROMANCE",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000016,
+                          "tagName": "SYSTEM",
+                          "enTagName": "SYSTEM",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000147,
+                          "tagName": "R18",
+                          "enTagName": "R18",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000037,
+                          "tagName": "HAREM",
+                          "enTagName": "HAREM",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41001297,
+                          "tagName": "SLICEOFLIFE",
+                          "enTagName": "SLICEOFLIFE",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41004234,
+                          "tagName": "BEAUTY",
+                          "enTagName": "BEAUTY",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000499,
+                          "tagName": "SMUT",
+                          "enTagName": "SMUT",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 51006885,
+                          "tagName": "CAMPUS",
+                          "enTagName": "CAMPUS",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41002630,
+                          "tagName": "URBAN",
+                          "enTagName": "URBAN",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41001289,
+                          "tagName": "YURI",
+                          "enTagName": "YURI",
+                          "likeCount": 0,
+                          "like": false
+                        }
+                      ]
+                    },
+                    {
+                      "bookId": "35913676308449805",
+                      "bookName": "Naruto:Instant Mastery",
+                      "coverUpdateTime": 1779910780413,
+                      "tagInfo": [
+                        {
+                          "id": 41000121,
+                          "tagName": "ACTION",
+                          "enTagName": "ACTION",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000010,
+                          "tagName": "ROMANCE",
+                          "enTagName": "ROMANCE",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000120,
+                          "tagName": "ADVENTURE",
+                          "enTagName": "ADVENTURE",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000147,
+                          "tagName": "R18",
+                          "enTagName": "R18",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41001297,
+                          "tagName": "SLICEOFLIFE",
+                          "enTagName": "SLICEOFLIFE",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000057,
+                          "tagName": "ISEKAI",
+                          "enTagName": "ISEKAI",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000059,
+                          "tagName": "ANIME",
+                          "enTagName": "ANIME",
+                          "likeCount": 0,
+                          "like": false
+                        },
+                        {
+                          "id": 41000069,
+                          "tagName": "NARUTO",
+                          "enTagName": "NARUTO",
+                          "likeCount": 0,
+                          "like": false
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "listTypeName": "Season",
+                  "listType": 4,
+                  "selected": false,
+                  "items": []
+                },
+                {
+                  "listTypeName": "Bi-annual",
+                  "listType": 3,
+                  "selected": false,
+                  "items": []
+                },
+                {
+                  "listTypeName": "Annual",
+                  "listType": 2,
+                  "selected": false,
+                  "items": []
+                },
+                {
+                  "listTypeName": "All-time",
+                  "listType": 0,
+                  "selected": false,
+                  "items": []
+                }
+              ],
+              "rankParams": {
+                "rankId": "popular_rank",
+                "listType": 5,
+                "type": 4,
+                "timeType": 1,
+                "bookStatus": 0,
+                "sourceType": 0,
+                "signStatus": 0,
+                "sex": 1,
+                "pageIndex": 1,
+                "pageSize": 5
+              },
+              "actionUrl": "/ranking/fanfic"
+            }
+          ],
+          "expireTime": 0,
+          "blockExtend": null,
+          "changeable": false,
+          "apiType": 0,
+          "apiParam": "",
+          "moreType": -1,
+          "moreParam": "",
+          "userTagId": "",
+          "moreActionUrl": "",
+          "reportInfo": {
+            "strategy": -1,
+            "days": -1,
+            "sourceType": -1
+          },
+          "recomBookName": "",
+          "order": 2
+        },
+        "69048f8112e89a3a2ffeeb61": {
+          "id": "69048f8112e89a3a2ffeeb61",
+          "title": "Reader's Recommend",
+          "subTitle": "",
+          "type": 2017,
+          "background": "",
+          "contentId": "",
+          "abReportInfo": "",
+          "abType": 0,
+          "contentItems": [
+            {
+              "reviewId": "932141873982734336",
+              "content": "a new perspective of a Jujutsu kaisen fanfic. it offers a new outlook on JJK and the infinite revive and retaining of abilities is very novel.",
+              "replyNums": 0,
+              "totalScore": 4.6,
+              "createTime": 1780853510000,
+              "userId": 4326629365,
+              "userName": "dr1chaser",
+              "headImageId": 1707001797703,
+              "bookId": "36065548608617005",
+              "bookType": 0,
+              "bookName": "Jujutsu kaisen: I Will Duel Sukuna",
+              "recommendCnt": 26,
+              "coverUpdateTime": 1780852333473,
+              "authorName": "Eternalmonarchh"
+            },
+            {
+              "reviewId": "932110160908910592",
+              "content": "Welcome! Don't get confused by the title, it's a Jujutsu Kaisen fic, I just added my flair to it. \r\n\r\nI decided to make this fanfiction because I haven't been able to see a good weak-to-strong fic of JJK. The most apparent are fics where MCs either occupied already existing OP characters, or would have a technique that's so broken that it serves no purpose besides self-fulfillment.\r\n\r\nAsk whatever questions you may have. I'll answer them here:",
+              "replyNums": 4,
+              "totalScore": 5,
+              "createTime": 1780845949000,
+              "userId": 4306434341,
+              "userName": "Shiriai",
+              "headImageId": 1780842543081,
+              "bookId": "36071973100809005",
+              "bookType": 0,
+              "bookName": "Jujutsu Taihen!",
+              "recommendCnt": 191,
+              "coverUpdateTime": 1780819014051,
+              "authorName": "Shiriai"
+            },
+            {
+              "reviewId": "932168539522072576",
+              "content": "This is a great story for those who like hero story. Mc personality is not for me, even with enhanced learning still stupid, especially for one living in Gotham. Other than that, it's a classic heroes story",
+              "replyNums": 0,
+              "totalScore": 4,
+              "createTime": 1780859868000,
+              "userId": 4300284097,
+              "userName": "PickupSon",
+              "headImageId": 1543151073978,
+              "bookId": "32036694900339105",
+              "bookType": 0,
+              "bookName": "Beyond the Limit (DC)",
+              "recommendCnt": 10636,
+              "coverUpdateTime": 1775025696966,
+              "authorName": "ISBF"
+            },
+            {
+              "reviewId": "932170012020572160",
+              "content": "The novel is very good in every aspect, from the writing to the story and The novel is very good in every aspect, from the writing to the character development. My only personal complaint is about the romantic interest, Jinx, whom I don't like.",
+              "replyNums": 0,
+              "totalScore": 5,
+              "createTime": 1780860219000,
+              "userId": 4323202393,
+              "userName": "Biscuit_8",
+              "headImageId": 1764571090053,
+              "bookId": "34793227500405605",
+              "bookType": 0,
+              "bookName": "Arcane: The Gods Want Me to Pick a Route",
+              "recommendCnt": 10662,
+              "coverUpdateTime": 1772375698653,
+              "authorName": "Razeil"
+            },
+            {
+              "reviewId": "932104765440196608",
+              "content": "Overall, it’s not bad—it’s a decent fanfic—but I’d advise the author to check out other novels and fanfics to see how the ANBU actually operates. Because from what I’ve seen, this seems like a bit of a slapdash job. The ANBU simply can’t operate like that, especially when it comes to monitoring the genjutsu users. It can’t be just one ANBU member watching over him; there should be at least three from ANBU or the Root.\r\nAt least a few members, because Danzo wouldn’t leave the Jinchūriki unsupervised. They’re unlikely to work alone; it’s impossible. What if some ninjas from the Land of Lightning show up again and try to capture the Jinchūriki—how is a single ANBU agent supposed to handle that? That’s why I’d advise the author to read another fanfic: “Naruto: I Got ‘Return by Death’ Kind Of Cheat!” Even though it’s a Chinese knockoff, it does a pretty good job—maybe even a great job—of describing the realities of ANBU work.",
+              "replyNums": 0,
+              "totalScore": 4,
+              "createTime": 1780844663000,
+              "userId": 4318446495,
+              "userName": "xCeeZy",
+              "headImageId": 1777048620480,
+              "bookId": "35913676308449805",
+              "bookType": 0,
+              "bookName": "Naruto:Instant Mastery",
+              "recommendCnt": 7539,
+              "coverUpdateTime": 1779910780413,
+              "authorName": "Yogun_Van"
+            },
+            {
+              "reviewId": "932105069803995136",
+              "content": "Overall, it’s not bad—it’s a decent fanfic—but I’d advise the author to check out other novels and fanfics to see how the ANBU actually operates. Because from what I’ve seen, this seems like a bit of a slapdash job. The ANBU simply can’t operate like that, especially when it comes to monitoring the Jinchūriki . It can’t be just one ANBU member watching over him; there should be at least three from ANBU or the Root.\r\nAt least a few members, because Danzo wouldn’t leave the Jinchūriki unsupervised. They’re unlikely to work alone; it’s impossible. What if some ninjas from the Land of Lightning show up again and try to capture the Jinchūriki—how is a single ANBU agent supposed to handle that? That’s why I’d advise the author to read another fanfic: “Naruto: I Got ‘Return by Death’ Kind Of Cheat!” Even though it’s a Chinese knockoff, it does a pretty good job—maybe even a great job—of describing the realities of ANBU work.",
+              "replyNums": 0,
+              "totalScore": 4,
+              "createTime": 1780844736000,
+              "userId": 4318446495,
+              "userName": "xCeeZy",
+              "headImageId": 1777048620480,
+              "bookId": "35913676308449805",
+              "bookType": 0,
+              "bookName": "Naruto:Instant Mastery",
+              "recommendCnt": 7539,
+              "coverUpdateTime": 1779910780413,
+              "authorName": "Yogun_Van"
+            },
+            {
+              "reviewId": "932148470624747520",
+              "content": "definitely interesting and i’ll wait for more chapters to see if it gets better. it seems like kind of a slow burn to start which is fine but almost every decision or choice the mc ends up doing or not doing makes me think he’s a moron",
+              "replyNums": 0,
+              "totalScore": 4,
+              "createTime": 1780855083000,
+              "userId": 4321960254,
+              "userName": "CreamyCheesy",
+              "headImageId": 1660357905631,
+              "bookId": "36076293400869805",
+              "bookType": 0,
+              "bookName": "I Died on a Plane and Woke Up In Gotham with a Gacha System",
+              "recommendCnt": 354,
+              "coverUpdateTime": 1780846708487,
+              "authorName": "Amiii_"
+            },
+            {
+              "reviewId": "932089417341009920",
+              "content": "For Danmachi & Jujutsu fans, I would like to know the story routes you had in mind. \n\nA simple reminder, there won't be any other stuff and techniques outside the verse of Danmachi except Ten Shadows Technique to keep the lore and power system since I'm not a fan of making it too complicated.",
+              "replyNums": 0,
+              "totalScore": 5,
+              "createTime": 1780841004000,
+              "userId": 4320914657,
+              "userName": "Unleashed_Echo",
+              "headImageId": 1676966538193,
+              "bookId": "36072276600817605",
+              "bookType": 0,
+              "bookName": "Danmachi: Ten Shadows Technique",
+              "recommendCnt": 144,
+              "coverUpdateTime": 1780826318395,
+              "authorName": "Unleashed_Echo"
+            },
+            {
+              "reviewId": "932152064606339072",
+              "content": "It is a fun story give it a try it's noting deep emotional or ground braking but is better than 80% of the AI generated or google translated bullshit out there.  ",
+              "replyNums": 0,
+              "totalScore": 4.4,
+              "createTime": 1780855940000,
+              "userId": 4501814548,
+              "userName": "The_Normal_Men",
+              "headImageId": 1737749336131,
+              "bookId": "35982147800961105",
+              "bookType": 0,
+              "bookName": "Absolute Homelander",
+              "recommendCnt": 2122,
+              "coverUpdateTime": 1780217935962,
+              "authorName": "COSMIC_GEAR"
+            },
+            {
+              "reviewId": "932125705569959936",
+              "content": "this is too good for me our mc behavior and planning we understand,every character has emotions that are not fake or different from what we know.",
+              "replyNums": 0,
+              "totalScore": 5,
+              "createTime": 1780849656000,
+              "userId": 4501149674,
+              "userName": "Amit_Yadav_8894",
+              "headImageId": 1731929050214,
+              "bookId": "35997616500245505",
+              "bookType": 0,
+              "bookName": "Transmigrated into The Boys, Starting as Soldier Boy",
+              "recommendCnt": 3391,
+              "coverUpdateTime": 1780057180330,
+              "authorName": "Pink_Snake2"
+            },
+            {
+              "reviewId": "932101093876432896",
+              "content": "Yeah just take my powerstones. From the few chapters I’ve read this is fire, well written, detailed while not being too detailed. Keep updating ur fics and PLEASE don’t burn ou😭🙏t",
+              "replyNums": 0,
+              "totalScore": 4.6,
+              "createTime": 1780843788000,
+              "userId": 4328359161,
+              "userName": "Nuh_Uhh",
+              "headImageId": 1739253032397,
+              "bookId": "36069763708673005",
+              "bookType": 0,
+              "bookName": "The Legacy of Black",
+              "recommendCnt": 99,
+              "coverUpdateTime": 1780785892363,
+              "authorName": "Dstephen37"
+            },
+            {
+              "reviewId": "932088497584537600",
+              "content": "Bro 😭. How am I suppose to choose what story to give power stones to. Keep up the work and don’t burn yourself out. Automatic 5 stars from me.",
+              "replyNums": 1,
+              "totalScore": 5,
+              "createTime": 1780840784000,
+              "userId": 4313414332,
+              "userName": "CatLover33",
+              "headImageId": 1740678026976,
+              "bookId": "36069763708673005",
+              "bookType": 0,
+              "bookName": "The Legacy of Black",
+              "recommendCnt": 99,
+              "coverUpdateTime": 1780785892363,
+              "authorName": "Dstephen37"
+            },
+            {
+              "reviewId": "932156916640120832",
+              "content": "Hasta ahora es el mejor fuc de chainsaw man me encanta tu forma de escribir sigue asi amigo aunque me gustaría que las actualizaciones fueran mas constantes",
+              "replyNums": 0,
+              "totalScore": 5,
+              "createTime": 1780857097000,
+              "userId": 4328289903,
+              "userName": "Miguel_Guzman_9895",
+              "headImageId": 1720739945303,
+              "bookId": "34439807808809505",
+              "bookType": 0,
+              "bookName": "Chainsawman : The Pig Devil",
+              "recommendCnt": 6488,
+              "coverUpdateTime": 1764515125549,
+              "authorName": "Emmanuel_Capricorn"
+            },
+            {
+              "reviewId": "932038154133831680",
+              "content": "A beautiful and very smooth-flowing series. It has great potential—I just hope the author continues it.",
+              "replyNums": 0,
+              "totalScore": 5,
+              "createTime": 1780828782000,
+              "userId": 4501612379,
+              "userName": "LimitlessDV",
+              "headImageId": 1775985070855,
+              "bookId": "36018867800605105",
+              "bookType": 0,
+              "bookName": "One Piece: The Sword Hunter",
+              "recommendCnt": 145,
+              "coverUpdateTime": 1780278557799,
+              "authorName": "TheDevotedReader"
+            },
+            {
+              "reviewId": "932123959149854720",
+              "content": "5 stars. The pacing was kinda bad until ch 14, where it got better. The story has good original side characters ( the uncle). Funny momenta and good writing quality.  I do feel like the fighting between Hawks and the Rhino was kinda dull, but he quickly redeemed it with the fight with Bakugo. And I feel like the dialogue between mha characters can get better. The author is also a w. So, 8/10 far for me",
+              "replyNums": 1,
+              "totalScore": 5,
+              "createTime": 1780849239000,
+              "userId": 4503408873,
+              "userName": "Qin_shi_king",
+              "headImageId": 1769820344038,
+              "bookId": "36019544400621405",
+              "bookType": 0,
+              "bookName": "MHA: The High Roller Hero...?",
+              "recommendCnt": 346,
+              "coverUpdateTime": 1780487176330,
+              "authorName": "fuegoWRLD"
+            },
+            {
+              "reviewId": "932128721240915968",
+              "content": "Going into this I thought it would be a nice read and a way to fill in the gap between other stories I like. But then i started reading it and well i finished all 36 available chapters in one day, and now i want more. the story is great and I like the MC very much. i do like hero MC's, but when they are this questionable type of hero/villain, i just adore them. And i know it's the webnovel type of psychotic MC, but give me a break,I like them when they are written really well, and this one is amazing. I highly recommend the story, and since i haven't read any other good DC stories in a while, this was a breath of fresh air.",
+              "replyNums": 0,
+              "totalScore": 5,
+              "createTime": 1780850375000,
+              "userId": 4319006387,
+              "userName": "smileyyyyyy",
+              "headImageId": 1700739868359,
+              "bookId": "35753547900730105",
+              "bookType": 0,
+              "bookName": "DC: All for One",
+              "recommendCnt": 8069,
+              "coverUpdateTime": 1777634024127,
+              "authorName": "TheManUnderTheBed"
+            },
+            {
+              "reviewId": "932033838635483136",
+              "content": "Esta es otra reseña mía voy a decir que la historia es muy buena tienen que leerlo si o si los capítulos son largos y eso es muy pero muy bueno esta historia me engancho XDDD no dormí 3 días para leer esto jajaj 👍👍👍  saludos autor una obra 10 de 10",
+              "replyNums": 0,
+              "totalScore": 5,
+              "createTime": 1780827753000,
+              "userId": 4327188383,
+              "userName": "DaoistRXP0e7",
+              "headImageId": 1762732689083,
+              "bookId": "34345257900774605",
+              "bookType": 0,
+              "bookName": "Mushoku Tensei: Food and Steel",
+              "recommendCnt": 2304,
+              "coverUpdateTime": 1768557562877,
+              "authorName": "Tinkertran"
+            },
+            {
+              "reviewId": "932134228009811968",
+              "content": "Good read. Binge the whole thing shortly after finding this in the Completed Fanfics of #HarryPotter. Thanks for writing! ",
+              "replyNums": 0,
+              "totalScore": 5,
+              "createTime": 1780851687000,
+              "userId": 4310482219,
+              "userName": "_Kaitlin_",
+              "headImageId": 1717080173249,
+              "bookId": "30718067008400205",
+              "bookType": 0,
+              "bookName": "Harry Potter and The Other",
+              "recommendCnt": 711,
+              "coverUpdateTime": 1727258413342,
+              "authorName": "mzorokek"
+            },
+            {
+              "reviewId": "932150174560747520",
+              "content": "This is currently on trial along with some other fics, I'll let you know later this month if I'll be translating this fic permanently.\r\n.\r\n.\r\n.\r\n.\r\nRaw: 海贼：玛丽乔亚的王族宇智波！\r\n",
+              "replyNums": 0,
+              "totalScore": 5,
+              "createTime": 1780855489000,
+              "userId": 4501131574,
+              "userName": "Aarvan",
+              "headImageId": 1767788829149,
+              "bookId": "35920634900672105",
+              "bookType": 0,
+              "bookName": "One Piece: The Royal Uchiha of Mary Geoise!",
+              "recommendCnt": 118,
+              "coverUpdateTime": 1780340377503,
+              "authorName": "Aarvan_Too"
+            },
+            {
+              "reviewId": "932029327007154176",
+              "content": "This is a peak fanfiction because i am writting it. There will be NO HAREM, NOT EVEN A GIRLFRIEND. The story revolves around TWD Taletale game and also TWD TV series. It will not follow the canon, directions will divert with Reader's Choice. People will die like butter. The MC Jake is not a genius, he is an ordinary person. Not only he transmigrated in the TWD but he entered with his memory. hehe! But he is just a ordinary man and does not remember shit. He makes rash actions and suffers the consequence....",
+              "replyNums": 0,
+              "totalScore": 5,
+              "createTime": 1780826677000,
+              "userId": 4501004571,
+              "userName": "Demented_Adult24",
+              "headImageId": 1769078745500,
+              "bookId": "35973030800762105",
+              "bookType": 0,
+              "bookName": "The Walking Dead : Jake Churchill TWD",
+              "recommendCnt": 87,
+              "coverUpdateTime": 1780253174732,
+              "authorName": "Demented_Adult24"
+            },
+            {
+              "reviewId": "932099790827880448",
+              "content": "Having finished it, I recommend reading it; the scenarios are generally realistic.\n\n\n\n\n_________________________________________________________________________________________________________",
+              "replyNums": 0,
+              "totalScore": 4.8,
+              "createTime": 1780843477000,
+              "userId": 4317547957,
+              "userName": "GALAXY_6415",
+              "headImageId": 1624723540883,
+              "bookId": "34001575308516505",
+              "bookType": 0,
+              "bookName": "Picking Up Fragments in Douluo Continent [Completed]",
+              "recommendCnt": 1739,
+              "coverUpdateTime": 1763830244702,
+              "authorName": "2ndTribulations"
+            }
+          ],
+          "expireTime": 0,
+          "blockExtend": null,
+          "changeable": false,
+          "apiType": 0,
+          "apiParam": "",
+          "moreType": -1,
+          "moreParam": "",
+          "userTagId": "",
+          "moreActionUrl": "",
+          "reportInfo": {
+            "strategy": -1,
+            "days": -1,
+            "sourceType": -1
+          },
+          "recomBookName": "",
+          "order": 3
+        },
+        "69048f8112e89a3a2ffeeb5f": {
+          "id": "69048f8112e89a3a2ffeeb5f",
+          "title": "Active Authors Daily",
+          "subTitle": "",
+          "type": 2016,
+          "background": "",
+          "contentId": "",
+          "abReportInfo": "",
+          "abType": 0,
+          "contentItems": [
+            {
+              "userId": 4503235753,
+              "headImageId": 1749529459169,
+              "authorId": "32948343908419601",
+              "authorName": "Orengeflame27",
+              "tagInfo": [
+                {
+                  "id": 41000057,
+                  "tagName": "ISEKAI",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000059,
+                  "tagName": "ANIME",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000868,
+                  "tagName": "ECCHI",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51066158,
+                  "tagName": "HIGH SCHOOL DXD",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "newChapterTime": 1780861016000
+            },
+            {
+              "userId": 4500826888,
+              "headImageId": 1728920883518,
+              "authorId": "32104507008726601",
+              "authorName": "quan_Webb",
+              "tagInfo": [
+                {
+                  "id": 41000059,
+                  "tagName": "ANIME",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000079,
+                  "tagName": "DRAGON BALL",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "newChapterTime": 1780860763000
+            },
+            {
+              "userId": 4322801771,
+              "headImageId": 1771781223634,
+              "authorId": "24711139805336001",
+              "authorName": "Greenbaypitbull",
+              "tagInfo": [
+                {
+                  "id": 41000065,
+                  "tagName": "STAR WARS",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "newChapterTime": 1780860710000
+            },
+            {
+              "userId": 4504357486,
+              "headImageId": 1759990332557,
+              "authorId": "33994898400355601",
+              "authorName": "SusReader",
+              "tagInfo": [
+                {
+                  "id": 41000499,
+                  "tagName": "SMUT",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41001958,
+                  "tagName": "ONE PIECE",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "newChapterTime": 1780861046000
+            },
+            {
+              "userId": 4503712613,
+              "headImageId": 1756748589286,
+              "authorId": "33385031100599201",
+              "authorName": "Razeil",
+              "tagInfo": [
+                {
+                  "id": 51066114,
+                  "tagName": "THE LORD OF THE RINGS",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000413,
+                  "tagName": "HARRY POTTER",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51067110,
+                  "tagName": "DUNGEONS & DRAGONS",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "newChapterTime": 1780860960000
+            },
+            {
+              "userId": 4327998301,
+              "headImageId": 1717962148170,
+              "authorId": "31133196308729501",
+              "authorName": "Daoist3kGx8v",
+              "tagInfo": [
+                {
+                  "id": 41000069,
+                  "tagName": "NARUTO",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "newChapterTime": 1780860887000
+            },
+            {
+              "userId": 4322270348,
+              "headImageId": 1661296572243,
+              "authorId": "24125513406406901",
+              "authorName": "Croto",
+              "tagInfo": [
+                {
+                  "id": 41000059,
+                  "tagName": "ANIME",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41001958,
+                  "tagName": "ONE PIECE",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "newChapterTime": 1780860672000
+            },
+            {
+              "userId": 4502570133,
+              "headImageId": 1754153155252,
+              "authorId": "32363347500296101",
+              "authorName": "Dawnstarxiii",
+              "tagInfo": [
+                {
+                  "id": 41000065,
+                  "tagName": "STAR WARS",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "newChapterTime": 1780860809000
+            },
+            {
+              "userId": 4505465912,
+              "headImageId": 1773136707173,
+              "authorId": "35309505508665401",
+              "authorName": "Aground_Slept",
+              "tagInfo": [
+                {
+                  "id": 41000069,
+                  "tagName": "NARUTO",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51066142,
+                  "tagName": "DEMON SLAYER",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000059,
+                  "tagName": "ANIME",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "newChapterTime": 1780861031000
+            },
+            {
+              "userId": 4504861561,
+              "headImageId": 1776781891154,
+              "authorId": "34524817308753601",
+              "authorName": "Mythborne",
+              "tagInfo": [
+                {
+                  "id": 51065923,
+                  "tagName": "SUPERNATURAL",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000079,
+                  "tagName": "DRAGON BALL",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "newChapterTime": 1780860900000
+            },
+            {
+              "userId": 4328195727,
+              "headImageId": 1751931582251,
+              "authorId": "29984856808267801",
+              "authorName": "Reader_of_dreams",
+              "tagInfo": [
+                {
+                  "id": 41000059,
+                  "tagName": "ANIME",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000038,
+                  "tagName": "DC",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51066156,
+                  "tagName": "HAZBIN HOTEL",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "newChapterTime": 1780860874000
+            },
+            {
+              "userId": 4324722399,
+              "headImageId": 1687796920040,
+              "authorId": "33656832808359701",
+              "authorName": "Vikrant_Utekar",
+              "tagInfo": [
+                {
+                  "id": 41000197,
+                  "tagName": "MARVEL",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000413,
+                  "tagName": "HARRY POTTER",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51066138,
+                  "tagName": "CROSSOVER",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "newChapterTime": 1780860818000
+            },
+            {
+              "userId": 4506096990,
+              "headImageId": 1776596234674,
+              "authorId": "35655446400058401",
+              "authorName": "Bold_Verse",
+              "tagInfo": [
+                {
+                  "id": 41001958,
+                  "tagName": "ONE PIECE",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000079,
+                  "tagName": "DRAGON BALL",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "newChapterTime": 1780860650000
+            },
+            {
+              "userId": 4506442790,
+              "headImageId": 1779729606958,
+              "authorId": "35968852700701101",
+              "authorName": "byGabriel",
+              "tagInfo": [
+                {
+                  "id": 51067030,
+                  "tagName": "MY TEEN ROMANTIC COMEDY SNAFU",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "newChapterTime": 1780860943000
+            },
+            {
+              "userId": 4311766153,
+              "headImageId": 1740142614966,
+              "authorId": "17901911305288801",
+              "authorName": "Mrlegantrop",
+              "tagInfo": [
+                {
+                  "id": 41000091,
+                  "tagName": "YAOI",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000868,
+                  "tagName": "ECCHI",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51066156,
+                  "tagName": "HAZBIN HOTEL",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "newChapterTime": 1780860811000
+            },
+            {
+              "userId": 4504861561,
+              "headImageId": 1776781891154,
+              "authorId": "34524817308753601",
+              "authorName": "Mythborne",
+              "tagInfo": [
+                {
+                  "id": 41001958,
+                  "tagName": "ONE PIECE",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "newChapterTime": 1780860780000
+            },
+            {
+              "userId": 259416251,
+              "headImageId": 0,
+              "authorId": "10404442206365701",
+              "authorName": "YellowScarf",
+              "tagInfo": [
+                {
+                  "id": 51066151,
+                  "tagName": "GAME OF THRONES",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51066125,
+                  "tagName": "A SONG OF ICE AND FIRE",
+                  "enTagName": "",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "newChapterTime": 1780861081000
+            }
+          ],
+          "expireTime": 0,
+          "blockExtend": null,
+          "changeable": false,
+          "apiType": 0,
+          "apiParam": "",
+          "moreType": -1,
+          "moreParam": "",
+          "userTagId": "",
+          "moreActionUrl": "",
+          "reportInfo": {
+            "strategy": -1,
+            "days": -1,
+            "sourceType": -1
+          },
+          "recomBookName": "",
+          "order": 4
+        },
+        "69048f8112e89a3a2ffeeb63": {
+          "id": "69048f8112e89a3a2ffeeb63",
+          "title": "You May Also Like",
+          "subTitle": "",
+          "type": 2011,
+          "background": "",
+          "contentId": "",
+          "abReportInfo": "",
+          "abType": 0,
+          "contentItems": [
+            {
+              "bookId": "35892998200129805",
+              "bookType": 0,
+              "bookName": "In Invincible as super saiyan [DBZ]",
+              "isShort": false,
+              "categoryId": 81006,
+              "categoryName": "Anime & Comics",
+              "authorName": "chama9ma9",
+              "bookCoverId": 1779024772934,
+              "description": "[ISEKAI + OVERPOWERED + FACE-SLAPPING + HAREM]\nA man from our world gets transmigrated into Invincible world with complete powers of a Saiyan from DBZ.",
+              "totalScore": "",
+              "pvNum": 27936,
+              "tagInfos": [
+                {
+                  "id": 41000121,
+                  "tagName": "ACTION",
+                  "enTagName": "ACTION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000010,
+                  "tagName": "ROMANCE",
+                  "enTagName": "ROMANCE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000120,
+                  "tagName": "ADVENTURE",
+                  "enTagName": "ADVENTURE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41001330,
+                  "tagName": "SUPERPOWERS",
+                  "enTagName": "SUPERPOWERS",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000037,
+                  "tagName": "HAREM",
+                  "enTagName": "HAREM",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000799,
+                  "tagName": "OVERPOWERED",
+                  "enTagName": "OVERPOWERED",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000057,
+                  "tagName": "ISEKAI",
+                  "enTagName": "ISEKAI",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51066138,
+                  "tagName": "CROSSOVER",
+                  "enTagName": "CROSSOVER",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51010858,
+                  "tagName": "INVINCIBLE",
+                  "enTagName": "INVINCIBLE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000079,
+                  "tagName": "DRAGON BALL",
+                  "enTagName": "DRAGON BALL",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "chapterCnt": 8,
+              "statParams": "{\"V\":\"1\",\"alg\":\"181.0.1\",\"expid\":40003,\"itemid\":\"35892998200129805\",\"logid\":3654674350676474976,\"origin\":\"12058\",\"preitemid\":\"b_35892998200129805\",\"scene\":\"book_feed_fanfic\",\"type\":\"0\",\"version\":\"\"}",
+              "mTL": false,
+              "cornerMark": "",
+              "cornerMarkBgColor": null,
+              "itemDiscountInfo": {
+                "Rate": 0,
+                "Discountstr": "",
+                "EndTime": 0
+              },
+              "marketingTagInfos": [],
+              "inLibrary": 0
+            },
+            {
+              "bookId": "35893396700134205",
+              "bookType": 0,
+              "bookName": "Daily Life of Lustful Son",
+              "isShort": false,
+              "categoryId": 81001,
+              "categoryName": "Book&Literature",
+              "authorName": "UIGOD_Fun",
+              "bookCoverId": 1779022784625,
+              "description": "Short Intro:\n\n“Beep beep beep…”\n\nI waited for almost half a minute before the call was finally answered.\n\nWith a smile on her face, Chi Qinglan said softly, “Hello, Teacher Chu, I am Lin Yuan’s mother, Chi Qinglan.”\n\nThere was complete silence on the other end of the phone; no one spoke for several seconds.\n\nJust as Chi Qinglan frowned slightly, wondering what was going on, a slightly hurried voice suddenly came from the phone: “Hello… Lin Yuan’s mother, um… um… what do you want to say… ah!… please speak.”\n\nHer voice was charming and her moans were alluring and captivating, as if she were desperately suppressing something.\n\nChi Qinglan looked slightly surprised, her hand holding the phone trembled almost imperceptibly, and then a blush appeared on her cheeks.\n\nHer eyes flashed with shame and indignation, and she instantly understood what Teacher Chu on the other end of the phone was doing.\n\nChi Qinglan’s chest heaved slightly. She cursed inwardly, calmed herself down, and said in a low voice, “Teacher Chu… I might be a little late picking up Lin Yuan this afternoon. Could you please pass on my message? I’m worried that Lin Yuan will be anxious waiting after school.”\n\nAfter another long period of silence, just as Chi Qinglan was about to hang up, a series of crisp “pat-pat-pat” sounds suddenly came from the receiver, like raindrops hitting a car window in a downpour, rapid and urgent, accompanied by a “splashing” sound of liquid splashing.\n\n“Ahhh…”\n\nImmediately following was Teacher Chu’s lewd and extremely wanton screams.\n\nChi Qinglan finally lost her composure, her expression extremely angry. She had met this Teacher Chu before, and in her impression, Teacher Chu was an intellectual beauty with outstanding temperament and a scholarly air, who was very charming.\n\nChi Qinglan found it hard to believe that at noon, this elegant and well-mannered Teacher Chu would be so lewd in broad daylight, and that she didn’t even try to hide anything when she spoke to her on the phone.\n\n“Okay…okay…ahhh…” Chu Ning’s moaning came through the phone again. She could no longer control her tone, her voice was high-pitched and wanton.\n\n“Hmm… be gentle…” Teacher Chu Ning’s voice on the phone suddenly became charming and soft, her tone like she was coquettish.\n\nChi Qinglan hung up the phone without hesitation.\n\nJust as the call ended, a suppressed growl suddenly came from the phone.\n\nOr perhaps it’s more appropriate to say it’s a boy’s voice, because the voice is clear, youthful, innocent, and familiar.\n\nChi Qinglan was slightly taken aback. She subconsciously looked at the phone in her hand, but the call had already been disconnected and no sound could be heard.\n\nThe boy’s low growl kept echoing in her mind, and Chi Qinglan was instantly in a state of turmoil because the voice that came out at the end of the phone call was all too familiar to her, almost exactly the same as her son Lin Yuan’s voice!\n\nChi Qinglan’s face was ashen, her fair hands gripping her phone tightly, her slender fingers turning slightly white from the force. She stared at the phone screen, her expression changing rapidly.\n\n“Is that Yuan’er? Why does his voice sound so much like Yuan’er’s?” Chi Qinglan murmured to herself, her emotions surging like waves, unable to calm down for a long time.",
+              "totalScore": "",
+              "pvNum": 49773,
+              "tagInfos": [
+                {
+                  "id": 41000010,
+                  "tagName": "ROMANCE",
+                  "enTagName": "ROMANCE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000075,
+                  "tagName": "REINCARNATION",
+                  "enTagName": "REINCARNATION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000147,
+                  "tagName": "R18",
+                  "enTagName": "R18",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000170,
+                  "tagName": "COMEDY",
+                  "enTagName": "COMEDY",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000165,
+                  "tagName": "DARK",
+                  "enTagName": "DARK",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000037,
+                  "tagName": "HAREM",
+                  "enTagName": "HAREM",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41001297,
+                  "tagName": "SLICEOFLIFE",
+                  "enTagName": "SLICEOFLIFE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41001702,
+                  "tagName": "VILLAIN",
+                  "enTagName": "VILLAIN",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000499,
+                  "tagName": "SMUT",
+                  "enTagName": "SMUT",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51067346,
+                  "tagName": "FANFIC-INCEST",
+                  "enTagName": "FANFIC-INCEST",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "chapterCnt": 10,
+              "statParams": "{\"V\":\"1\",\"alg\":\"181.0.1\",\"expid\":40003,\"itemid\":\"35893396700134205\",\"logid\":3654674350676474976,\"origin\":\"12058\",\"preitemid\":\"b_35893396700134205\",\"scene\":\"book_feed_fanfic\",\"type\":\"0\",\"version\":\"\"}",
+              "mTL": false,
+              "cornerMark": "",
+              "cornerMarkBgColor": null,
+              "itemDiscountInfo": {
+                "Rate": 0,
+                "Discountstr": "",
+                "EndTime": 0
+              },
+              "marketingTagInfos": [],
+              "inLibrary": 0
+            },
+            {
+              "bookId": "35894507908079305",
+              "bookType": 0,
+              "bookName": "Haikyuu: With Observation Haki",
+              "isShort": false,
+              "categoryId": 81006,
+              "categoryName": "Anime & Comics",
+              "authorName": "JaDo_0",
+              "bookCoverId": 1779593197039,
+              "description": "Author's Note:\nHey everyone! This is my very first time writing a webnovel, so please bear with me. English is not my native language, so I am using AI tools to help polish and clean up my writing so you all get the best reading experience possible!\nThe concept of this story follows a 28-year-old, budget-conscious Japanese salaryman who dies via the classic \"Truck-kun\" and meets a Random Omnipotent Being (ROB). Through a gacha system, he reincarnates into the Haikyuu!! world with the appearance and name of a teenage Gojo Satoru, alongside a completely broken cheat skill: Advanced Observation Haki.\nI wanted to create a fun, overpowered protagonist who has a deep history with volleyball but a complicated past that keeps him away from the court initially. I hope you guys enjoy the story! Please share your thoughts, reviews, and any recommendations you have in the comments. Happy reading!\nNew chapters are uploaded daily at 9:00 AM and 9:00 PM (IST). Happy reading!",
+              "totalScore": "2.6",
+              "pvNum": 408802,
+              "tagInfos": [
+                {
+                  "id": 41000010,
+                  "tagName": "ROMANCE",
+                  "enTagName": "ROMANCE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000075,
+                  "tagName": "REINCARNATION",
+                  "enTagName": "REINCARNATION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000170,
+                  "tagName": "COMEDY",
+                  "enTagName": "COMEDY",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000799,
+                  "tagName": "OVERPOWERED",
+                  "enTagName": "OVERPOWERED",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41001297,
+                  "tagName": "SLICEOFLIFE",
+                  "enTagName": "SLICEOFLIFE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000059,
+                  "tagName": "ANIME",
+                  "enTagName": "ANIME",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51066138,
+                  "tagName": "CROSSOVER",
+                  "enTagName": "CROSSOVER",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51066958,
+                  "tagName": "HAIKYUU!!",
+                  "enTagName": "HAIKYUU!!",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "chapterCnt": 48,
+              "statParams": "{\"V\":\"1\",\"alg\":\"181.0.1\",\"expid\":40003,\"itemid\":\"35894507908079305\",\"logid\":3654674350676474976,\"origin\":\"12058\",\"preitemid\":\"b_35894507908079305\",\"scene\":\"book_feed_fanfic\",\"type\":\"0\",\"version\":\"\"}",
+              "mTL": false,
+              "cornerMark": "",
+              "cornerMarkBgColor": null,
+              "itemDiscountInfo": {
+                "Rate": 0,
+                "Discountstr": "",
+                "EndTime": 0
+              },
+              "marketingTagInfos": [],
+              "inLibrary": 0
+            },
+            {
+              "bookId": "35894644100149605",
+              "bookType": 0,
+              "bookName": "Lord of The Mysteries: Emperor",
+              "isShort": false,
+              "categoryId": 81001,
+              "categoryName": "Book&Literature",
+              "authorName": "Fooly_rlly",
+              "bookCoverId": 1779032653324,
+              "description": "An idiot in Lord of The Mysteries following the Hermit Pathway. Why is a retard on a pathway revolving around knowledge? Who knows? \n\n____\n\nA/N - Not good at descriptions, so js read. Btw the fl changed, it's Tracy now.",
+              "totalScore": "",
+              "pvNum": 27850,
+              "tagInfos": [
+                {
+                  "id": 41000121,
+                  "tagName": "ACTION",
+                  "enTagName": "ACTION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000010,
+                  "tagName": "ROMANCE",
+                  "enTagName": "ROMANCE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000120,
+                  "tagName": "ADVENTURE",
+                  "enTagName": "ADVENTURE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000074,
+                  "tagName": "WEAKTOSTRONG",
+                  "enTagName": "WEAKTOSTRONG",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000066,
+                  "tagName": "MYSTERY",
+                  "enTagName": "MYSTERY",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000165,
+                  "tagName": "DARK",
+                  "enTagName": "DARK",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000499,
+                  "tagName": "SMUT",
+                  "enTagName": "SMUT",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51065923,
+                  "tagName": "SUPERNATURAL",
+                  "enTagName": "SUPERNATURAL",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51067147,
+                  "tagName": "NOHAREM",
+                  "enTagName": "NOHAREM",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "chapterCnt": 11,
+              "statParams": "{\"V\":\"1\",\"alg\":\"181.0.1\",\"expid\":40003,\"itemid\":\"35894644100149605\",\"logid\":3654674350676474976,\"origin\":\"12058\",\"preitemid\":\"b_35894644100149605\",\"scene\":\"book_feed_fanfic\",\"type\":\"0\",\"version\":\"\"}",
+              "mTL": false,
+              "cornerMark": "",
+              "cornerMarkBgColor": null,
+              "itemDiscountInfo": {
+                "Rate": 0,
+                "Discountstr": "",
+                "EndTime": 0
+              },
+              "marketingTagInfos": [],
+              "inLibrary": 0
+            },
+            {
+              "bookId": "35906220708292105",
+              "bookType": 0,
+              "bookName": "Hogwarts’ Holy Grail War (Harry Potter/Hogwarts Legacy/Fate Crossover)",
+              "isShort": false,
+              "categoryId": 81001,
+              "categoryName": "Book&Literature",
+              "authorName": "Pink_Snake2",
+              "bookCoverId": 1779159247813,
+              "description": "Ethan, a transmigrator admitted to Hogwarts Wizarding School by special exemption, discovered that his talent seemed to be just the tiniest bit higher than everyone else’s. On top of that, he could even wield the legendary ancient magic.\n\nAnd so, his career of stirring up trouble in the wizarding world began.\n\nWhat’s this? A Holy Grail tainted by black mud? Chop it!\n\nWhat’s this? A bald, nose-less dark wizard? Cut him down!\n\nWhat’s this? The ghost of a big-shot boss from the last century? Send him on!\n\nWhat’s this? An ancient treasure hidden beneath the school? Mine now!\n\nAfter a battle that could hardly be called intense, Ethan looked at the various enemies collapsed in front of him, his face full of disdain.\n\n“I haven’t even started trying, and you’re already down.”\n\n...\n\nFan translation of 霍格沃茨与圣杯战争之遗 by 爱你的抛瓦, if you can, please support the original author.",
+              "totalScore": "",
+              "pvNum": 81516,
+              "tagInfos": [
+                {
+                  "id": 41000121,
+                  "tagName": "ACTION",
+                  "enTagName": "ACTION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000010,
+                  "tagName": "ROMANCE",
+                  "enTagName": "ROMANCE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000884,
+                  "tagName": "MAGIC",
+                  "enTagName": "MAGIC",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000799,
+                  "tagName": "OVERPOWERED",
+                  "enTagName": "OVERPOWERED",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000132,
+                  "tagName": "TRANSMIGRATION",
+                  "enTagName": "TRANSMIGRATION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41001297,
+                  "tagName": "SLICEOFLIFE",
+                  "enTagName": "SLICEOFLIFE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000413,
+                  "tagName": "HARRY POTTER",
+                  "enTagName": "HARRY POTTER",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41001486,
+                  "tagName": "VIDEOGAME",
+                  "enTagName": "VIDEOGAME",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51066036,
+                  "tagName": "FATE SERIES",
+                  "enTagName": "FATE SERIES",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51066138,
+                  "tagName": "CROSSOVER",
+                  "enTagName": "CROSSOVER",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "chapterCnt": 51,
+              "statParams": "{\"V\":\"1\",\"alg\":\"181.0.1\",\"expid\":40003,\"itemid\":\"35906220708292105\",\"logid\":3654674350676474976,\"origin\":\"12058\",\"preitemid\":\"b_35906220708292105\",\"scene\":\"book_feed_fanfic\",\"type\":\"0\",\"version\":\"\"}",
+              "mTL": false,
+              "cornerMark": "",
+              "cornerMarkBgColor": null,
+              "itemDiscountInfo": {
+                "Rate": 0,
+                "Discountstr": "",
+                "EndTime": 0
+              },
+              "marketingTagInfos": [],
+              "inLibrary": 0
+            },
+            {
+              "bookId": "35906869900373105",
+              "bookType": 0,
+              "bookName": "if I teleport in Demon slayer.",
+              "isShort": false,
+              "categoryId": 81002,
+              "categoryName": "Celebrities",
+              "authorName": "Shivam_Panigrahy",
+              "bookCoverId": 1779169228240,
+              "description": "",
+              "totalScore": "",
+              "pvNum": 129,
+              "tagInfos": [
+                {
+                  "id": 41000121,
+                  "tagName": "ACTION",
+                  "enTagName": "ACTION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000016,
+                  "tagName": "SYSTEM",
+                  "enTagName": "SYSTEM",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000170,
+                  "tagName": "COMEDY",
+                  "enTagName": "COMEDY",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000052,
+                  "tagName": "SURVIVAL",
+                  "enTagName": "SURVIVAL",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000132,
+                  "tagName": "TRANSMIGRATION",
+                  "enTagName": "TRANSMIGRATION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41001092,
+                  "tagName": "GENIUS",
+                  "enTagName": "GENIUS",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000015,
+                  "tagName": "ANTIHERO",
+                  "enTagName": "ANTIHERO",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000578,
+                  "tagName": "LEVELUP",
+                  "enTagName": "LEVELUP",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51003261,
+                  "tagName": "FASTPACED",
+                  "enTagName": "FASTPACED",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51065879,
+                  "tagName": "SUPERPOWER",
+                  "enTagName": "SUPERPOWER",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "chapterCnt": 2,
+              "statParams": "{\"V\":\"1\",\"alg\":\"181.0.1\",\"expid\":40003,\"itemid\":\"35906869900373105\",\"logid\":3654674350676474976,\"origin\":\"12058\",\"preitemid\":\"b_35906869900373105\",\"scene\":\"book_feed_fanfic\",\"type\":\"0\",\"version\":\"\"}",
+              "mTL": false,
+              "cornerMark": "",
+              "cornerMarkBgColor": null,
+              "itemDiscountInfo": {
+                "Rate": 0,
+                "Discountstr": "",
+                "EndTime": 0
+              },
+              "marketingTagInfos": [],
+              "inLibrary": 0
+            },
+            {
+              "bookId": "35907788900389605",
+              "bookType": 0,
+              "bookName": "Shadow Slave — Death Denied",
+              "isShort": false,
+              "categoryId": 81001,
+              "categoryName": "Book&Literature",
+              "authorName": "Fenryx",
+              "bookCoverId": 1779199235124,
+              "description": "What if Sunny after the third nightmare, ended up naturally achieving Supremacy before the domain war?",
+              "totalScore": "",
+              "pvNum": 15582,
+              "tagInfos": [
+                {
+                  "id": 41000121,
+                  "tagName": "ACTION",
+                  "enTagName": "ACTION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000120,
+                  "tagName": "ADVENTURE",
+                  "enTagName": "ADVENTURE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000052,
+                  "tagName": "SURVIVAL",
+                  "enTagName": "SURVIVAL",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "chapterCnt": 2,
+              "statParams": "{\"V\":\"1\",\"alg\":\"181.0.1\",\"expid\":40003,\"itemid\":\"35907788900389605\",\"logid\":3654674350676474976,\"origin\":\"12058\",\"preitemid\":\"b_35907788900389605\",\"scene\":\"book_feed_fanfic\",\"type\":\"0\",\"version\":\"\"}",
+              "mTL": false,
+              "cornerMark": "",
+              "cornerMarkBgColor": null,
+              "itemDiscountInfo": {
+                "Rate": 0,
+                "Discountstr": "",
+                "EndTime": 0
+              },
+              "marketingTagInfos": [],
+              "inLibrary": 0
+            },
+            {
+              "bookId": "35909261808349005",
+              "bookType": 0,
+              "bookName": "Douluo: Family Chat Group Raised to Godhood",
+              "isShort": false,
+              "categoryId": 81006,
+              "categoryName": "Anime & Comics",
+              "authorName": "FictionTimeo",
+              "bookCoverId": 1779212808061,
+              "description": "Ye Xiao, a character from the Douluo Continent series, awakened his Martial Soul Seal, but only possessed innate level 3 Soul Power. \n\nJust when he thought his life was destined for hell, a chat group called \"A Loving Family\" suddenly appeared in his mind. \n\nYe Qianxue Second Generation: Wow! \n\nIt's Father. Father, Father, hurry and find Mother, I want to be born soon.\n\n Ye Kaining Third Generation : Grandpa, use these immortal herbs first, they can help evolve your Martial Soul. \n\nYe Yuanling Third Generation:  Grandpa, Grandma's waist is a sensitive area.\n\n And take this \"Ye Family Meditation Method Third Edition\".\n\n From then on, Ye Xiao's daily life became: when he lacked cultivation techniques, his descendants would send him techniques from a thousand or even ten thousand years in the future.\n\n When he lacked resources, his descendants would send him large quantities of immortal herbs and special resources.\n\n When he lacked Soul Rings, his descendants would provide him with Soul Spirits. ... \n\nRelying on these descendants across the river of time, he rose from a useless nobody to a powerful figure, stirring up the winds and clouds of the continent. One day, the argument in the group chat reached a fever pitch: \"Stop arguing! According to the 'Ye Family History: Ye Xiao Chapter,' our ancestor should have met the Holy Maiden of the Spirit Hall at this time!\"\n\n \"Nonsense! He clearly met the little princess of the Seven Treasure Glazed Tile School first!\" \"No, no, it should be His Holiness the Pope.\n\n\" Ye Xiao looked at the group messages and slowly typed out a question mark:\"Wait a minute... \n\non my path to godhood, I have to choose an ancestor for you all first?\n\n\" All the descendants: \"Of course! Otherwise, how would we have been born!\"\n\nSupport Me At Patreon \n\n Read Advanced Chapters at P@ Tre On\n\nFictionTimeo",
+              "totalScore": "",
+              "pvNum": 109378,
+              "tagInfos": [
+                {
+                  "id": 41000121,
+                  "tagName": "ACTION",
+                  "enTagName": "ACTION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000010,
+                  "tagName": "ROMANCE",
+                  "enTagName": "ROMANCE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000120,
+                  "tagName": "ADVENTURE",
+                  "enTagName": "ADVENTURE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000016,
+                  "tagName": "SYSTEM",
+                  "enTagName": "SYSTEM",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000075,
+                  "tagName": "REINCARNATION",
+                  "enTagName": "REINCARNATION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000147,
+                  "tagName": "R18",
+                  "enTagName": "R18",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000074,
+                  "tagName": "WEAKTOSTRONG",
+                  "enTagName": "WEAKTOSTRONG",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000037,
+                  "tagName": "HAREM",
+                  "enTagName": "HAREM",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000224,
+                  "tagName": "CULTIVATION",
+                  "enTagName": "CULTIVATION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51066100,
+                  "tagName": "INFINITE",
+                  "enTagName": "INFINITE",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "chapterCnt": 44,
+              "statParams": "{\"V\":\"1\",\"alg\":\"181.0.1\",\"expid\":40003,\"itemid\":\"35909261808349005\",\"logid\":3654674350676474976,\"origin\":\"12058\",\"preitemid\":\"b_35909261808349005\",\"scene\":\"book_feed_fanfic\",\"type\":\"0\",\"version\":\"\"}",
+              "mTL": false,
+              "cornerMark": "",
+              "cornerMarkBgColor": null,
+              "itemDiscountInfo": {
+                "Rate": 0,
+                "Discountstr": "",
+                "EndTime": 0
+              },
+              "marketingTagInfos": [],
+              "inLibrary": 0
+            },
+            {
+              "bookId": "35913029908437805",
+              "bookType": 0,
+              "bookName": "HELLO THERE",
+              "isShort": false,
+              "categoryId": 81001,
+              "categoryName": "Book&Literature",
+              "authorName": "VisionaryCipher",
+              "bookCoverId": 1779216021626,
+              "description": "",
+              "totalScore": "",
+              "pvNum": 226,
+              "tagInfos": [
+                {
+                  "id": 41000121,
+                  "tagName": "ACTION",
+                  "enTagName": "ACTION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000884,
+                  "tagName": "MAGIC",
+                  "enTagName": "MAGIC",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000165,
+                  "tagName": "DARK",
+                  "enTagName": "DARK",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41001330,
+                  "tagName": "SUPERPOWERS",
+                  "enTagName": "SUPERPOWERS",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41001702,
+                  "tagName": "VILLAIN",
+                  "enTagName": "VILLAIN",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000293,
+                  "tagName": "BETRAYAL",
+                  "enTagName": "BETRAYAL",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000329,
+                  "tagName": "APOCALYPSE",
+                  "enTagName": "APOCALYPSE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000020,
+                  "tagName": "DRAGON",
+                  "enTagName": "DRAGON",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51067186,
+                  "tagName": "MILITARY",
+                  "enTagName": "MILITARY",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51065949,
+                  "tagName": "TRANSFORMATION",
+                  "enTagName": "TRANSFORMATION",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "chapterCnt": 1,
+              "statParams": "{\"V\":\"1\",\"alg\":\"181.0.1\",\"expid\":40003,\"itemid\":\"35913029908437805\",\"logid\":3654674350676474976,\"origin\":\"12058\",\"preitemid\":\"b_35913029908437805\",\"scene\":\"book_feed_fanfic\",\"type\":\"0\",\"version\":\"\"}",
+              "mTL": false,
+              "cornerMark": "",
+              "cornerMarkBgColor": null,
+              "itemDiscountInfo": {
+                "Rate": 0,
+                "Discountstr": "",
+                "EndTime": 0
+              },
+              "marketingTagInfos": [],
+              "inLibrary": 0
+            },
+            {
+              "bookId": "35913262208441905",
+              "bookType": 0,
+              "bookName": "Nikke: Nullable Type",
+              "isShort": false,
+              "categoryId": 81005,
+              "categoryName": "Video Games",
+              "authorName": "HappyVainGlory",
+              "bookCoverId": 1779211248238,
+              "description": "For want of a nail, the kingdom was lost. It's quite a famous adage. A single change can ripple out indefinitely, completely derailing carefully laid plans. Like how a butterfly flapping its wings could cause a hurricane on the otherside of the world.\n\nNow. Considering I took the place of the Commander in Nikke somehow... all while having skipped most of the story past Chapter 4 while I was playing the game...\n\nLet's try to not lose the kingdom, shall we? Aha...\n\n000\n\nWARNING! MANY spoilers for the game. Read at your own discretion!\n\nFormerly a one-shot.",
+              "totalScore": "",
+              "pvNum": 81567,
+              "tagInfos": [
+                {
+                  "id": 41000057,
+                  "tagName": "ISEKAI",
+                  "enTagName": "ISEKAI",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000059,
+                  "tagName": "ANIME",
+                  "enTagName": "ANIME",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "chapterCnt": 47,
+              "statParams": "{\"V\":\"1\",\"alg\":\"181.0.1\",\"expid\":40003,\"itemid\":\"35913262208441905\",\"logid\":3654674350676474976,\"origin\":\"12058\",\"preitemid\":\"b_35913262208441905\",\"scene\":\"book_feed_fanfic\",\"type\":\"0\",\"version\":\"\"}",
+              "mTL": false,
+              "cornerMark": "",
+              "cornerMarkBgColor": null,
+              "itemDiscountInfo": {
+                "Rate": 0,
+                "Discountstr": "",
+                "EndTime": 0
+              },
+              "marketingTagInfos": [],
+              "inLibrary": 0
+            },
+            {
+              "bookId": "35913784608450905",
+              "bookType": 0,
+              "bookName": "Shinkai no Resonance",
+              "isShort": false,
+              "categoryId": 81006,
+              "categoryName": "Anime & Comics",
+              "authorName": "Azharul",
+              "bookCoverId": 1779390126506,
+              "description": "Yıl 2148.\n\nİnsanlık, “Aether” adı verilen görünmez bir enerji katmanını keşfetti.\nBaşta bunun yalnızca kuantum dalgalanmaları olduğu düşünüldü… fakat kısa süre sonra bazı insanların bu enerjiyi bedenlerinde işleyebildiği fark edildi.\n\nBu insanlara: Resonant denildi.\n\nHer Resonant’ın beyni, Aether ile farklı frekansta rezonansa girer.\nKimisi zamanı yavaşlatabilir.\nKimisi maddeleri parçalayabilir.\nKimisi ise zihinsel alanları manipüle eder.\n\nFakat güçlerin ortaya çıkışıyla dünya değişti.\n\nDevletler çöktü.\nŞehirler bölündü.\nYeni bir güç sistemi kuruldu",
+              "totalScore": "",
+              "pvNum": 167,
+              "tagInfos": [
+                {
+                  "id": 41000121,
+                  "tagName": "ACTION",
+                  "enTagName": "ACTION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000165,
+                  "tagName": "DARK",
+                  "enTagName": "DARK",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41001330,
+                  "tagName": "SUPERPOWERS",
+                  "enTagName": "SUPERPOWERS",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51003261,
+                  "tagName": "FASTPACED",
+                  "enTagName": "FASTPACED",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41002630,
+                  "tagName": "URBAN",
+                  "enTagName": "URBAN",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000861,
+                  "tagName": "FUTURE",
+                  "enTagName": "FUTURE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51066092,
+                  "tagName": "THRILLER",
+                  "enTagName": "THRILLER",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51067222,
+                  "tagName": "HIDDENIDENTITIES",
+                  "enTagName": "HIDDENIDENTITIES",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51066089,
+                  "tagName": "BETRAYED",
+                  "enTagName": "BETRAYED",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51066086,
+                  "tagName": "AMNESIA",
+                  "enTagName": "AMNESIA",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "chapterCnt": 0,
+              "statParams": "{\"V\":\"1\",\"alg\":\"181.0.1\",\"expid\":40003,\"itemid\":\"35913784608450905\",\"logid\":3654674350676474976,\"origin\":\"12058\",\"preitemid\":\"b_35913784608450905\",\"scene\":\"book_feed_fanfic\",\"type\":\"0\",\"version\":\"\"}",
+              "mTL": false,
+              "cornerMark": "",
+              "cornerMarkBgColor": null,
+              "itemDiscountInfo": {
+                "Rate": 0,
+                "Discountstr": "",
+                "EndTime": 0
+              },
+              "marketingTagInfos": [],
+              "inLibrary": 0
+            },
+            {
+              "bookId": "35914517000541005",
+              "bookType": 0,
+              "bookName": "Popular Psychop∆th",
+              "isShort": false,
+              "categoryId": 81007,
+              "categoryName": "Movies",
+              "authorName": "mrbrucewayne",
+              "bookCoverId": 1779277486789,
+              "description": "From birth, I had difficulty feeling emotions. To be more exact, I could not empathize with others.\n\nI was undeniably different from everyone else, and I knew that if I continued this path, something would go terribly wrong.\n\nYet, at some point, I encountered dreams that allowed me to inhabit other people’s lives.\n\nThrough the dreams, I experienced the cruel lives of a hired soldier, a s*ave, an artist, and more, ultimately becoming skilled at virtually everything.\n\nIn this world, there was no role I could not perform.\n\n\n\n\n---\n\nNote: I do not own this story. All credits go to the original author. This is shared purely for reading and appreciation.",
+              "totalScore": "",
+              "pvNum": 1024,
+              "tagInfos": [
+                {
+                  "id": 41000010,
+                  "tagName": "ROMANCE",
+                  "enTagName": "ROMANCE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000075,
+                  "tagName": "REINCARNATION",
+                  "enTagName": "REINCARNATION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41001297,
+                  "tagName": "SLICEOFLIFE",
+                  "enTagName": "SLICEOFLIFE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41002592,
+                  "tagName": "KILLER",
+                  "enTagName": "KILLER",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000437,
+                  "tagName": "ENTERTAINMENT",
+                  "enTagName": "ENTERTAINMENT",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "chapterCnt": 5,
+              "statParams": "{\"V\":\"1\",\"alg\":\"181.0.1\",\"expid\":40003,\"itemid\":\"35914517000541005\",\"logid\":3654674350676474976,\"origin\":\"12058\",\"preitemid\":\"b_35914517000541005\",\"scene\":\"book_feed_fanfic\",\"type\":\"0\",\"version\":\"\"}",
+              "mTL": false,
+              "cornerMark": "",
+              "cornerMarkBgColor": null,
+              "itemDiscountInfo": {
+                "Rate": 0,
+                "Discountstr": "",
+                "EndTime": 0
+              },
+              "marketingTagInfos": [],
+              "inLibrary": 0
+            },
+            {
+              "bookId": "35914579300542205",
+              "bookType": 0,
+              "bookName": "Hell's Bells",
+              "isShort": false,
+              "categoryId": 81008,
+              "categoryName": "TV",
+              "authorName": "CaioCoia",
+              "bookCoverId": 1779242032052,
+              "description": "In the fiery depths of Hell, Velvette and Carmilla, fierce overlords with a history of rivalry, find themselves entangled in a drunken escapade after a night of tequila shots. Awakening the next day with hazy memories, they're shocked to discover matching engagement rings and a shared husband: Moxxie, an imp who recently got in Pride Ring. Chaos, Comedy, Romance and a big Hangover!",
+              "totalScore": "",
+              "pvNum": 2499,
+              "tagInfos": [
+                {
+                  "id": 41000121,
+                  "tagName": "ACTION",
+                  "enTagName": "ACTION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000010,
+                  "tagName": "ROMANCE",
+                  "enTagName": "ROMANCE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000170,
+                  "tagName": "COMEDY",
+                  "enTagName": "COMEDY",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000037,
+                  "tagName": "HAREM",
+                  "enTagName": "HAREM",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41001297,
+                  "tagName": "SLICEOFLIFE",
+                  "enTagName": "SLICEOFLIFE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41004234,
+                  "tagName": "BEAUTY",
+                  "enTagName": "BEAUTY",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000676,
+                  "tagName": "DEVIL",
+                  "enTagName": "DEVIL",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41002592,
+                  "tagName": "KILLER",
+                  "enTagName": "KILLER",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000274,
+                  "tagName": "MAFIA",
+                  "enTagName": "MAFIA",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51065873,
+                  "tagName": "HUMOR",
+                  "enTagName": "HUMOR",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "chapterCnt": 6,
+              "statParams": "{\"V\":\"1\",\"alg\":\"181.0.1\",\"expid\":40003,\"itemid\":\"35914579300542205\",\"logid\":3654674350676474976,\"origin\":\"12058\",\"preitemid\":\"b_35914579300542205\",\"scene\":\"book_feed_fanfic\",\"type\":\"0\",\"version\":\"\"}",
+              "mTL": false,
+              "cornerMark": "",
+              "cornerMarkBgColor": null,
+              "itemDiscountInfo": {
+                "Rate": 0,
+                "Discountstr": "",
+                "EndTime": 0
+              },
+              "marketingTagInfos": [],
+              "inLibrary": 0
+            },
+            {
+              "bookId": "35914676400543905",
+              "bookType": 0,
+              "bookName": "True Blood: IM Jason Stackhouse",
+              "isShort": false,
+              "categoryId": 81008,
+              "categoryName": "TV",
+              "authorName": "Taro_Ki",
+              "bookCoverId": 1779507455534,
+              "description": "Jason Stackhouse's body woke up in Bon Temps with someone else inside it — someone who knew the show, knew every death coming, and inherited a 10,000-year-old supernatural treaty along with Jason's reputation for beautiful, reckless failure. The Concordance of Blood is not a power. It is a job. Seven Suits, one per species, each one opened through blood or vow or sacrifice — each one belonging somewhere he never asked to belong. Bon Temps wanted Jason to finally grow up, and the performance is convincing enough that no one questions it. No one except Tara, who refused to believe the comfortable version. The treaty does not care about his survival. It cares about balance. In a town where vampires are mainstreaming and something older than the vampire-fae war is harvesting grief from witnessed deaths, neutrality might be the most dangerous stance of all.",
+              "totalScore": "",
+              "pvNum": 9025,
+              "tagInfos": [
+                {
+                  "id": 41000121,
+                  "tagName": "ACTION",
+                  "enTagName": "ACTION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000120,
+                  "tagName": "ADVENTURE",
+                  "enTagName": "ADVENTURE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000016,
+                  "tagName": "SYSTEM",
+                  "enTagName": "SYSTEM",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000074,
+                  "tagName": "WEAKTOSTRONG",
+                  "enTagName": "WEAKTOSTRONG",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000066,
+                  "tagName": "MYSTERY",
+                  "enTagName": "MYSTERY",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000165,
+                  "tagName": "DARK",
+                  "enTagName": "DARK",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41001330,
+                  "tagName": "SUPERPOWERS",
+                  "enTagName": "SUPERPOWERS",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000052,
+                  "tagName": "SURVIVAL",
+                  "enTagName": "SURVIVAL",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000132,
+                  "tagName": "TRANSMIGRATION",
+                  "enTagName": "TRANSMIGRATION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000051,
+                  "tagName": "TRAGEDY",
+                  "enTagName": "TRAGEDY",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "chapterCnt": 21,
+              "statParams": "{\"V\":\"1\",\"alg\":\"181.0.1\",\"expid\":40003,\"itemid\":\"35914676400543905\",\"logid\":3654674350676474976,\"origin\":\"12058\",\"preitemid\":\"b_35914676400543905\",\"scene\":\"book_feed_fanfic\",\"type\":\"0\",\"version\":\"\"}",
+              "mTL": false,
+              "cornerMark": "",
+              "cornerMarkBgColor": null,
+              "itemDiscountInfo": {
+                "Rate": 0,
+                "Discountstr": "",
+                "EndTime": 0
+              },
+              "marketingTagInfos": [],
+              "inLibrary": 0
+            },
+            {
+              "bookId": "35920634900670205",
+              "bookType": 0,
+              "bookName": "The Witcher: The Stranded Victorian Scientist",
+              "isShort": false,
+              "categoryId": 81005,
+              "categoryName": "Video Games",
+              "authorName": "Supriyo_Deb",
+              "bookCoverId": 1779267164837,
+              "description": "What happened when a polymath from England found himself stranded in world of fantasy after a rift brought him and his cottage, from the England's forest to the forest of this land?",
+              "totalScore": "",
+              "pvNum": 4709,
+              "tagInfos": [
+                {
+                  "id": 41000121,
+                  "tagName": "ACTION",
+                  "enTagName": "ACTION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000120,
+                  "tagName": "ADVENTURE",
+                  "enTagName": "ADVENTURE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000884,
+                  "tagName": "MAGIC",
+                  "enTagName": "MAGIC",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000074,
+                  "tagName": "WEAKTOSTRONG",
+                  "enTagName": "WEAKTOSTRONG",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000066,
+                  "tagName": "MYSTERY",
+                  "enTagName": "MYSTERY",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000165,
+                  "tagName": "DARK",
+                  "enTagName": "DARK",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000052,
+                  "tagName": "SURVIVAL",
+                  "enTagName": "SURVIVAL",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000132,
+                  "tagName": "TRANSMIGRATION",
+                  "enTagName": "TRANSMIGRATION",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "chapterCnt": 8,
+              "statParams": "{\"V\":\"1\",\"alg\":\"181.0.1\",\"expid\":40003,\"itemid\":\"35920634900670205\",\"logid\":3654674350676474976,\"origin\":\"12058\",\"preitemid\":\"b_35920634900670205\",\"scene\":\"book_feed_fanfic\",\"type\":\"0\",\"version\":\"\"}",
+              "mTL": false,
+              "cornerMark": "",
+              "cornerMarkBgColor": null,
+              "itemDiscountInfo": {
+                "Rate": 0,
+                "Discountstr": "",
+                "EndTime": 0
+              },
+              "marketingTagInfos": [],
+              "inLibrary": 0
+            },
+            {
+              "bookId": "35920642908624505",
+              "bookType": 0,
+              "bookName": "One piece: The White Monarch- Ghost of God Valley",
+              "isShort": false,
+              "categoryId": 81006,
+              "categoryName": "Anime & Comics",
+              "authorName": "DaoistxDGFNm",
+              "bookCoverId": 1779288839619,
+              "description": "Before the rise of the Yonko… Before the Great Pirate Era… Before the world feared the name of Gol D.\nRoger…\nThere existed another monster.\nA ghost erased from history.\nBorn as a half-human wolf mink carrying the Will of D, Kael D. Fenrir lived peacefully with his family deep\nwithin the New World—until the World Government slaughtered them for their bloodline.\nOn the night of a full moon, Kael awakens both his memories of another life and the terrifying power\nsleeping within him.\nHunted by Cipher Pol. Marked by the God Knights. Driven by rage and survival.\nKael enters the brutal age of monsters and rises through the chaos of the Rocks Pirates while witnessing\nthe terrifying truth hidden beneath the world itself.\nBut during the God Valley Incident, Kael changes fate forever.\nAs legends clash and the island falls, he steals Shamrock—the forgotten twin of Shanks—from the God\nKnights.\nFrom that moment onward, Kael becomes the enemy of the hidden rulers of the world.\nBranded as:\n\nThe White Monarch\nKael vanishes into the shadows of history, wandering through the ages while secretly changing the future\nitself:\n• \n• \n• \n• \nsaving lives meant to end in tragedy\ntraining children abandoned by fate\nprotecting those crushed beneath the world’s cruelty\nand preparing for the inevitable war against the darkness sitting upon the Empty Throne\nAs the Great Pirate Era begins and destiny moves toward Monkey D. Luffy, a forgotten legend walks\nbeneath the moonlight once more.\nA swordsman feared by the World Government. A monster who mastered Sulong beyond its limits. A ghost\ntied to the greatest secret in history.",
+              "totalScore": "",
+              "pvNum": 38236,
+              "tagInfos": [
+                {
+                  "id": 41000121,
+                  "tagName": "ACTION",
+                  "enTagName": "ACTION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000075,
+                  "tagName": "REINCARNATION",
+                  "enTagName": "REINCARNATION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000165,
+                  "tagName": "DARK",
+                  "enTagName": "DARK",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000799,
+                  "tagName": "OVERPOWERED",
+                  "enTagName": "OVERPOWERED",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000052,
+                  "tagName": "SURVIVAL",
+                  "enTagName": "SURVIVAL",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000051,
+                  "tagName": "TRAGEDY",
+                  "enTagName": "TRAGEDY",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000019,
+                  "tagName": "REVENGE",
+                  "enTagName": "REVENGE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000025,
+                  "tagName": "WEREWOLF",
+                  "enTagName": "WEREWOLF",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51003261,
+                  "tagName": "FASTPACED",
+                  "enTagName": "FASTPACED",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51065857,
+                  "tagName": "SWORDANDMAGIC",
+                  "enTagName": "SWORDANDMAGIC",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "chapterCnt": 70,
+              "statParams": "{\"V\":\"1\",\"alg\":\"181.0.1\",\"expid\":40003,\"itemid\":\"35920642908624505\",\"logid\":3654674350676474976,\"origin\":\"12058\",\"preitemid\":\"b_35920642908624505\",\"scene\":\"book_feed_fanfic\",\"type\":\"0\",\"version\":\"\"}",
+              "mTL": false,
+              "cornerMark": "",
+              "cornerMarkBgColor": null,
+              "itemDiscountInfo": {
+                "Rate": 0,
+                "Discountstr": "",
+                "EndTime": 0
+              },
+              "marketingTagInfos": [],
+              "inLibrary": 0
+            },
+            {
+              "bookId": "35920651200708605",
+              "bookType": 0,
+              "bookName": "Forgotten Realms: Selûne's Hedge-Caster",
+              "isShort": false,
+              "categoryId": 81005,
+              "categoryName": "Video Games",
+              "authorName": "Kingdom_Building_7877",
+              "bookCoverId": 1779345820294,
+              "description": "He files documents in a Baldur's Gate scriptorium until a silver-bound book is mis-filed in the mercantile section and fills its first page with his name in lunar script. Wesley is twenty-four, a hedge-wizard clerk professionally invisible, and Selûne's Codex has chosen him three years after the Second Sundering closed. The second page goes utterly black — a Sharran operative within a hundred paces, identity unknown. Three days later the scriptorium burns. Three names enter the Argent Compact already dimmed. A collapsed Netherese tower on the Sword Coast hides dead-magic pockets that shield it from divination, and a contract beneath the foundation in a script Wesley cannot read — waiting.",
+              "totalScore": "",
+              "pvNum": 2118,
+              "tagInfos": [
+                {
+                  "id": 41000121,
+                  "tagName": "ACTION",
+                  "enTagName": "ACTION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000120,
+                  "tagName": "ADVENTURE",
+                  "enTagName": "ADVENTURE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000016,
+                  "tagName": "SYSTEM",
+                  "enTagName": "SYSTEM",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000074,
+                  "tagName": "WEAKTOSTRONG",
+                  "enTagName": "WEAKTOSTRONG",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000066,
+                  "tagName": "MYSTERY",
+                  "enTagName": "MYSTERY",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000165,
+                  "tagName": "DARK",
+                  "enTagName": "DARK",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41001330,
+                  "tagName": "SUPERPOWERS",
+                  "enTagName": "SUPERPOWERS",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000052,
+                  "tagName": "SURVIVAL",
+                  "enTagName": "SURVIVAL",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000051,
+                  "tagName": "TRAGEDY",
+                  "enTagName": "TRAGEDY",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41001351,
+                  "tagName": "KINGDOMBUILDING",
+                  "enTagName": "KINGDOMBUILDING",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "chapterCnt": 19,
+              "statParams": "{\"V\":\"1\",\"alg\":\"181.0.1\",\"expid\":40003,\"itemid\":\"35920651200708605\",\"logid\":3654674350676474976,\"origin\":\"12058\",\"preitemid\":\"b_35920651200708605\",\"scene\":\"book_feed_fanfic\",\"type\":\"0\",\"version\":\"\"}",
+              "mTL": false,
+              "cornerMark": "",
+              "cornerMarkBgColor": null,
+              "itemDiscountInfo": {
+                "Rate": 0,
+                "Discountstr": "",
+                "EndTime": 0
+              },
+              "marketingTagInfos": [],
+              "inLibrary": 0
+            },
+            {
+              "bookId": "35920651200714105",
+              "bookType": 0,
+              "bookName": "Glitch-Born",
+              "isShort": false,
+              "categoryId": 81005,
+              "categoryName": "Video Games",
+              "authorName": "Daoist5Yx19T",
+              "bookCoverId": 1779443275290,
+              "description": "In Sector 4, existence is governed by the Kinetic Grid—a ruthless, universal code that measures a person’s worth in pure energy units. If your baseline reserve hits zero, your contract with life is terminated, and the corporate syndicates recycle your mass.\n\nKaelen Vance was bottom-tier garbage. A zero-compatibility data analyst with a fading reserve of 12 units, doomed to be wiped out by the next market fluctuation or sector assault. When a corporate breach liquidates his station, Kaelen is left facing execution by his own energy-doped overseer.\n\nBut as the lethal vibro-blade descends, the world glitches",
+              "totalScore": "",
+              "pvNum": 895,
+              "tagInfos": [
+                {
+                  "id": 41000016,
+                  "tagName": "SYSTEM",
+                  "enTagName": "SYSTEM",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41001330,
+                  "tagName": "SUPERPOWERS",
+                  "enTagName": "SUPERPOWERS",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000799,
+                  "tagName": "OVERPOWERED",
+                  "enTagName": "OVERPOWERED",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "chapterCnt": 17,
+              "statParams": "{\"V\":\"1\",\"alg\":\"181.0.1\",\"expid\":40003,\"itemid\":\"35920651200714105\",\"logid\":3654674350676474976,\"origin\":\"12058\",\"preitemid\":\"b_35920651200714105\",\"scene\":\"book_feed_fanfic\",\"type\":\"0\",\"version\":\"\"}",
+              "mTL": false,
+              "cornerMark": "",
+              "cornerMarkBgColor": null,
+              "itemDiscountInfo": {
+                "Rate": 0,
+                "Discountstr": "",
+                "EndTime": 0
+              },
+              "marketingTagInfos": [],
+              "inLibrary": 0
+            },
+            {
+              "bookId": "35920651200719805",
+              "bookType": 0,
+              "bookName": "Dragon Ball: My Battle Power Multiplies Infinitely",
+              "isShort": false,
+              "categoryId": 81006,
+              "categoryName": "Anime & Comics",
+              "authorName": "KingTL",
+              "bookCoverId": 1779280236190,
+              "description": "Congratulations, you have acquired a new skill: [Battle Power ×50] Congratulations, you have acquired a new skill: [Battle Power ×500] Congratulations, you have acquired a new skill: [Battle Power ×5000000000000000000000000] Seeing the information provided by the monthly skill refresh, Sora, who had transmigrated into a Saiyan, was stunned. What kind of multiplier is this for battle power?! Will my battle power be pushed off the charts?",
+              "totalScore": "",
+              "pvNum": 103694,
+              "tagInfos": [
+                {
+                  "id": 41000121,
+                  "tagName": "ACTION",
+                  "enTagName": "ACTION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000120,
+                  "tagName": "ADVENTURE",
+                  "enTagName": "ADVENTURE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000075,
+                  "tagName": "REINCARNATION",
+                  "enTagName": "REINCARNATION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000037,
+                  "tagName": "HAREM",
+                  "enTagName": "HAREM",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000799,
+                  "tagName": "OVERPOWERED",
+                  "enTagName": "OVERPOWERED",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000079,
+                  "tagName": "DRAGON BALL",
+                  "enTagName": "DRAGON BALL",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 51065917,
+                  "tagName": "GOLDENFINGER",
+                  "enTagName": "GOLDENFINGER",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "chapterCnt": 37,
+              "statParams": "{\"V\":\"1\",\"alg\":\"181.0.1\",\"expid\":40003,\"itemid\":\"35920651200719805\",\"logid\":3654674350676474976,\"origin\":\"12058\",\"preitemid\":\"b_35920651200719805\",\"scene\":\"book_feed_fanfic\",\"type\":\"0\",\"version\":\"\"}",
+              "mTL": false,
+              "cornerMark": "",
+              "cornerMarkBgColor": null,
+              "itemDiscountInfo": {
+                "Rate": 0,
+                "Discountstr": "",
+                "EndTime": 0
+              },
+              "marketingTagInfos": [],
+              "inLibrary": 0
+            },
+            {
+              "bookId": "35920651200722505",
+              "bookType": 0,
+              "bookName": "Naruto: Input Override",
+              "isShort": false,
+              "categoryId": 81006,
+              "categoryName": "Anime & Comics",
+              "authorName": "Rando1",
+              "bookCoverId": 1779286278618,
+              "description": "One random lucky idiot is granted the all convenient three wishes and a wheel to spin. The wheel picks the Naruto universe for him. His first wish, be wants Gojo's Six Eyes. His second wish, to have the Gamer system from the manhwa The Gamer. His final wish, to be capable of using any bloodline jutsu's in the Naruto verse. The problem. His new body is a twelve year old Naruto Uzumaki and Six Eyes ain't exactly the Six Eye's he asked for. The second problem, Karama's cage is empty and the fox sure as hell ain't running around outside. the final nail in the coffin, he's system works, it just doesn't know who the hell he is.",
+              "totalScore": "",
+              "pvNum": 1360,
+              "tagInfos": [
+                {
+                  "id": 41000121,
+                  "tagName": "ACTION",
+                  "enTagName": "ACTION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000120,
+                  "tagName": "ADVENTURE",
+                  "enTagName": "ADVENTURE",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000016,
+                  "tagName": "SYSTEM",
+                  "enTagName": "SYSTEM",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000075,
+                  "tagName": "REINCARNATION",
+                  "enTagName": "REINCARNATION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000074,
+                  "tagName": "WEAKTOSTRONG",
+                  "enTagName": "WEAKTOSTRONG",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000066,
+                  "tagName": "MYSTERY",
+                  "enTagName": "MYSTERY",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000799,
+                  "tagName": "OVERPOWERED",
+                  "enTagName": "OVERPOWERED",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000052,
+                  "tagName": "SURVIVAL",
+                  "enTagName": "SURVIVAL",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000132,
+                  "tagName": "TRANSMIGRATION",
+                  "enTagName": "TRANSMIGRATION",
+                  "likeCount": 0,
+                  "like": false
+                },
+                {
+                  "id": 41000069,
+                  "tagName": "NARUTO",
+                  "enTagName": "NARUTO",
+                  "likeCount": 0,
+                  "like": false
+                }
+              ],
+              "chapterCnt": 1,
+              "statParams": "{\"V\":\"1\",\"alg\":\"181.0.1\",\"expid\":40003,\"itemid\":\"35920651200722505\",\"logid\":3654674350676474976,\"origin\":\"12058\",\"preitemid\":\"b_35920651200722505\",\"scene\":\"book_feed_fanfic\",\"type\":\"0\",\"version\":\"\"}",
+              "mTL": false,
+              "cornerMark": "",
+              "cornerMarkBgColor": null,
+              "itemDiscountInfo": {
+                "Rate": 0,
+                "Discountstr": "",
+                "EndTime": 0
+              },
+              "marketingTagInfos": [],
+              "inLibrary": 0
+            }
+          ],
+          "expireTime": 0,
+          "blockExtend": null,
+          "changeable": false,
+          "apiType": 0,
+          "apiParam": "",
+          "moreType": -1,
+          "moreParam": "",
+          "userTagId": "",
+          "moreActionUrl": "",
+          "reportInfo": {
+            "strategy": -1,
+            "days": -1,
+            "sourceType": -1
+          },
+          "recomBookName": "",
+          "order": 5
+        }
+      },
+      "bookcity": {
+        "1": {
+          "backInfo": {
+            "Country": "Global",
+            "Language": "en"
+          },
+          "pageList": [
+            "69048f8112e89a3a2ffeeb56_1",
+            "62e0e647fa4dd01e0665854f_1",
+            "6194dd99f4ac042ae9231238_1",
+            "6221cc2cb1faaa63c13d634b_1"
+          ],
+          "pageInfo": "69048f8112e89a3a2ffeeb56_1"
+        }
+      }
+    },
+    "apiStatus": {
+      "/go/pcm/bookcity/page-list?language=en&sex=1&bookCityType=1": {
+        "statusText": "success"
+      },
+      "/go/pcm/bookcity/page-list?language=en&sex=1&bookCityType=2": {
+        "statusText": "success"
+      }
+    },
+    "ui": {
+      "isSupportWebp": false,
+      "isOpenMenu": false,
+      "isShowAvatarDot": false,
+      "shouldScrollToTop": true,
+      "isHeaderShow": true,
+      "contentLang": "en",
+      "messageStatus": 0,
+      "notificationStatus": 0,
+      "systemNotificationStatus": 0,
+      "showAutoUnlockTipModal": false,
+      "emojiMap": null,
+      "rechargeInfo": null
+    },
+    "status": {
+      "isPageBundleLoading": false
+    }
+  },
+  "initialProps": {
+    "pageProps": {
+      "serverQuery": {
+        "language": "en",
+        "sex": 1
+      },
+      "contentLang": "en"
+    },
+    "lang": "en",
+    "isBot": false
+  }
+}
