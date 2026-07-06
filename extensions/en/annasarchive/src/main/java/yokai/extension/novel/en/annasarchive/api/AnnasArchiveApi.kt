@@ -212,11 +212,17 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
         val author = document.selectFirst("div.text-amber-900")?.attr("data-content")?.trim()
             ?: document.selectFirst("a:has(span[class*=user-edit])")?.text()?.trim()
 
-        // Description: inside js-md5-top-box-description, the first div.mb-1 after the "description" label
+        // Description: find the div that immediately follows the "description" label
+        // inside js-md5-top-box-description container
         val description = document.selectFirst("div.js-md5-top-box-description")?.let { descContainer ->
-            // Find the div.mb-1 that follows the "description" label div
-            val mb1Divs = descContainer.select("div.mb-1")
-            mb1Divs.firstOrNull()?.text()?.trim()
+            // Find the label div with text "description", then get its next sibling
+            val labelDiv = descContainer.selectFirst("div.text-xs.text-gray-500")
+            if (labelDiv != null && labelDiv.text().trim().equals("description", ignoreCase = true)) {
+                labelDiv.nextElementSibling()?.text()?.trim()
+            } else {
+                // Fallback: first div.mb-1 in the container
+                descContainer.selectFirst("div.mb-1")?.text()?.trim()
+            }
         }
 
         // Cover: first img with covers in src
@@ -269,8 +275,13 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
             parseDownloadLink(element)
         }
 
+        // Extract external partner links (libgen.li, z-lib, etc.)
+        val partnerLinks = document.select("a[href*='libgen'], a[href*='z-lib'], a[href*='zlibrary']").mapNotNull { element ->
+            parseDownloadLink(element)
+        }
+
         // Merge and deduplicate by URL
-        return (links + slowDownloadLinks).distinctBy { it.url }
+        return (links + slowDownloadLinks + partnerLinks).distinctBy { it.url }
     }
 
     private fun parseDownloadLink(element: Element): AnnasDownloadLink? {
@@ -285,7 +296,16 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
             href.contains("slow_download") -> DownloadLinkType.SLOW_DOWNLOAD
             href.contains("ipfs") -> DownloadLinkType.IPFS
             DIRECT_DOWNLOAD_PATTERN.matches(url) -> DownloadLinkType.DIRECT
-            href.contains("libgen") || href.contains("z-lib") || href.contains("zlibrary") -> DownloadLinkType.PARTNER
+            href.contains("libgen") -> {
+                // Only keep actual download page links, skip biblioservice, index, etc.
+                if (href.contains("ads.php") || href.contains("file.php") ||
+                    href.contains("get.php") || href.contains("/book/")) {
+                    DownloadLinkType.PARTNER
+                } else {
+                    return null
+                }
+            }
+            href.contains("z-lib") || href.contains("zlibrary") -> DownloadLinkType.PARTNER
             href.endsWith("/datasets") -> return null // Skip non-download links
             else -> DownloadLinkType.UNKNOWN
         }

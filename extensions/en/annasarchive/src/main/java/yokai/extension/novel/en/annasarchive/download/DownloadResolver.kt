@@ -155,9 +155,24 @@ class DownloadResolver {
 
         // Step 2: Extract the get.php download link
         val doc = Jsoup.parse(html, url)
-        val getLink = doc.selectFirst("a[href*=get.php]")?.attr("href") ?: return null
+        var getLink = doc.selectFirst("a[href*=get.php]")?.let { elem ->
+            elem.absUrl("href").ifBlank { elem.attr("href") }
+        }
+
+        // If no get.php link, try following ads.php link (file.php → ads.php → get.php)
+        if (getLink == null) {
+            val adsLink = doc.selectFirst("a[href*=ads.php]")?.let { elem ->
+                elem.absUrl("href").ifBlank { elem.attr("href") }
+            }
+            if (adsLink != null) {
+                return downloadFromLibgen(adsLink, client, tempDir, md5)
+            }
+            return null
+        }
+
         val fullUrl = if (getLink.startsWith("http")) getLink else {
-            val baseUrl = url.substringBefore("/").ifBlank { "https://libgen.li" }
+            // Extract base URL: https://libgen.li from https://libgen.li/ads.php?...
+            val baseUrl = Regex("(https?://[^/]+)").find(url)?.value ?: "https://libgen.li"
             if (getLink.startsWith("/")) "$baseUrl$getLink" else "$baseUrl/$getLink"
         }
 
