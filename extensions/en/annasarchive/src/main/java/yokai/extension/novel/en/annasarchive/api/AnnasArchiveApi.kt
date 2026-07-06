@@ -19,11 +19,11 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
 
     companion object {
         private val BASE_URLS = listOf(
+            "https://annas-archive.gl",
             "https://annas-archive.li",
             "https://annas-archive.gs",
             "https://annas-archive.vg",
             "https://annas-archive.org",
-            "https://annas-archive.gl",
             "https://annas-archive.gd",
             "https://annas-archive.pk",
             "https://annas-archive.se",
@@ -102,60 +102,91 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
     // ===== Private parsing methods =====
 
     private fun parseSearchResults(document: Document): List<AnnasBookResult> {
-        // QuickNovel uses: #aarecord-list > div > div > div > a
-        // The existing extension uses: div[class*='mb-3'] with a[href*='/md5/']
-        // Try multiple selectors for resilience
+        // Title links have class containing 'js-vim-focus' and 'font-semibold'
+        val titleLinks: List<Element> = document.select("a.js-vim-focus")
+            .toList()
+            .filter { it.attr("href").contains("/md5/") }
+            .distinctBy { it.attr("href") }
 
-        val items = document.select("a[href*='/md5/']")
-            .filter { element ->
-                // Filter out download links and navigation, keep only result entries
-                val href = element.attr("href")
-                href.matches(Regex(".*/md5/[a-fA-F0-9]+$"))
-            }
-
-        // If the specific selector works, use it; otherwise fall back
-        val resultElements = if (items.isNotEmpty()) {
-            // Deduplicate by href (multiple links may point to same book)
-            items.distinctBy { it.attr("href") }
-        } else {
-            document.select("div[class*='mb-3']").mapNotNull { div ->
-                div.selectFirst("a[href*='/md5/']")
-            }.distinctBy { it.attr("href") }
+        if (titleLinks.isNotEmpty()) {
+            return titleLinks.mapNotNull { element -> parseSearchResultItemNew(element, document) }
         }
 
-        return resultElements.mapNotNull { element -> parseSearchResultItem(element) }
+        // Fallback: any anchor with /md5/ href that has text content
+        val fallbackItems: List<Element> = document.select("a[href*='/md5/']")
+            .toList()
+            .filter { element ->
+                val href = element.attr("href")
+                href.matches(Regex(".*/md5/[a-fA-F0-9]+$")) &&
+                    element.text().isNotBlank()
+            }
+            .distinctBy { it.attr("href") }
+
+        return fallbackItems.mapNotNull { element -> parseSearchResultItem(element) }
     }
 
     private fun parseSearchResultItem(element: Element): AnnasBookResult? {
         val href = element.attr("href") ?: return null
         val md5 = extractMd5FromUrl(href) ?: return null
 
-        // Try to find title — QuickNovel uses: div.relative > h3
-        val title = element.selectFirst("h3")?.text()?.trim()
-            ?: element.selectFirst("div[class*='text-']")?.text()?.trim()
-            ?: element.text()?.trim()
-            ?: return null
-
-        // Skip empty or very short titles
+        val title = element.text()?.trim() ?: return null
         if (title.isBlank() || title.length < 2) return null
 
-        // Try to find cover image
-        val coverUrl = element.selectFirst("img")?.let { img ->
+        // Try to find cover image in parent container
+        val parent = element.parents().firstOrNull()
+        val coverUrl = parent?.selectFirst("img")?.let { img ->
             val src = img.attr("src").ifBlank { img.attr("data-src") }
             if (src.isNotBlank()) fixUrl(src) else null
         }
 
-        // Try to find author — look for "by" text or italic text
-        val author = element.selectFirst("div:containsOwn(by)")?.text()
-            ?.replace(Regex("^by\\s+", RegexOption.IGNORE_CASE), "")?.trim()
-            ?: element.selectFirst("div.italic")?.text()?.trim()
-
-        // Try to find file size and format from the result text
         val fullText = element.text()
-        val format = "epub" // We filter by ext=epub, so all results should be EPUB
+        val format = "epub"
         val filesize = extractFilesize(fullText)
         val language = extractLanguage(fullText)
         val year = extractYear(fullText)
+
+        return AnnasBookResult(
+            title = title,
+            author = null,
+            md5 = md5,
+            coverUrl = coverUrl,
+            filesize = filesize,
+            format = format,
+            language = language,
+            year = year,
+            url = fixUrl(href)
+        )
+    }
+
+    private fun parseSearchResultItemNew(element: Element, document: Document): AnnasBookResult? {
+        val href = element.attr("href") ?: return null
+        val md5 = extractMd5FromUrl(href) ?: return null
+
+        val title = element.text()?.trim() ?: return null
+        if (title.isBlank() || title.length < 2) return null
+
+        // Find the book entry container (parent div with 'flex' class)
+        val container = element.parents().firstOrNull { it.className().contains("flex") }
+
+        // Cover: find img in the container
+        val coverUrl = container?.selectFirst("img")?.let { img ->
+            val src = img.attr("src").ifBlank { img.attr("data-src") }
+            if (src.isNotBlank()) fixUrl(src) else null
+        }
+
+        // Author: find anchor with icon-[mdi--user-edit] span
+        val author = container?.selectFirst("a:has(span[class*=user-edit])")?.text()?.trim()
+
+        // Publisher/year: find anchor with icon-[mdi--company] span
+        val pubInfo = container?.selectFirst("a:has(span[class*=company])")?.text()?.trim()
+
+        // File info: find div with font-mono class
+        val fileinfo = container?.selectFirst("div.font-mono")?.text()?.trim()
+
+        val format = "epub"
+        val filesize = extractFilesize(fileinfo ?: "")
+        val language = extractLanguage(fileinfo ?: "")
+        val year = extractYear(pubInfo ?: fileinfo ?: "")
 
         return AnnasBookResult(
             title = title,
@@ -171,25 +202,24 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
     }
 
     private fun parseBookDetails(document: Document, md5: String, pageUrl: String): AnnasBookDetails {
-        // QuickNovel uses: main > div > div.text-3xl for title
-        val title = document.selectFirst("div.text-3xl")?.ownText()?.trim()
+        // Title: first data-content attribute on font-bold text-violet-900 div
+        val title = document.selectFirst("div.text-violet-900")?.attr("data-content")?.trim()
+            ?: document.selectFirst("a.js-vim-focus")?.text()?.trim()
             ?: document.selectFirst("h1")?.text()?.trim()
-            ?: document.selectFirst("h3")?.text()?.trim()
             ?: "Unknown Title"
 
-        // QuickNovel uses: main > div > div.italic for author
-        val author = document.selectFirst("div.italic")?.ownText()?.trim()
-            ?: document.selectFirst("div:containsOwn(Author)")?.text()
-                ?.replace(Regex("^Author:?\\s*", RegexOption.IGNORE_CASE), "")?.trim()
+        // Author: data-content on font-bold text-amber-900 div, or anchor with user-edit icon
+        val author = document.selectFirst("div.text-amber-900")?.attr("data-content")?.trim()
+            ?: document.selectFirst("a:has(span[class*=user-edit])")?.text()?.trim()
 
-        // QuickNovel uses: main > div > div.js-md5-top-box-description for description
-        val description = document.selectFirst("div.js-md5-top-box-description")?.text()?.trim()
-            ?: document.selectFirst("div[id^='description']")?.text()?.trim()
+        // Description: look for text-gray-600 div with substantial content
+        val description = document.selectFirst("div.text-gray-600")?.text()?.trim()
+            ?: document.selectFirst("div.js-md5-top-box-description")?.text()?.trim()
 
-        // QuickNovel uses: main > div > div > img for cover
-        val coverUrl = document.selectFirst("main img")?.let { img ->
+        // Cover: first img with covers in src
+        val coverUrl = document.selectFirst("main img[src*=covers]")?.let { img ->
             val src = img.attr("src").ifBlank { img.attr("data-src") }
-            if (src.isNotBlank()) fixUrl(src) else null
+            if (src.isNotBlank()) src else null
         }
 
         // Extract metadata from the page text
@@ -200,7 +230,7 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
         val year = extractYear(fullText)
         val publisher = extractPublisher(fullText)
 
-        // Extract download links — QuickNovel uses: ul.mb-4 > li > a.js-download-link
+        // Extract download links
         val downloadLinks = extractDownloadLinks(document)
 
         return AnnasBookDetails(
