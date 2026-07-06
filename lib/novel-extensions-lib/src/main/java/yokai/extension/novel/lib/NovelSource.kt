@@ -73,6 +73,12 @@ abstract class NovelSource {
     lateinit var client: OkHttpClient
     
     /**
+     * WebView resolver for URLs that require CAPTCHA/countdown resolution. Injected by the app.
+     * Null if the source doesn't need WebView resolution or if the app hasn't injected it yet.
+     */
+    var webViewResolver: WebViewResolver? = null
+    
+    /**
      * Default headers to include with all requests.
      */
     open fun headersBuilder(): Headers.Builder = Headers.Builder()
@@ -285,6 +291,24 @@ abstract class NovelSource {
         const val DEFAULT_USER_AGENT = 
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     }
+}
+
+/**
+ * Interface for resolving URLs that require WebView interaction (CAPTCHA, countdown timers, etc.).
+ * The app provides the implementation and injects it into sources that need it.
+ */
+interface WebViewResolver {
+    /**
+     * Load [initialUrl] in a WebView and wait until a URL matching [expectedPattern] is encountered.
+     * @param initialUrl The URL to load (e.g. a slow_download page with a countdown timer)
+     * @param expectedPattern Regex pattern to match the final download URL
+     * @return The resolved download URL
+     * @throws Exception if resolution fails or times out
+     */
+    suspend fun resolveUrl(
+        initialUrl: String,
+        expectedPattern: Regex
+    ): String
 }
 
 /**

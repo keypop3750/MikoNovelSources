@@ -29,3 +29,6 @@ include ':extensions:en:novelsonline'
 
 // New extensions (ported from QuickNovel)
 include ':extensions:en:libread'
+
+// Multi-language extensions
+include ':extensions:en:annasarchive'
