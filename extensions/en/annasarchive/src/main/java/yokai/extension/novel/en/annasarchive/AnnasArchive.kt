@@ -148,4 +148,9 @@ class AnnasArchive : NovelSource() {
             )
         }
     }
+
+    override suspend fun getPopularNovels(page: Int): List<NovelSearchResult> {
+        // Anna's Archive has no "popular" page — use newest as fallback
+        return getLatestUpdates(page)
+    }
 }
