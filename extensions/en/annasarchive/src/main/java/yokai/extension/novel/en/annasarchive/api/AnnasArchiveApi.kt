@@ -18,7 +18,16 @@ import java.io.IOException
 class AnnasArchiveApi(private val client: OkHttpClient) {
 
     companion object {
-        private const val BASE_URL = "https://annas-archive.org"
+        private val BASE_URLS = listOf(
+            "https://annas-archive.li",
+            "https://annas-archive.gs",
+            "https://annas-archive.vg",
+            "https://annas-archive.org",
+            "https://annas-archive.gl",
+            "https://annas-archive.gd",
+            "https://annas-archive.pk",
+            "https://annas-archive.se",
+        )
         private const val USER_AGENT =
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 
@@ -26,18 +35,21 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
             Regex(".*\\.(epub|pdf|mobi|azw3|fb2|djvu|txt)(\\?.*)?$", RegexOption.IGNORE_CASE)
     }
 
+    @Volatile
+    private var workingBaseUrl: String? = null
+
     /**
      * Search Anna's Archive for EPUB books matching [query].
      * Uses the HTML search page with ext=epub filter.
      */
     suspend fun search(query: String, page: Int = 1): List<AnnasBookResult> {
         val encodedQuery = java.net.URLEncoder.encode(query, "UTF-8")
-        val url = "$BASE_URL/search?ext=epub&sort=&q=$encodedQuery&page=$page"
+        val path = "/search?ext=epub&sort=&q=$encodedQuery&page=$page"
 
-        val html = fetchHtml(url)
+        val (html, baseUrl) = fetchHtmlWithFallback(path)
         // Anna's Archive wraps some content in HTML comments — unwrap them
         val unwrapped = html.replace(Regex("<!--([\\W\\w]*?)-->")) { it.groupValues[1] }
-        val document = Jsoup.parse(unwrapped, url)
+        val document = Jsoup.parse(unwrapped, baseUrl + path)
 
         return parseSearchResults(document)
     }
@@ -46,11 +58,11 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
      * Browse newest EPUB books (no search query, sorted by newest).
      */
     suspend fun searchNewest(page: Int = 1): List<AnnasBookResult> {
-        val url = "$BASE_URL/search?ext=epub&sort=newest&page=$page"
+        val path = "/search?ext=epub&sort=newest&page=$page"
 
-        val html = fetchHtml(url)
+        val (html, baseUrl) = fetchHtmlWithFallback(path)
         val unwrapped = html.replace(Regex("<!--([\\W\\w]*?)-->")) { it.groupValues[1] }
-        val document = Jsoup.parse(unwrapped, url)
+        val document = Jsoup.parse(unwrapped, baseUrl + path)
 
         return parseSearchResults(document)
     }
@@ -59,10 +71,11 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
      * Get detailed book information from the book page at /md5/{md5}.
      */
     suspend fun getBookDetails(md5: String): AnnasBookDetails {
-        val url = "$BASE_URL/md5/$md5"
-        val html = fetchHtml(url)
+        val path = "/md5/$md5"
+        val (html, baseUrl) = fetchHtmlWithFallback(path)
         // Unwrap HTML comments
         val unwrapped = html.replace(Regex("<!--([\\W\\w]*?)-->")) { it.groupValues[1] }
+        val url = baseUrl + path
         val document = Jsoup.parse(unwrapped, url)
 
         return parseBookDetails(document, md5, url)
@@ -253,12 +266,40 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
     // ===== Utility methods =====
 
     private fun fixUrl(url: String): String {
+        val base = workingBaseUrl ?: BASE_URLS.first()
         return when {
             url.startsWith("http") -> url
             url.startsWith("//") -> "https:$url"
-            url.startsWith("/") -> "$BASE_URL$url"
-            else -> "$BASE_URL/$url"
+            url.startsWith("/") -> "$base$url"
+            else -> "$base/$url"
         }
+    }
+
+    private suspend fun fetchHtmlWithFallback(path: String): Pair<String, String> {
+        // Try cached working domain first
+        val cached = workingBaseUrl
+        if (cached != null) {
+            try {
+                val html = fetchHtml(cached + path)
+                return Pair(html, cached)
+            } catch (e: Exception) {
+                // Cached domain failed, clear cache and try all
+                workingBaseUrl = null
+            }
+        }
+
+        // Try all domains in order
+        var lastError: Exception? = null
+        for (baseUrl in BASE_URLS) {
+            try {
+                val html = fetchHtml(baseUrl + path)
+                workingBaseUrl = baseUrl
+                return Pair(html, baseUrl)
+            } catch (e: Exception) {
+                lastError = e
+            }
+        }
+        throw IOException("All Anna's Archive domains failed: ${lastError?.message}", lastError)
     }
 
     private suspend fun fetchHtml(url: String): String {
