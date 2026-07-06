@@ -5,6 +5,7 @@ import yokai.extension.novel.en.annasarchive.download.DownloadResolver
 import yokai.extension.novel.en.annasarchive.download.EpubContentExtractor
 import yokai.extension.novel.lib.*
 import java.io.File
+import java.io.IOException
 
 /**
  * Anna's Archive novel source for Miko.
@@ -23,7 +24,7 @@ class AnnasArchive : NovelSource() {
 
     override val id: Long = 6400L
     override val name: String = "Anna's Archive"
-    override val baseUrl: String = "https://annas-archive.org"
+    override val baseUrl: String = "https://annas-archive.gl"
     override val lang: String = "all"
     override val hasMainPage: Boolean = false
     override val isNsfw: Boolean = false
@@ -124,8 +125,11 @@ class AnnasArchive : NovelSource() {
                         downloadedFile.absolutePath + "</p>"
                     }
                     else -> {
-                        // Try EPUB extraction as fallback
-                        epubExtractor.extractContent(downloadedFile)
+                        // Not a valid book file — likely an HTML error page
+                        throw IOException("Downloaded file is not a valid EPUB or PDF. " +
+                            "File size: ${downloadedFile.length()} bytes. " +
+                            "The download may have failed due to DDoS-Guard protection or " +
+                            "membership requirements. Try again later.")
                     }
                 }
             }

@@ -171,7 +171,7 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
         // Cover: find img in the container
         val coverUrl = container?.selectFirst("img")?.let { img ->
             val src = img.attr("src").ifBlank { img.attr("data-src") }
-            if (src.isNotBlank()) fixUrl(src) else null
+            if (src.isNotBlank()) fixCoverUrl(src) else null
         }
 
         // Author: find anchor with icon-[mdi--user-edit] span
@@ -212,14 +212,17 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
         val author = document.selectFirst("div.text-amber-900")?.attr("data-content")?.trim()
             ?: document.selectFirst("a:has(span[class*=user-edit])")?.text()?.trim()
 
-        // Description: look for text-gray-600 div with substantial content
-        val description = document.selectFirst("div.text-gray-600")?.text()?.trim()
-            ?: document.selectFirst("div.js-md5-top-box-description")?.text()?.trim()
+        // Description: inside js-md5-top-box-description, the first div.mb-1 after the "description" label
+        val description = document.selectFirst("div.js-md5-top-box-description")?.let { descContainer ->
+            // Find the div.mb-1 that follows the "description" label div
+            val mb1Divs = descContainer.select("div.mb-1")
+            mb1Divs.firstOrNull()?.text()?.trim()
+        }
 
         // Cover: first img with covers in src
         val coverUrl = document.selectFirst("main img[src*=covers]")?.let { img ->
             val src = img.attr("src").ifBlank { img.attr("data-src") }
-            if (src.isNotBlank()) src else null
+            if (src.isNotBlank()) fixCoverUrl(src) else null
         }
 
         // Extract metadata from the page text
@@ -303,6 +306,12 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
             url.startsWith("/") -> "$base$url"
             else -> "$base/$url"
         }
+    }
+
+    private fun fixCoverUrl(url: String): String {
+        // Cover images are hosted on covers.z-lib.sk which may be DNS-blocked
+        // Replace with covers.z-lib.org which is more accessible
+        return url.replace("covers.z-lib.sk", "covers.z-lib.org")
     }
 
     private suspend fun fetchHtmlWithFallback(path: String): Pair<String, String> {
