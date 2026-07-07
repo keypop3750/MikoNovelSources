@@ -28,8 +28,8 @@ class AnnasArchive : NovelSource() {
     override val lang: String = "all"
     override val hasMainPage: Boolean = false
     override val isNsfw: Boolean = false
-    override val versionName: String = "1.0.0"
-    override val versionCode: Int = 1
+    override val versionName: String = "1.0.1"
+    override val versionCode: Int = 2
     override val rateLimitMs: Long = 2000L
 
     private val api by lazy { AnnasArchiveApi(client) }

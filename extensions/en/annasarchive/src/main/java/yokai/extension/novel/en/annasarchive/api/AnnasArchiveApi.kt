@@ -132,11 +132,13 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
         val title = element.text()?.trim() ?: return null
         if (title.isBlank() || title.length < 2) return null
 
-        // Try to find cover image in parent container
-        val parent = element.parents().firstOrNull()
-        val coverUrl = parent?.selectFirst("img")?.let { img ->
+        // Try to find cover image in an ancestor container (covers live in a sibling column)
+        val coverImg = element.parents().firstNotNullOfOrNull { p ->
+            p.selectFirst("img[src*=covers], img[data-src*=covers]")
+        } ?: element.parents().firstNotNullOfOrNull { p -> p.selectFirst("img") }
+        val coverUrl = coverImg?.let { img ->
             val src = img.attr("src").ifBlank { img.attr("data-src") }
-            if (src.isNotBlank()) fixUrl(src) else null
+            if (src.isNotBlank()) fixCoverUrl(src) else null
         }
 
         val fullText = element.text()
@@ -165,11 +167,20 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
         val title = element.text()?.trim() ?: return null
         if (title.isBlank() || title.length < 2) return null
 
-        // Find the book entry container (parent div with 'flex' class)
+        // The content column (div.flex.flex-col) holds the title, author, publisher and
+        // file info, but NOT the cover image, which lives in a sibling column.
         val container = element.parents().firstOrNull { it.className().contains("flex") }
 
-        // Cover: find img in the container
-        val coverUrl = container?.selectFirst("img")?.let { img ->
+        // The cover <img> is in a sibling column, so walk up to the nearest ancestor that
+        // actually contains a cover image rather than stopping at the content column.
+        val coverImg =
+            element.parents().firstNotNullOfOrNull { parent ->
+                parent.selectFirst("img[src*=covers], img[data-src*=covers]")
+            } ?: element.parents().firstNotNullOfOrNull { parent ->
+                parent.selectFirst("img")
+            }
+
+        val coverUrl = coverImg?.let { img ->
             val src = img.attr("src").ifBlank { img.attr("data-src") }
             if (src.isNotBlank()) fixCoverUrl(src) else null
         }
