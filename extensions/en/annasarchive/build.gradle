@@ -12,14 +12,14 @@ android {
         applicationId "yokai.extension.novel.en.annasarchive"
         minSdk 21
         targetSdk 34
-        versionCode 9
-        versionName "1.0.8"
+        versionCode 10
+        versionName "1.0.9"
 
         manifestPlaceholders = [
             extName: "Anna's Archive",
             extClass: ".AnnasArchiveFactory",
-            extVersionCode: "9",
-            extVersionName: "1.0.8",
+            extVersionCode: "10",
+            extVersionName: "1.0.9",
             extNsfw: "false"
         ]
     }

@@ -367,9 +367,11 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
     }
 
     private fun fixCoverUrl(url: String): String {
-        // Cover images are hosted on covers.z-lib.sk which may be DNS-blocked
-        // Replace with covers.z-lib.org which is more accessible
-        return url.replace("covers.z-lib.sk", "covers.z-lib.org")
+        // Cover images are served from covers.z-lib.sk, which is the only host that
+        // currently returns a valid certificate and the actual image. Do NOT rewrite
+        // to covers.z-lib.org: its certificate has a hostname mismatch and the request
+        // fails, so covers would never load.
+        return url
     }
 
     private suspend fun fetchHtmlWithFallback(path: String): Pair<String, String> {
