@@ -2,6 +2,7 @@ package yokai.extension.novel.en.annasarchive.download
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import org.jsoup.parser.Parser
 import java.io.File
 import java.io.IOException
 import java.util.zip.ZipFile
@@ -39,7 +40,7 @@ class EpubContentExtractor {
                 ?: throw IOException("Invalid EPUB: missing META-INF/container.xml")
 
             val containerDoc = zipFile.getInputStream(containerEntry).use { stream ->
-                Jsoup.parse(stream, null, "")
+                Jsoup.parse(stream, null, "", Parser.xmlParser())
             }
 
             val opfPath = containerDoc.selectFirst("rootfile")
@@ -52,7 +53,7 @@ class EpubContentExtractor {
                 ?: throw IOException("Invalid EPUB: missing OPF at $opfPath")
 
             val opfDoc = zipFile.getInputStream(opfEntry).use { stream ->
-                Jsoup.parse(stream, null, "")
+                Jsoup.parse(stream, null, "", Parser.xmlParser())
             }
 
             // 3. Get all manifest items (id → href mapping)
@@ -97,7 +98,7 @@ class EpubContentExtractor {
                     ?: continue
 
                 val pageDoc = zipFile.getInputStream(entry).use { stream ->
-                    Jsoup.parse(stream, null, "")
+                    Jsoup.parse(stream, null, "", Parser.xmlParser())
                 }
 
                 // Extract body content

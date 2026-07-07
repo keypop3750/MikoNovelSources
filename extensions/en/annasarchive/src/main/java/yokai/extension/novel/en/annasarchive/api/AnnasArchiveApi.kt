@@ -215,13 +215,40 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
         // Description: find the div that immediately follows the "description" label
         // inside js-md5-top-box-description container
         val description = document.selectFirst("div.js-md5-top-box-description")?.let { descContainer ->
-            // Find the label div with text "description", then get its next sibling
-            val labelDiv = descContainer.selectFirst("div.text-xs.text-gray-500")
-            if (labelDiv != null && labelDiv.text().trim().equals("description", ignoreCase = true)) {
-                labelDiv.nextElementSibling()?.text()?.trim()
+            // Strategy 1: Find the label div with text "description", get its next sibling
+            val labelDivs = descContainer.select("div.text-xs.text-gray-500")
+            val descLabel = labelDivs.firstOrNull { it.text().trim().equals("description", ignoreCase = true) }
+            if (descLabel != null) {
+                descLabel.nextElementSibling()?.text()?.trim()
             } else {
-                // Fallback: first div.mb-1 in the container
-                descContainer.selectFirst("div.mb-1")?.text()?.trim()
+                // Strategy 2: Find all label-content pairs and return the content of the first one
+                // whose label is "description" or the first content div if no labels found
+                val mb1Divs = descContainer.select("div.mb-1")
+                if (labelDivs.isNotEmpty() && mb1Divs.size >= labelDivs.size) {
+                    // Pair label[i] with content[i], find the one labeled "description"
+                    for (i in labelDivs.indices) {
+                        if (labelDivs[i].text().trim().equals("description", ignoreCase = true) && i < mb1Divs.size) {
+                            return@let mb1Divs[i].text().trim()
+                        }
+                    }
+                    // No "description" label found, return first content div
+                    mb1Divs.firstOrNull()?.text()?.trim()
+                } else {
+                    // Fallback: first div.mb-1
+                    mb1Divs.firstOrNull()?.text()?.trim()
+                }
+            }
+        }?.let { desc ->
+            // Filter out known metadata patterns that might leak through
+            val metadataPatterns = listOf(
+                "Alternative filename", "Alternative title", "Alternative author",
+                "Alternative publisher", "Alternative edition", "metadata comments",
+                "date open sourced"
+            )
+            if (metadataPatterns.any { desc.startsWith(it, ignoreCase = true) }) {
+                null
+            } else {
+                desc
             }
         }
 
