@@ -102,44 +102,87 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
     // ===== Private parsing methods =====
 
     private fun parseSearchResults(document: Document): List<AnnasBookResult> {
-        // Title links have class containing 'js-vim-focus' and 'font-semibold'
+        // Anna's Archive renders each result's cover in a *sibling* column of
+        // the same row as the title link, so a pure ancestor scan (parents())
+        // can miss it. We therefore attach covers three ways, most-to-least
+        // reliable:
+        //   1. positional: cover images appear in the same DOM order as the
+        //      title links, so zip them by index,
+        //   2. md5 map: a page-wide md5 -> coverUrl map,
+        //   3. ancestor scan: the original parents() fallback.
+        val coverByMd5 = buildCoverMap(document)
+        val orderedCovers = document.select("img[src*=covers], img[data-src*=covers]")
+            .mapNotNull { img ->
+                (img.attr("src").ifBlank { img.attr("data-src") })
+                    .takeIf { it.isNotBlank() }?.let { fixCoverUrl(it) }
+            }
+
         val titleLinks: List<Element> = document.select("a.js-vim-focus")
             .toList()
             .filter { it.attr("href").contains("/md5/") }
             .distinctBy { it.attr("href") }
 
-        if (titleLinks.isNotEmpty()) {
-            return titleLinks.mapNotNull { element -> parseSearchResultItemNew(element, document) }
+        val links = if (titleLinks.isNotEmpty()) {
+            titleLinks
+        } else {
+            // Fallback: any anchor with /md5/ href that has text content
+            document.select("a[href*='/md5/']")
+                .toList()
+                .filter { element ->
+                    val href = element.attr("href")
+                    href.matches(Regex(".*/md5/[a-fA-F0-9]+$")) &&
+                        element.text().isNotBlank()
+                }
+                .distinctBy { it.attr("href") }
         }
 
-        // Fallback: any anchor with /md5/ href that has text content
-        val fallbackItems: List<Element> = document.select("a[href*='/md5/']")
-            .toList()
-            .filter { element ->
-                val href = element.attr("href")
-                href.matches(Regex(".*/md5/[a-fA-F0-9]+$")) &&
-                    element.text().isNotBlank()
+        return links.mapIndexedNotNull { index, element ->
+            val positionalCover = orderedCovers.getOrNull(index)
+            if (titleLinks.isNotEmpty()) {
+                parseSearchResultItemNew(element, document, positionalCover, coverByMd5)
+            } else {
+                parseSearchResultItem(element, positionalCover, coverByMd5)
             }
-            .distinctBy { it.attr("href") }
-
-        return fallbackItems.mapNotNull { element -> parseSearchResultItem(element) }
+        }
     }
 
-    private fun parseSearchResultItem(element: Element): AnnasBookResult? {
+    /**
+     * Collect every cover image on the search page and map it by the book md5
+     * found in the image URL. Used to attach covers that live in a sibling
+     * column rather than an ancestor of the title link.
+     */
+    private fun buildCoverMap(document: Document): Map<String, String> {
+        val map = mutableMapOf<String, String>()
+        document.select("img[src*=covers], img[data-src*=covers]").forEach { img ->
+            val src = (img.attr("src").ifBlank { img.attr("data-src") })
+                .takeIf { it.isNotBlank() } ?: return@forEach
+            val md5 = extractMd5FromUrl(src) ?: return@forEach
+            if (!map.containsKey(md5)) {
+                map[md5] = fixCoverUrl(src)
+            }
+        }
+        return map
+    }
+
+    private fun parseSearchResultItem(element: Element, positionalCover: String?, coverByMd5: Map<String, String>): AnnasBookResult? {
         val href = element.attr("href") ?: return null
         val md5 = extractMd5FromUrl(href) ?: return null
 
         val title = element.text()?.trim() ?: return null
         if (title.isBlank() || title.length < 2) return null
 
-        // Try to find cover image in an ancestor container (covers live in a sibling column)
-        val coverImg = element.parents().firstNotNullOfOrNull { p ->
-            p.selectFirst("img[src*=covers], img[data-src*=covers]")
-        } ?: element.parents().firstNotNullOfOrNull { p -> p.selectFirst("img") }
-        val coverUrl = coverImg?.let { img ->
-            val src = img.attr("src").ifBlank { img.attr("data-src") }
-            if (src.isNotBlank()) fixCoverUrl(src) else null
-        }
+        // 1) positional, 2) md5 map, 3) ancestor scan fallback.
+        val coverUrl = positionalCover
+            ?: coverByMd5[md5]
+            ?: run {
+                val coverImg = element.parents().firstNotNullOfOrNull { p ->
+                    p.selectFirst("img[src*=covers], img[data-src*=covers]")
+                } ?: element.parents().firstNotNullOfOrNull { p -> p.selectFirst("img") }
+                coverImg?.let { img ->
+                    val src = img.attr("src").ifBlank { img.attr("data-src") }
+                    if (src.isNotBlank()) fixCoverUrl(src) else null
+                }
+            }
 
         val fullText = element.text()
         val format = "epub"
@@ -160,7 +203,7 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
         )
     }
 
-    private fun parseSearchResultItemNew(element: Element, document: Document): AnnasBookResult? {
+    private fun parseSearchResultItemNew(element: Element, document: Document, positionalCover: String?, coverByMd5: Map<String, String>): AnnasBookResult? {
         val href = element.attr("href") ?: return null
         val md5 = extractMd5FromUrl(href) ?: return null
 
@@ -171,19 +214,22 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
         // file info, but NOT the cover image, which lives in a sibling column.
         val container = element.parents().firstOrNull { it.className().contains("flex") }
 
-        // The cover <img> is in a sibling column, so walk up to the nearest ancestor that
-        // actually contains a cover image rather than stopping at the content column.
-        val coverImg =
-            element.parents().firstNotNullOfOrNull { parent ->
-                parent.selectFirst("img[src*=covers], img[data-src*=covers]")
-            } ?: element.parents().firstNotNullOfOrNull { parent ->
-                parent.selectFirst("img")
-            }
+        // 1) positional, 2) md5 map, 3) ancestor scan fallback.
+        val coverUrl = positionalCover
+            ?: coverByMd5[md5]
+            ?: run {
+                val coverImg =
+                    element.parents().firstNotNullOfOrNull { parent ->
+                        parent.selectFirst("img[src*=covers], img[data-src*=covers]")
+                    } ?: element.parents().firstNotNullOfOrNull { parent ->
+                        parent.selectFirst("img")
+                    }
 
-        val coverUrl = coverImg?.let { img ->
-            val src = img.attr("src").ifBlank { img.attr("data-src") }
-            if (src.isNotBlank()) fixCoverUrl(src) else null
-        }
+                coverImg?.let { img ->
+                    val src = img.attr("src").ifBlank { img.attr("data-src") }
+                    if (src.isNotBlank()) fixCoverUrl(src) else null
+                }
+            }
 
         // Author: find anchor with icon-[mdi--user-edit] span
         val author = container?.selectFirst("a:has(span[class*=user-edit])")?.text()?.trim()
@@ -263,8 +309,12 @@ class AnnasArchiveApi(private val client: OkHttpClient) {
             }
         }
 
-        // Cover: first img with covers in src
-        val coverUrl = document.selectFirst("main img[src*=covers]")?.let { img ->
+        val coverImg =
+            document.selectFirst("main img[src*=covers], main img[data-src*=covers]")
+                ?: document.selectFirst("img[src*=covers], img[data-src*=covers]")
+                ?: document.selectFirst("main img")
+                ?: document.selectFirst("img")
+        val coverUrl = coverImg?.let { img ->
             val src = img.attr("src").ifBlank { img.attr("data-src") }
             if (src.isNotBlank()) fixCoverUrl(src) else null
         }

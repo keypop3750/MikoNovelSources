@@ -4,6 +4,7 @@ import yokai.extension.novel.en.annasarchive.api.AnnasArchiveApi
 import yokai.extension.novel.en.annasarchive.download.DownloadResolver
 import yokai.extension.novel.en.annasarchive.download.EpubContentExtractor
 import yokai.extension.novel.lib.*
+import okhttp3.Headers
 import java.io.File
 import java.io.IOException
 
@@ -31,6 +32,15 @@ class AnnasArchive : NovelSource() {
     override val versionName: String = "1.0.0"
     override val versionCode: Int = 1
     override val rateLimitMs: Long = 2000L
+
+    /**
+     * Covers are served from a different host (covers.z-lib.sk) than [baseUrl].
+     * Anna's Archive requires a Referer (and a browser User-Agent) on that host,
+     * otherwise the cover request is rejected and covers never load in the app.
+     * The default User-Agent is provided by the base implementation.
+     */
+    override fun headersBuilder(): Headers.Builder = super.headersBuilder()
+        .add("Referer", baseUrl)
 
     private val api by lazy { AnnasArchiveApi(client) }
     private val downloadResolver = DownloadResolver()
