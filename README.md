@@ -1,4 +1,4 @@
-w# MikoNovelSources
+# MikoNovelSources
 
 Official novel extension repository for Miko (Yōkai) manga/novel reader.
 
@@ -9,34 +9,29 @@ This repository contains novel source extensions that can be installed in Miko t
 ## Available Sources
 
 ### English (en)
-| Source | Version | Status |
-|--------|---------|--------|
-| Royal Road | 1.0.0 | ✅ Active |
-| Scribblehub | 1.0.0 | ✅ Active |
-| NovelFull | 1.0.0 | ✅ Active |
-| NovelBin | 1.0.0 | ✅ Active |
-| LibRead | 1.0.0 | ✅ Active |
-| FreeWebNovel | 1.0.0 | ✅ Active |
-| ReadFromNet | 1.0.0 | ✅ Active |
-| AllNovel | 1.0.0 | ✅ Active |
-| NovelsOnline | 1.0.0 | ✅ Active |
-| MtlNovel | 1.0.0 | ✅ Active |
-| ReadNovelFull | 1.0.0 | ✅ Active |
-| BestLightNovel | 1.0.0 | ✅ Active |
-| GrayCity | 1.0.0 | ✅ Active |
-| HiraethTranslation | 1.0.0 | ✅ Active |
-| MoreNovel | 1.0.0 | ✅ Active |
-| WtrLab | 1.0.0 | ✅ Active |
-| PawRead | 1.0.0 | ✅ Active |
-| Anna's Archive | 1.0.0 | ✅ Active |
+| Source | Version | Comments | Status |
+|--------|---------|----------|--------|
+| Royal Road | 1.0.1 | — | ✅ Active |
+| Scribblehub | 1.0.2 | — | ✅ Active |
+| NovelFull | 1.0.4 | — | ✅ Active |
+| NovelBin | 1.0.4 | — | ✅ Active |
+| WebNovel | 1.0.1 | — | ✅ Active |
+| NovelsOnline | 1.0.1 | — | ✅ Active |
+| LibRead | 1.0.3 | — | ✅ Active |
+| ReadNovelFull | 1.0.2 | — | ✅ Active |
+| FreeWebNovel | 1.0.3 | — | ✅ Active |
+| Ranobes | 1.0.0 | ✅ | ✅ Active |
 
 ### Multi-language
-| Source | Languages | Version | Status |
-|--------|-----------|---------|--------|
-| IndoWebNovel | id | 1.0.0 | ✅ Active |
-| SakuraNovel | id | 1.0.0 | ✅ Active |
-| KolNovel | tr | 1.0.0 | ✅ Active |
-| MeioNovel | pt-BR | 1.0.0 | ✅ Active |
+| Source | Language | Version | Status |
+|--------|----------|---------|--------|
+| Anna's Archive | all | 1.0.9 | ✅ Active |
+
+### Features
+
+- **Chapter comments** — Sources marked with ✅ in the Comments column support reading chapter comments. The reader app shows a comments button in the bottom bar for these sources.
+- **Chapter dates** — All sources parse chapter release dates when available from the source website.
+- **Search** — All sources support text search; popular/latest browsing is supported where the site provides it.
 
 ## Installation
 
@@ -55,8 +50,11 @@ cd MikoNovelSources
 # Build all extensions
 ./gradlew assembleRelease
 
-# Build specific extension
-./gradlew :extensions:all:assembleRelease
+# Build a specific extension
+./gradlew :extensions:en:ranobes:assembleDebug
+
+# Build and install on a connected device
+./gradlew :extensions:en:ranobes:installDebug
 ```
 
 ## Extension Development
@@ -67,23 +65,39 @@ MikoNovelSources/
 ├── lib/                          # Shared extension library
 │   └── novel-extensions-lib/     # NovelSource base classes
 ├── extensions/                   # Individual extensions
-│   └── all/                      # All-in-one extension package
-│       └── src/main/java/
-│           └── yokai/extension/novel/
-│               └── en/           # English sources
-│               └── id/           # Indonesian sources
-│               └── tr/           # Turkish sources
-│               └── pt/           # Portuguese sources
+│   └── en/                       # English sources
+│       ├── royalroad/
+│       ├── scribblehub/
+│       ├── novelfull/
+│       ├── novelbin/
+│       ├── webnovel/
+│       ├── novelsonline/
+│       ├── libread/
+│       ├── readnovelfull/
+│       ├── freewebnovel/
+│       ├── ranobes/
+│       └── annasarchive/
 ├── index.min.json               # Extension manifest
 └── apk/                         # Built APK files
 ```
 
 ### Creating a New Source
 
-1. Create a new class extending `NovelSource`
-2. Implement required methods: `search()`, `getNovelDetails()`, `getChapterList()`, `getChapterContent()`
-3. Register in `NovelSourceFactory`
-4. Build and test
+1. Create a new package under `extensions/en/<sourcename>/`
+2. Create a source class extending `NovelSource`
+3. Implement required methods: `search()`, `getNovelDetails()`, `getChapterList()`, `getChapterContent()`
+4. Create a `*Factory.kt` class extending `NovelSourceFactory` to register the source
+5. Add a `build.gradle` with the extension's package name and version
+6. Add the extension entry to `index.min.json`
+7. Build and test
+
+### Optional Capabilities
+
+Sources can declare optional capabilities by overriding `getCapabilities()`:
+
+- `supportsComments` — enables chapter comments; implement `getChapterComments()` to parse comments from the chapter page
+- `supportedSorts` — declares which sort options the source supports for browsing
+- `supportsSearch` — whether the source supports text search
 
 ## Credits
 
