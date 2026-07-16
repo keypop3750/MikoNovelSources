@@ -487,9 +487,13 @@ class WebNovel : ConfigurableNovelSource() {
                     .ifBlank { item.optString("chapterIndex", "") }
                 val chapterName = cleanChapterName(rawName)
                 if (chapterId.isBlank() || chapterName.isBlank()) return@mapNotNull null
+
+                val dateUpload = readApiDateUpload(item)
+
                 NovelChapter(
                     url = "$baseUrl/book/$bookId/chapter/$chapterId",
                     name = chapterName,
+                    dateUpload = dateUpload,
                     chapterNumber = item.optString("chapterIndex", "0").toFloatOrNull() ?: (i + 1).toFloat()
                 )
             }
@@ -862,12 +866,36 @@ class WebNovel : ConfigurableNovelSource() {
                 .ifBlank { item.optString("title", "") }
             val chapterName = cleanChapterName(rawName)
             if (chapterId.isBlank() || chapterName.isBlank()) return@mapNotNull null
+            val dateUpload = readApiDateUpload(item)
             NovelChapter(
                 url = "$baseUrl/book/$bookId/chapter/$chapterId",
                 name = chapterName,
+                dateUpload = dateUpload,
                 chapterNumber = item.optString("chapterIndex", "0").toFloatOrNull() ?: (i + 1).toFloat()
             )
         }
+    }
+
+    private fun readApiDateUpload(item: org.json.JSONObject): Long {
+        val dateFields = listOf(
+            "publishTime",
+            "pubTime",
+            "updateTime",
+            "createTime",
+            "releaseTime",
+            "time",
+            "publishDate",
+            "updateDate",
+        )
+        for (field in dateFields) {
+            val value = item.opt(field) ?: continue
+            when (value) {
+                is Long -> return value
+                is Number -> return value.toLong()
+                is String -> parseDate(value)?.let { return it }
+            }
+        }
+        return 0L
     }
 
     // ===== Chapter Content =====

@@ -54,6 +54,8 @@ data class SourceSelectors(
     val chapterListSelector: String,
     /** Alternative selector if primary fails */
     val chapterListSelectorAlt: String? = null,
+    /** Selector for chapter release date within the chapter element (optional) */
+    val chapterDateSelector: String? = null,
     /** Selector for novel ID for AJAX chapter fetching */
     val novelIdSelector: String? = null,
     /** Attribute containing novel ID */
@@ -348,14 +350,26 @@ abstract class ConfigurableNovelSource : NovelSource() {
                 if (!looksLikeChapterUrl) return@mapNotNull null
             }
 
+            val dateText = selectors.chapterDateSelector?.let { selector ->
+                element.selectFirst(selector)?.let {
+                    it.attr("datetime").ifBlank { it.attr("title") }.ifBlank { it.text() }
+                }
+            } ?: run {
+                // Fallback: look for common date-containing elements near the chapter link.
+                element.selectFirst("time")?.attr("datetime")?.ifBlank { null }
+                    ?: element.selectFirst(".date, .chapter-date, [class*='date'], [class*='time']")?.text()?.ifBlank { null }
+                    ?: element.parent()?.selectFirst(".date, .chapter-date, [class*='date'], [class*='time']")?.text()?.ifBlank { null }
+            }
+
             NovelChapter(
                 url = fixUrl(url),
                 name = element.text(),
+                dateUpload = parseDate(dateText) ?: 0L,
                 chapterNumber = 0f  // Will be assigned later
             )
         }
     }
-    
+
     /**
      * Get cover URL from an element, trying various attributes.
      */

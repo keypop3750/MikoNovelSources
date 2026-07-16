@@ -153,9 +153,15 @@ class Scribblehub : NovelSource() {
                 val chapterTitle = linkElement?.text() ?: "Chapter ${chapters.size + 1}"
                 val chapterUrl = linkElement?.attr("href") ?: ""
 
+                val dateText = element.selectFirst("time")?.attr("datetime")?.ifBlank { null }
+                    ?: element.selectFirst(".toc_wat, [title]")?.attr("title")?.ifBlank { null }
+                    ?: element.selectFirst(".date, .chapter-date")?.text()?.ifBlank { null }
+                val dateUpload = parseDate(dateText) ?: 0L
+
                 chapters.add(NovelChapter(
                     url = chapterUrl,
                     name = chapterTitle,
+                    dateUpload = dateUpload,
                     chapterNumber = (chapters.size + 1).toFloat()
                 ))
             }

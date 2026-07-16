@@ -259,18 +259,63 @@ abstract class NovelSource {
     
     /**
      * Parse a date string to timestamp.
+     *
+     * Tries common formats used by novel sites: ISO, relative phrases
+     * ("today", "yesterday", "X days ago"), and several regional formats.
      */
     protected fun parseDate(dateStr: String?): Long? {
         if (dateStr.isNullOrBlank()) return null
-        return try {
-            // Try ISO format first
-            java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", java.util.Locale.US)
-                .parse(dateStr)?.time
-                ?: java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US)
-                    .parse(dateStr)?.time
-        } catch (e: Exception) {
-            null
+        val cleaned = dateStr.trim()
+
+        // Relative time phrases (English only, common on aggregated novel sites)
+        val lower = cleaned.lowercase()
+        val now = java.util.Calendar.getInstance()
+        when {
+            lower == "today" || lower == "just now" -> return now.timeInMillis
+            lower == "yesterday" -> {
+                now.add(java.util.Calendar.DAY_OF_YEAR, -1)
+                return now.timeInMillis
+            }
+            lower.contains("hour") || lower.contains("min") || lower.contains("sec") -> return now.timeInMillis
+            lower.contains("day") -> {
+                val days = lower.filter { it.isDigit() }.toIntOrNull() ?: 1
+                now.add(java.util.Calendar.DAY_OF_YEAR, -days)
+                return now.timeInMillis
+            }
+            lower.contains("week") -> {
+                val weeks = lower.filter { it.isDigit() }.toIntOrNull() ?: 1
+                now.add(java.util.Calendar.WEEK_OF_YEAR, -weeks)
+                return now.timeInMillis
+            }
+            lower.contains("month") -> {
+                val months = lower.filter { it.isDigit() }.toIntOrNull() ?: 1
+                now.add(java.util.Calendar.MONTH, -months)
+                return now.timeInMillis
+            }
+            lower.contains("year") -> {
+                val years = lower.filter { it.isDigit() }.toIntOrNull() ?: 1
+                now.add(java.util.Calendar.YEAR, -years)
+                return now.timeInMillis
+            }
         }
+
+        val formats = listOf(
+            "yyyy-MM-dd'T'HH:mm:ss",
+            "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+            "yyyy-MM-dd HH:mm:ss",
+            "yyyy-MM-dd",
+            "MMM dd, yyyy",
+            "MMM dd yyyy",
+            "dd MMM yyyy",
+            "dd/MM/yyyy",
+            "MM/dd/yyyy",
+        )
+        for (format in formats) {
+            runCatching {
+                java.text.SimpleDateFormat(format, java.util.Locale.US).parse(cleaned)?.time
+            }.getOrNull()?.let { return it }
+        }
+        return null
     }
     
     /**
