@@ -136,13 +136,29 @@ class NovelFire : NovelSource() {
         while (true) {
             val url = "$novelUrl/chapters?page=$page"
             val doc = getDocument(url)
-            val pageChapters = doc.select("a[href*=chapter]").mapNotNull { a ->
+            // Each chapter is <li class="novel-item"> inside <ul class="chapter-list">
+            // <a href="..."><span class="chapter-no">1</span><strong class="chapter-title">Chapter 1 - ...</strong><time class="chapter-update" datetime="2022-06-02 14:30:56">4 years ago</time></a>
+            val pageChapters = doc.select("ul.chapter-list li a[href*=chapter]").mapNotNull { a ->
                 val href = a.absUrl("href")
-                val name = a.text().trim()
-                if (href.isNotBlank() && name.isNotBlank() && !name.contains("Chapters")) {
-                    NovelChapter(name = name, url = href)
+                if (href.isBlank()) return@mapNotNull null
+                // Extract the clean title from <strong class="chapter-title">
+                val name = a.selectFirst("strong.chapter-title")?.text()?.trim()
+                    ?: a.attr("title")?.takeIf { it.isNotBlank() }
+                    ?: a.text().trim()
+                // Extract the chapter number from <span class="chapter-no">
+                val chapterNo = a.selectFirst("span.chapter-no")?.text()?.trim()?.toFloatOrNull()
+                // Extract the date from <time class="chapter-update" datetime="...">
+                val dateStr = a.selectFirst("time.chapter-update")?.attr("datetime")
+                val dateUpload = parseChapterDate(dateStr) ?: 0L
+                if (name.isNotBlank() && !name.contains("Chapters")) {
+                    NovelChapter(
+                        name = name,
+                        url = href,
+                        dateUpload = dateUpload,
+                        chapterNumber = chapterNo ?: 0f,
+                    )
                 } else null
-            }
+            }.distinctBy { it.url }
             if (pageChapters.isEmpty()) break
             chapters.addAll(pageChapters)
             // Check for next page
@@ -152,6 +168,23 @@ class NovelFire : NovelSource() {
         }
         // Reverse to get oldest first (pages are newest first)
         return chapters.reversed()
+    }
+
+    private fun parseChapterDate(dateStr: String?): Long? {
+        if (dateStr.isNullOrBlank()) return null
+        return try {
+            // Format: "2022-06-02 14:30:56"
+            val sdf = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.US)
+            sdf.timeZone = java.util.TimeZone.getTimeZone("UTC")
+            sdf.parse(dateStr)?.time ?: 0L
+        } catch (_: Exception) {
+            try {
+                // Try just the date part: "2022-06-02"
+                val sdf = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US)
+                sdf.timeZone = java.util.TimeZone.getTimeZone("UTC")
+                sdf.parse(dateStr.substringBefore(" "))?.time ?: 0L
+            } catch (_: Exception) { null }
+        }
     }
 
     // ===== Chapter Content =====

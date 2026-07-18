@@ -53,15 +53,7 @@ class NovelPedia : NovelSource() {
         val doc = getDocument(url)
         // NovelPedia is a Next.js app — search results are in the RSC payload
         // Try standard HTML selectors first, then fall back to RSC parsing
-        val items = doc.select("a[href*=/novels/]")
-        return items.mapNotNull { a ->
-            val href = a.absUrl("href")
-            val title = a.text().trim()
-            if (title.isNotBlank() && href.contains("/novels/") && !href.contains("/chapters/")) {
-                val coverUrl = a.selectFirst("img")?.absUrl("src")
-                NovelSearchResult(title = title, url = href, coverUrl = coverUrl)
-            } else null
-        }.distinctBy { it.url }
+        return parseNovelListFromDoc(doc)
     }
 
     // ===== Popular / Latest =====
@@ -78,15 +70,40 @@ class NovelPedia : NovelSource() {
         return parseNovelListFromDoc(doc)
     }
 
+    /**
+     * NovelPedia lists novels as cards. Each card has multiple <a> tags with the same href:
+     *  1. The cover <a> (class includes "aspect-...") — text is "GenreRating" e.g. "Comedy4.9"
+     *  2. The title <a> (class "block") — text is the actual novel title
+     *  3. A chapters <a> (class "block") — text is "N Chapters"
+     * We want #2. The cover image is inside #1.
+     */
     private fun parseNovelListFromDoc(doc: Document): List<NovelSearchResult> {
-        return doc.select("a[href*=/novels/]").mapNotNull { a ->
-            val href = a.absUrl("href")
-            val title = a.text().trim()
-            if (title.isNotBlank() && href.contains("/novels/") && !href.contains("/chapters/")) {
-                val coverUrl = a.selectFirst("img")?.absUrl("src")
-                NovelSearchResult(title = title, url = href, coverUrl = coverUrl)
-            } else null
-        }.distinctBy { it.url }
+        val seen = mutableSetOf<String>()
+        val results = mutableListOf<NovelSearchResult>()
+        // Select all <a> with /novels/ in href, excluding /chapters/
+        val allLinks = doc.select("a[href*=/novels/]").filterNot { it.attr("href").contains("/chapters/") }
+        // Group by href and pick the title link (the one whose text is NOT "N Chapters" and NOT a genre+rating blob)
+        val byHref = allLinks.groupBy { it.absUrl("href") }
+        for ((href, anchors) in byHref) {
+            if (href.isBlank() || href in seen) continue
+            // The title link: class is exactly "block", text doesn't contain "Chapters" and isn't a short genre+rating string
+            val titleLink = anchors.firstOrNull { a ->
+                val text = a.text().trim()
+                val cls = a.classNames()
+                // Title link has class "block" only (no "aspect-..." etc), text is longer than a genre+rating blob
+                cls.size == 1 && cls.contains("block") &&
+                    !text.contains("Chapters") && text.length > 3 && !text.matches(Regex("""^[A-Za-z]+[\d.]+$"""))
+            } ?: anchors.firstOrNull { a ->
+                val text = a.text().trim()
+                !text.contains("Chapters") && text.length > 3 && !text.matches(Regex("""^[A-Za-z]+[\d.]+$"""))
+            }
+            val title = titleLink?.text()?.trim() ?: continue
+            // Cover image is inside the first <a> (the cover link)
+            val coverUrl = anchors.firstNotNullOfOrNull { it.selectFirst("img") }?.absUrl("src")
+            results.add(NovelSearchResult(title = title, url = href, coverUrl = coverUrl))
+            seen.add(href)
+        }
+        return results
     }
 
     // ===== Novel Details =====

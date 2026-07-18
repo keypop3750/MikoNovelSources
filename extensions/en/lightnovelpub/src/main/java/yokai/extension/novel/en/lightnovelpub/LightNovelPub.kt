@@ -3,6 +3,7 @@ package yokai.extension.novel.en.lightnovelpub
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.intOrNull
@@ -20,18 +21,30 @@ import yokai.extension.novel.lib.NovelSearchResult
 import yokai.extension.novel.lib.NovelSource
 import yokai.extension.novel.lib.NovelStatus
 import yokai.extension.novel.lib.SourceCapabilities
-import java.text.SimpleDateFormat
-import java.util.Locale
-import java.util.TimeZone
 
+/**
+ * LightNovelPub / LightNovelWorld
+ *
+ * The original lightnovelpub.com / lightnovelworld.com was shut down in April 2025
+ * due to Kakao Entertainment's anti-piracy action. This extension now targets the
+ * replacement site at lightnovelworld.org, which provides a clean JSON API.
+ *
+ * API endpoints:
+ *  - GET /api/novels?page=N&sort=popular  — browse popular (paginated, 20 per page)
+ *  - GET /api/novels?page=N&sort=latest   — browse latest
+ *  - GET /api/search?q=QUERY              — search by title
+ *  - GET /api/novel/{slug}/chapters?page=N — chapter list (paginated, 150 per page)
+ *  - GET /novel/{slug}/                   — novel details page (HTML)
+ *  - GET /novel/{slug}/chapter/{number}/  — chapter content (HTML)
+ */
 class LightNovelPub : NovelSource() {
 
     override val id: Long = 6023L
     override val name: String = "LightNovelPub"
-    override val baseUrl: String = "https://lightnovelpub.org"
+    override val baseUrl: String = "https://lightnovelworld.org"
     override val lang: String = "en"
     override val hasMainPage: Boolean = true
-    override val rateLimitMs: Long = 2500L
+    override val rateLimitMs: Long = 2000L
 
     private val json = Json { ignoreUnknownKeys = true; isLenient = true }
 
@@ -44,44 +57,67 @@ class LightNovelPub : NovelSource() {
         supportedSorts = listOf("popular", "latest"),
         supportsSortDirection = false,
         supportsSearch = true,
-        supportsComments = true
+        supportsComments = false
     )
 
     // ===== Search =====
 
     override suspend fun search(query: String, page: Int): List<NovelSearchResult> {
-        val url = "$baseUrl/search?title=${query.encodeUrl()}&page=$page"
-        val doc = getDocument(url)
-        return doc.select("div.novel-item").map { el ->
-            val titleLink = el.selectFirst("a")
-            val title = titleLink?.attr("title") ?: titleLink?.text() ?: ""
-            val novelUrl = titleLink?.absUrl("href") ?: ""
-            val coverUrl = el.selectFirst("img")?.absUrl("src")
-            NovelSearchResult(title = title, url = novelUrl, coverUrl = coverUrl)
-        }.filter { it.title.isNotBlank() && it.url.isNotBlank() }
+        // The search API returns all results at once (no pagination param)
+        if (page > 1) return emptyList()
+        val url = "$baseUrl/api/search?q=${query.encodeUrl()}"
+        val response = get(url)
+        val body = response.body?.string() ?: return emptyList()
+        return try {
+            val jsonObj = json.parseToJsonElement(body).jsonObject
+            val novels = jsonObj["novels"]?.jsonArray ?: return emptyList()
+            novels.map { el ->
+                val obj = el.jsonObject
+                val title = obj["title"]?.jsonPrimitive?.content ?: ""
+                val slug = obj["slug"]?.jsonPrimitive?.content ?: ""
+                val coverPath = obj["cover_path"]?.jsonPrimitive?.contentOrNull
+                NovelSearchResult(
+                    title = title,
+                    url = "$baseUrl/novel/$slug/",
+                    coverUrl = coverPath?.let { "$baseUrl$it" },
+                )
+            }.filter { it.title.isNotBlank() }
+        } catch (_: Exception) {
+            emptyList()
+        }
     }
 
     // ===== Popular / Latest =====
 
     override suspend fun getPopularNovels(page: Int): List<NovelSearchResult> {
-        val url = "$baseUrl/genre-all/sort-popular/status-all/all-novel?page=$page"
-        return getBrowsePage(url)
+        return getBrowsePage(page, "popular")
     }
 
     override suspend fun getLatestUpdates(page: Int): List<NovelSearchResult> {
-        val url = "$baseUrl/genre-all/sort-new/status-all/all-novel?page=$page"
-        return getBrowsePage(url)
+        return getBrowsePage(page, "latest")
     }
 
-    private suspend fun getBrowsePage(url: String): List<NovelSearchResult> {
-        val doc = getDocument(url)
-        return doc.select("div.novel-item").map { el ->
-            val titleLink = el.selectFirst("a")
-            val title = titleLink?.attr("title") ?: titleLink?.text() ?: ""
-            val novelUrl = titleLink?.absUrl("href") ?: ""
-            val coverUrl = el.selectFirst("img")?.absUrl("src")
-            NovelSearchResult(title = title, url = novelUrl, coverUrl = coverUrl)
-        }.filter { it.title.isNotBlank() && it.url.isNotBlank() }
+    private suspend fun getBrowsePage(page: Int, sort: String): List<NovelSearchResult> {
+        val url = "$baseUrl/api/novels?page=$page&sort=$sort"
+        val response = get(url)
+        val body = response.body?.string() ?: return emptyList()
+        return try {
+            val jsonObj = json.parseToJsonElement(body).jsonObject
+            val novels = jsonObj["novels"]?.jsonArray ?: return emptyList()
+            novels.map { el ->
+                val obj = el.jsonObject
+                val title = obj["title"]?.jsonPrimitive?.content ?: ""
+                val slug = obj["slug"]?.jsonPrimitive?.content ?: ""
+                val coverPath = obj["cover_path"]?.jsonPrimitive?.contentOrNull
+                NovelSearchResult(
+                    title = title,
+                    url = "$baseUrl/novel/$slug/",
+                    coverUrl = coverPath?.let { "$baseUrl$it" },
+                )
+            }.filter { it.title.isNotBlank() }
+        } catch (_: Exception) {
+            emptyList()
+        }
     }
 
     // ===== Novel Details =====
@@ -89,29 +125,48 @@ class LightNovelPub : NovelSource() {
     override suspend fun getNovelDetails(url: String): NovelDetails {
         val doc = getDocument(url)
 
-        val title = doc.selectFirst("h1.title")?.text()?.trim()
-            ?: doc.selectFirst("h1")?.text()?.trim() ?: ""
+        val title = doc.selectFirst("h1")?.text()?.trim()
+            ?: doc.selectFirst("title")?.text()?.substringBefore(" | ")?.trim() ?: ""
 
-        val coverUrl = doc.selectFirst("div.fixed-img img")?.absUrl("src")
-            ?: doc.selectFirst(".novel-cover img")?.absUrl("src")
+        // Cover: look for og:image meta or the main cover img
+        val coverUrl = doc.selectFirst("meta[property=og:image]")?.attr("content")
+            ?: doc.selectFirst("img[alt]")?.absUrl("src")
 
-        val description = doc.selectFirst("div.content")?.text()?.trim()
-            ?: doc.selectFirst("div.description")?.text()?.trim()
-            ?: doc.selectFirst("[itemprop=description]")?.text()?.trim()
+        // Description: from meta description or the page content
+        val description = doc.selectFirst("meta[name=description]")?.attr("content")?.trim()
+            ?: doc.selectFirst("div[class*=description]")?.text()?.trim()
+            ?: doc.selectFirst("div[class*=summary]")?.text()?.trim()
 
-        val author = doc.selectFirst("li:contains(Author) a")?.text()?.trim()
-            ?: doc.selectFirst("div.author a")?.text()?.trim()
-            ?: doc.selectFirst("[itemprop=author]")?.text()?.trim()
+        // Author: look in the page
+        val author = doc.selectFirst("[itemprop=author]")?.text()?.trim()
+            ?: doc.selectFirst("a[href*=author]")?.text()?.trim()
+            ?: run {
+                // Try to extract from meta description "by AuthorName"
+                val metaDesc = doc.selectFirst("meta[name=description]")?.attr("content") ?: ""
+                val byMatch = Regex("""by\s+([^.]+?)(?:\.|Genres:)""").find(metaDesc)
+                byMatch?.groupValues?.get(1)?.trim()
+            }
 
-        val genres = doc.select("div.tags a, div.genres a").map { it.text().trim() }
+        // Genres: from the page
+        val genres = doc.select("a[href*=/genre/], a[href*=genre]").map { it.text().trim() }
             .filter { it.isNotBlank() }
+            .ifEmpty {
+                // Try extracting from meta description "Genres: X, Y, Z"
+                val metaDesc = doc.selectFirst("meta[name=description]")?.attr("content") ?: ""
+                val genresMatch = Regex("""Genres:\s*(.+)""").find(metaDesc)
+                genresMatch?.groupValues?.get(1)?.split(",")?.map { it.trim() } ?: emptyList()
+            }
 
-        val statusText = doc.selectFirst("div.header-stats small:contains(Status)")?.parent()?.text()
-            ?: doc.selectFirst("li:contains(Status)")?.text()
+        // Status: look in the page
+        val statusText = doc.selectFirst("div[class*=status]")?.text()?.trim()
+            ?: doc.selectFirst("span[class*=status]")?.text()?.trim()
+            ?: run {
+                val metaDesc = doc.selectFirst("meta[name=description]")?.attr("content") ?: ""
+                if (metaDesc.contains("Ongoing", ignoreCase = true)) "Ongoing"
+                else if (metaDesc.contains("Completed", ignoreCase = true)) "Completed"
+                else null
+            }
         val status = parseNovelStatus(statusText)
-
-        val ratingText = doc.selectFirst("div.rating")?.text()?.substringBefore("/")?.trim()
-        val rating = ratingText?.toFloatOrNull()
 
         return NovelDetails(
             url = url,
@@ -121,54 +176,53 @@ class LightNovelPub : NovelSource() {
             description = description,
             genres = genres.distinct(),
             status = status,
-            rating = rating
         )
     }
 
     // ===== Chapter List =====
 
     /**
-     * LightNovelPub provides a JSON API for chapter lists.
-     * URL: /api/novel/{slug}/chapters
-     * Returns: [{ chapterId, title, slug, date, ... }]
+     * Chapter list via JSON API: GET /api/novel/{slug}/chapters?page=N
+     * Returns: { chapters: [{ number, title, display_name, ... }], has_more: bool }
+     * Pages are oldest-first (page 1 = chapter 1+), 150 per page.
      */
     override suspend fun getChapterList(novelUrl: String): List<NovelChapter> {
-        val slug = novelUrl.removeSuffix("/").substringAfterLast("/")
-        val apiUrl = "$baseUrl/api/novel/$slug/chapters"
+        val slug = novelUrl.trimEnd('/').substringAfterLast("/")
+        val chapters = mutableListOf<NovelChapter>()
+        var page = 1
+        while (true) {
+            val apiUrl = "$baseUrl/api/novel/$slug/chapters?page=$page"
+            val response = get(apiUrl)
+            val body = response.body?.string() ?: break
+            val jsonObj = try {
+                json.parseToJsonElement(body).jsonObject
+            } catch (_: Exception) { break }
 
-        val response = get(apiUrl)
-        val body = response.body?.string() ?: return emptyList()
+            val chapterArray = jsonObj["chapters"]?.jsonArray ?: break
+            if (chapterArray.isEmpty()) break
 
-        return try {
-            val chapterArray = json.parseToJsonElement(body).jsonArray
-            chapterArray.mapIndexed { index, element ->
-                val obj = element.jsonObject
-                val chapterTitle = obj["title"]?.jsonPrimitive?.content ?: "Chapter ${index + 1}"
-                val chapterSlug = obj["slug"]?.jsonPrimitive?.content
-                    ?: obj["chapterId"]?.jsonPrimitive?.content ?: (index + 1).toString()
-                val dateStr = obj["date"]?.jsonPrimitive?.contentOrNull
-                val chapterUrl = "$baseUrl/novel/$slug/chapter/$chapterSlug"
-                NovelChapter(
-                    name = chapterTitle,
-                    url = chapterUrl,
-                    dateUpload = parseDate(dateStr) ?: 0L,
-                    chapterNumber = (index + 1).toFloat()
-                )
-            }.reversed() // API returns newest first, we want oldest first
-        } catch (_: Exception) {
-            // Fallback: scrape from HTML
-            val doc = getDocument("$novelUrl/chapters")
-            doc.select("ul.chapter-list li a").map { a ->
-                val name = a.selectFirst(".chapter-title")?.text() ?: a.text()
-                val chapterUrl = a.absUrl("href")
-                val dateStr = a.selectFirst(".chapter-date")?.text()
-                NovelChapter(
-                    name = name,
-                    url = chapterUrl,
-                    dateUpload = parseDate(dateStr) ?: 0L
+            chapterArray.forEach { el ->
+                val obj = el.jsonObject
+                val number = obj["number"]?.jsonPrimitive?.intOrNull ?: 0
+                val title = obj["title"]?.jsonPrimitive?.contentOrNull
+                    ?: obj["display_name"]?.jsonPrimitive?.contentOrNull
+                    ?: "Chapter $number"
+                val chapterUrl = "$baseUrl/novel/$slug/chapter/$number/"
+                chapters.add(
+                    NovelChapter(
+                        name = title,
+                        url = chapterUrl,
+                        chapterNumber = number.toFloat(),
+                    )
                 )
             }
+
+            val hasMore = jsonObj["has_more"]?.jsonPrimitive?.contentOrNull?.toBoolean() ?: false
+            if (!hasMore) break
+            page++
         }
+        // API returns oldest-first already, so no reversal needed
+        return chapters
     }
 
     // ===== Chapter Content =====
@@ -176,108 +230,18 @@ class LightNovelPub : NovelSource() {
     override suspend fun getChapterContent(chapterUrl: String): String {
         val doc = getDocument(chapterUrl)
         val contentEl = doc.selectFirst("div.chapter-content")
+            ?: doc.selectFirst("div.chapter-text")
             ?: doc.selectFirst("div#content")
             ?: doc.selectFirst("div.text")
-        contentEl?.select("script, .ads, ins.adsbygoogle, iframe, .ad-container")?.remove()
+        contentEl?.select("script, style, .ads, ins.adsbygoogle, iframe, .ad-container, .chapter-ad-container")?.remove()
         return contentEl?.html() ?: ""
     }
 
     // ===== Chapter Comments =====
+    // The new site (lightnovelworld.org) does not currently support chapter comments via API.
+    // Comment support can be re-enabled if the API adds it in the future.
 
-    /**
-     * LightNovelPub provides a JSON API for comments.
-     * URL: /api/comments/?comment_type=chapter&commentable_id={id}&sort=newest&page=1&parent_only=true
-     * Returns: { comments: [{ id, username, avatar, content, likes, created_at, replies: [...] }] }
-     *
-     * The chapter_id is found in the chapter page's meta tags or inline JS.
-     */
     override suspend fun getChapterComments(chapterUrl: String): List<NovelComment> {
-        val chapterId = extractChapterId(chapterUrl) ?: return emptyList()
-        return fetchComments(chapterId, true)
-    }
-
-    private suspend fun extractChapterId(chapterUrl: String): String? {
-        val doc = getDocument(chapterUrl)
-        // Try meta tag first
-        doc.selectFirst("meta[name=chapter-id]")?.attr("content")?.let { return it }
-        // Try inline JS: chapter_id = parseInt("12345")
-        val html = doc.outerHtml()
-        val regex = Regex("""chapter_id\s*=\s*parseInt\(["'](\d+)["']""")
-        regex.find(html)?.groupValues?.get(1)?.let { return it }
-        // Try data attribute
-        doc.selectFirst("[data-chapter-id]")?.attr("data-chapter-id")?.let { return it }
-        return null
-    }
-
-    private suspend fun fetchComments(chapterId: String, parentOnly: Boolean): List<NovelComment> {
-        val params = mutableListOf(
-            "comment_type" to "chapter",
-            "commentable_id" to chapterId,
-            "sort" to "newest",
-            "page" to "1"
-        )
-        if (parentOnly) params.add("parent_only" to "true")
-
-        val urlBuilder = StringBuilder("$baseUrl/api/comments/?")
-        params.forEachIndexed { i, (k, v) ->
-            if (i > 0) urlBuilder.append("&")
-            urlBuilder.append(k).append("=").append(v)
-        }
-
-        val response = get(urlBuilder.toString())
-        val body = response.body?.string() ?: return emptyList()
-
-        return try {
-            val jsonObj = json.parseToJsonElement(body).jsonObject
-            val commentsArray = jsonObj["comments"]?.jsonArray ?: jsonObj["data"]?.jsonArray ?: return emptyList()
-            commentsArray.map { parseComment(it.jsonObject) }
-        } catch (_: Exception) {
-            emptyList()
-        }
-    }
-
-    private fun parseComment(obj: JsonObject): NovelComment {
-        val id = obj["id"]?.jsonPrimitive?.content ?: ""
-        val username = obj["username"]?.jsonPrimitive?.content
-            ?: obj["user"]?.jsonObject?.get("name")?.jsonPrimitive?.content ?: "Unknown"
-        val avatar = obj["avatar"]?.jsonPrimitive?.contentOrNull
-            ?: obj["avatar_url"]?.jsonPrimitive?.contentOrNull
-        val content = obj["content"]?.jsonPrimitive?.content ?: ""
-        val likes = obj["likes"]?.jsonPrimitive?.intOrNull
-            ?: obj["like_count"]?.jsonPrimitive?.intOrNull ?: 0
-        val dateStr = obj["created_at"]?.jsonPrimitive?.contentOrNull
-        val repliesArray = obj["replies"]?.jsonArray
-        val replies = repliesArray?.map { parseComment(it.jsonObject) } ?: emptyList()
-
-        return NovelComment(
-            id = id,
-            userName = username,
-            avatarUrl = avatar,
-            content = content,
-            likes = likes,
-            replyCount = replies.size,
-            date = parseIsoDate(dateStr),
-            replies = replies
-        )
-    }
-
-    private fun parseIsoDate(dateStr: String?): Long {
-        if (dateStr.isNullOrBlank()) return 0L
-        return try {
-            val fmt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)
-            fmt.timeZone = TimeZone.getTimeZone("UTC")
-            fmt.parse(dateStr)?.time ?: 0L
-        } catch (_: Exception) {
-            try {
-                val fmt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
-                fmt.timeZone = TimeZone.getTimeZone("UTC")
-                fmt.parse(dateStr)?.time ?: 0L
-            } catch (_: Exception) {
-                try {
-                    val fmt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.US)
-                    fmt.parse(dateStr)?.time ?: 0L
-                } catch (_: Exception) { 0L }
-            }
-        }
+        return emptyList()
     }
 }
