@@ -45,11 +45,14 @@ class NovelFire : NovelSource() {
     override suspend fun search(query: String, page: Int): List<NovelSearchResult> {
         val url = "$baseUrl/search?title=${query.encodeUrl()}&page=$page"
         val doc = getDocument(url)
-        return doc.select("div.novel-item").map { el ->
+        return doc.select("li.novel-item").map { el ->
             val titleLink = el.selectFirst("a")
             val title = titleLink?.attr("title") ?: titleLink?.text() ?: ""
             val novelUrl = titleLink?.absUrl("href") ?: ""
-            val coverUrl = el.selectFirst("img")?.absUrl("src")
+            val img = el.selectFirst("img")
+            val coverUrl = img?.let {
+                it.absUrl("data-src").ifBlank { it.absUrl("src") }
+            }
             NovelSearchResult(title = title, url = novelUrl, coverUrl = coverUrl)
         }.filter { it.title.isNotBlank() && it.url.isNotBlank() }
     }
@@ -68,11 +71,15 @@ class NovelFire : NovelSource() {
 
     private suspend fun getBrowsePage(url: String): List<NovelSearchResult> {
         val doc = getDocument(url)
-        return doc.select("div.novel-item").map { el ->
+        return doc.select("li.novel-item").map { el ->
             val titleLink = el.selectFirst("a")
             val title = titleLink?.attr("title") ?: titleLink?.text() ?: ""
             val novelUrl = titleLink?.absUrl("href") ?: ""
-            val coverUrl = el.selectFirst("img")?.absUrl("src")
+            val img = el.selectFirst("img")
+            val coverUrl = img?.let {
+                // Lazy-loaded: real URL is in data-src, src is a placeholder
+                it.absUrl("data-src").ifBlank { it.absUrl("src") }
+            }
             NovelSearchResult(title = title, url = novelUrl, coverUrl = coverUrl)
         }.filter { it.title.isNotBlank() && it.url.isNotBlank() }
     }
@@ -98,7 +105,9 @@ class NovelFire : NovelSource() {
 
         val statusText = doc.selectFirst("small:contains(Status)")?.parent()?.text()
             ?: doc.selectFirst("li:contains(Status)")?.text()
-        val status = parseNovelStatus(statusText)
+        // "Ongoing Status" -> extract just the status word
+        val cleanedStatusText = statusText?.replace("(?i)Status".toRegex(), "")?.trim()
+        val status = parseNovelStatus(cleanedStatusText)
 
         val ratingText = doc.selectFirst("div.rating")?.text()?.substringBefore("/")?.trim()
         val rating = ratingText?.toFloatOrNull()
