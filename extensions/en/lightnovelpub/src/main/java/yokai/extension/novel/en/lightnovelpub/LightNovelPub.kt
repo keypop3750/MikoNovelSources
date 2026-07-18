@@ -25,23 +25,23 @@ import yokai.extension.novel.lib.SourceCapabilities
 /**
  * LightNovelPub / LightNovelWorld
  *
- * The original lightnovelpub.com / lightnovelworld.com was shut down in April 2025
- * due to Kakao Entertainment's anti-piracy action. This extension now targets the
- * replacement site at lightnovelworld.org, which provides a clean JSON API.
+ * The original lightnovelpub.com was shut down in April 2025 by Kakao Entertainment's
+ * anti-piracy action. The site relaunched at lightnovelpub.org (which also runs the
+ * "Chikari" platform). It provides a clean JSON API.
  *
- * API endpoints:
- *  - GET /api/novels?page=N&sort=popular  — browse popular (paginated, 20 per page)
- *  - GET /api/novels?page=N&sort=latest   — browse latest
- *  - GET /api/search?q=QUERY              — search by title
- *  - GET /api/novel/{slug}/chapters?page=N — chapter list (paginated, 150 per page)
- *  - GET /novel/{slug}/                   — novel details page (HTML)
- *  - GET /novel/{slug}/chapter/{number}/  — chapter content (HTML)
+ * API endpoints (all require trailing slashes):
+ *  - GET /api/novels/?page=N&sort=popular  — browse popular (paginated, 20 per page)
+ *  - GET /api/novels/?page=N&sort=latest   — browse latest
+ *  - GET /api/search/?q=QUERY              — search by title
+ *  - GET /api/novel/{slug}/chapters/?page=N — chapter list (paginated, 150 per page)
+ *  - GET /novel/{slug}/                    — novel details page (HTML)
+ *  - GET /novel/{slug}/chapter/{number}/   — chapter content (HTML)
  */
 class LightNovelPub : NovelSource() {
 
     override val id: Long = 6023L
     override val name: String = "LightNovelPub"
-    override val baseUrl: String = "https://lightnovelworld.org"
+    override val baseUrl: String = "https://lightnovelpub.org"
     override val lang: String = "en"
     override val hasMainPage: Boolean = true
     override val rateLimitMs: Long = 2000L
@@ -65,7 +65,7 @@ class LightNovelPub : NovelSource() {
     override suspend fun search(query: String, page: Int): List<NovelSearchResult> {
         // The search API returns all results at once (no pagination param)
         if (page > 1) return emptyList()
-        val url = "$baseUrl/api/search?q=${query.encodeUrl()}"
+        val url = "$baseUrl/api/search/?q=${query.encodeUrl()}"
         val response = get(url)
         val body = response.body?.string() ?: return emptyList()
         return try {
@@ -98,7 +98,7 @@ class LightNovelPub : NovelSource() {
     }
 
     private suspend fun getBrowsePage(page: Int, sort: String): List<NovelSearchResult> {
-        val url = "$baseUrl/api/novels?page=$page&sort=$sort"
+        val url = "$baseUrl/api/novels/?page=$page&sort=$sort"
         val response = get(url)
         val body = response.body?.string() ?: return emptyList()
         return try {
@@ -191,7 +191,7 @@ class LightNovelPub : NovelSource() {
         val chapters = mutableListOf<NovelChapter>()
         var page = 1
         while (true) {
-            val apiUrl = "$baseUrl/api/novel/$slug/chapters?page=$page"
+            val apiUrl = "$baseUrl/api/novel/$slug/chapters/?page=$page"
             val response = get(apiUrl)
             val body = response.body?.string() ?: break
             val jsonObj = try {
