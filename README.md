@@ -2,6 +2,14 @@
 
 Official novel extension repository for Miko (Yōkai) manga/novel reader.
 
+## Extension Repo URL
+
+Copy this URL and paste it into **Browse → Extensions → Extension Repos** in the app:
+
+```
+https://raw.githubusercontent.com/keypop3750/MikoNovelSources/main/index.min.json
+```
+
 ## About
 
 This repository contains novel source extensions that can be installed in Miko to read novels from various websites. Extensions are distributed as APK files that are dynamically loaded by the app.
