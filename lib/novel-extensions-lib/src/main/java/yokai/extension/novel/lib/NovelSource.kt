@@ -109,6 +109,37 @@ abstract class NovelSource {
      * @return List of chapters in reading order (first chapter first)
      */
     abstract suspend fun getChapterList(novelUrl: String): List<NovelChapter>
+
+    /**
+     * Get the latest chapters for a novel, fetching only enough to get
+     * chapters beyond what the user already has.
+     *
+     * Sources that support pagination can override this to avoid fetching
+     * the entire chapter list when only new chapters are needed.
+     *
+     * @param novelUrl URL of the novel's main page
+     * @param existingCount the number of chapters the user already has
+     * @return List of chapters (may be partial if the source supports incremental fetching)
+     */
+    open suspend fun getLatestChapters(novelUrl: String, existingCount: Int): List<NovelChapter> = getChapterList(novelUrl)
+
+    /**
+     * Get a single page of chapters for a novel.
+     *
+     * Sources that support pagination can override this to allow incremental fetching
+     * with progress tracking. The default implementation fetches all chapters on page 1.
+     *
+     * @param novelUrl URL of the novel's main page
+     * @param page the page number (1-indexed)
+     * @return a [ChapterPageResult] containing the chapters on this page and the total page count
+     */
+    open suspend fun getChapterListPage(novelUrl: String, page: Int): ChapterPageResult {
+        if (page == 1) {
+            val chapters = getChapterList(novelUrl)
+            return ChapterPageResult(chapters, 1, 1)
+        }
+        return ChapterPageResult(emptyList(), 1, 1)
+    }
     
     /**
      * Get the content of a chapter.
@@ -302,6 +333,7 @@ abstract class NovelSource {
         val formats = listOf(
             "yyyy-MM-dd'T'HH:mm:ss",
             "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+            "yyyy-MM-dd'T'HH:mm:ssXXX",
             "yyyy-MM-dd HH:mm:ss",
             "yyyy-MM-dd",
             "MMM dd, yyyy",
@@ -309,6 +341,10 @@ abstract class NovelSource {
             "dd MMM yyyy",
             "dd/MM/yyyy",
             "MM/dd/yyyy",
+            "EEEE, MMM dd, yyyy h:mm:ss a",
+            "EEEE, MMMM dd, yyyy h:mm:ss a",
+            "MMMM dd, yyyy",
+            "MMM dd, yyyy h:mm:ss a",
         )
         for (format in formats) {
             runCatching {

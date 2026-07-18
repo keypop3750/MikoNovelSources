@@ -24,11 +24,20 @@ include ':extensions:en:royalroad'
 include ':extensions:en:scribblehub'
 include ':extensions:en:novelfull'
 include ':extensions:en:novelbin'
-include ':extensions:en:freewebnovel'
 include ':extensions:en:novelsonline'
+include ':extensions:en:webnovel'
+include ':extensions:en:readnovelfull'
 
 // New extensions (ported from QuickNovel)
 include ':extensions:en:libread'
+include ':extensions:en:freewebnovel'
+include ':extensions:en:ranobes'
+
+// New novel source extensions
+include ':extensions:en:lightnovelpub'
+include ':extensions:en:novelfire'
+include ':extensions:en:novelroll'
+include ':extensions:en:novelpedia'
 
 // Multi-language extensions
 include ':extensions:en:annasarchive'

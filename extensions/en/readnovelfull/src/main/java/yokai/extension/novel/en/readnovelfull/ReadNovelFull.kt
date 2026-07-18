@@ -1,6 +1,9 @@
 package yokai.extension.novel.en.readnovelfull
 
 import yokai.extension.novel.lib.*
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
@@ -87,31 +90,62 @@ class ReadNovelFull : ConfigurableNovelSource() {
         popularUrlPattern = "$baseUrl/novel-list/most-popular-novel?page={page}",
         latestUrlPattern = "$baseUrl/novel-list/latest-release-novel?page={page}",
         
-        // Don't fetch full cover - some novels don't have covers on the site itself
-        fetchFullCoverFromDetails = false
+        // Fetch full cover from detail pages — browse thumbnails are 200x89 (wide)
+        // which causes extreme cropping in the 2:3 portrait grid
+        fetchFullCoverFromDetails = true
     )
     
-    // Override search
-    override suspend fun search(query: String, page: Int): List<NovelSearchResult> {
+    // Override search — fetch full covers from detail pages to avoid cropped thumbnails
+    override suspend fun search(query: String, page: Int): List<NovelSearchResult> = coroutineScope {
         val url = if (page == 1) {
             "$baseUrl/novel-list/search?keyword=${query.encodeUrl()}"
         } else {
             "$baseUrl/novel-list/search?keyword=${query.encodeUrl()}&page=$page"
         }
-        
-        return parseNovelList(getDocument(url))
+
+        val items = parseNovelList(getDocument(url))
+        if (selectors.fetchFullCoverFromDetails) {
+            items.map { item ->
+                async {
+                    val coverUrl = getFullCoverUrl(item.url)
+                    item.copy(coverUrl = coverUrl)
+                }
+            }.awaitAll()
+        } else {
+            items
+        }
     }
-    
-    // Override getPopularNovels
-    override suspend fun getPopularNovels(page: Int): List<NovelSearchResult> {
+
+    // Override getPopularNovels — fetch full covers from detail pages
+    override suspend fun getPopularNovels(page: Int): List<NovelSearchResult> = coroutineScope {
         val document = getDocument("$baseUrl/novel-list/most-popular-novel?page=$page")
-        return parseNovelList(document)
+        val items = parseNovelList(document)
+        if (selectors.fetchFullCoverFromDetails) {
+            items.map { item ->
+                async {
+                    val coverUrl = getFullCoverUrl(item.url)
+                    item.copy(coverUrl = coverUrl)
+                }
+            }.awaitAll()
+        } else {
+            items
+        }
     }
-    
-    // Override getLatestUpdates
-    override suspend fun getLatestUpdates(page: Int): List<NovelSearchResult> {
+
+    // Override getLatestUpdates — fetch full covers from detail pages
+    override suspend fun getLatestUpdates(page: Int): List<NovelSearchResult> = coroutineScope {
         val document = getDocument("$baseUrl/novel-list/latest-release-novel?page=$page")
-        return parseNovelList(document)
+        val items = parseNovelList(document)
+        if (selectors.fetchFullCoverFromDetails) {
+            items.map { item ->
+                async {
+                    val coverUrl = getFullCoverUrl(item.url)
+                    item.copy(coverUrl = coverUrl)
+                }
+            }.awaitAll()
+        } else {
+            items
+        }
     }
     
     private fun parseNovelList(document: Document): List<NovelSearchResult> {
@@ -137,7 +171,7 @@ class ReadNovelFull : ConfigurableNovelSource() {
             )
         }
     }
-    
+
     // Override getNovelDetails
     override suspend fun getNovelDetails(url: String): NovelDetails {
         val document = getDocument(url)

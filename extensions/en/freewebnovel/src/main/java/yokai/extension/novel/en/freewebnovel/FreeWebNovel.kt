@@ -3,36 +3,50 @@ package yokai.extension.novel.en.freewebnovel
 import yokai.extension.novel.lib.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.intOrNull
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
 /**
- * Source for FreeWebNovel (freewebnovel.com)
- * 
- * DEPRECATED: FreeWebNovel is migrating to LibRead (libread.com).
- * This extension is kept for backward compatibility but LibRead is preferred.
- * LibRead now includes FreeWebNovel as a fallback mirror.
- * 
- * Uses the LibRead-style template - extends LibReadProvider in QuickNovel.
- * 
+ * FreeWebNovel source (freewebnovel.com)
+ *
+ * FreeWebNovel is a popular web novel aggregator. LibRead (libread.com) is an
+ * intermediary mirror that redirects chapter pages back here, so this source
+ * hits FreeWebNovel directly for reliability.
+ *
+ * Structure:
+ * - Popular:   /sort/most-popular/{page}
+ * - Latest:    /sort/latest-release/{page}
+ * - Completed: /sort/completed-novels/{page}
+ * - Novel URLs: /novel/{slug}
+ * - Chapter URLs: /novel/{slug}/chapter-{num}
+ * - Cover images: /files/article/image/{folder}/{id}/{id}s.jpg
+ *
+ * Chapter list: GET /novel/{slug}?ajax=chapters&page=N&pageSize=40
+ *   Returns JSON: {"code":200,"html":"<li>...</li>","page":N,"totalChapters":M}
+ *
+ * Chapter content: div#article (inside div.txt)
+ *
+ * Search: POST /search with form field "searchkey"
+ *
  * Supported filters:
  * - Sort: Popular, Latest
  */
-@Deprecated("FreeWebNovel is migrating to LibRead. Use LibRead extension instead.")
 class FreeWebNovel : ConfigurableNovelSource() {
-    
+
     override val id: Long = 6004L
-    override val name: String = "FreeWebNovel (→LibRead)"
+    override val name: String = "FreeWebNovel"
     override val baseUrl: String = "https://freewebnovel.com"
     override val lang: String = "en"
     override val hasMainPage: Boolean = true
     override val rateLimitMs: Long = 500L
-    
-    /**
-     * Declare this source's filtering capabilities.
-     */
+
     override fun getCapabilities(): SourceCapabilities = SourceCapabilities(
         supportedSorts = listOf("popular", "last_updated"),
         supportsSortDirection = false,
-        supportedGenres = emptyList(),  // No genre browse pages
+        supportedGenres = emptyList(),
         supportsGenreExclusion = false,
         supportedStatuses = emptyList(),
         supportedContentWarnings = emptyList(),
@@ -42,149 +56,246 @@ class FreeWebNovel : ConfigurableNovelSource() {
         supportsSearch = true,
         supportsAuthorFilter = false
     )
-    
-    /**
-     * Browse novels with applied filters.
-     * FreeWebNovel supports basic sort options only.
-     */
+
     override suspend fun getBrowseNovels(page: Int, filters: Map<String, String>): List<NovelSearchResult> {
         val sort = filters["sort"] ?: "popular"
-        
         return when (sort) {
             "last_updated" -> getLatestUpdates(page)
-            else -> getPopularNovels(page)  // Default to popular
+            else -> getPopularNovels(page)
         }
     }
-    
+
     override val selectors = SourceSelectors(
-        // Search selectors - LibRead/FreeWebNovel style (POST search returns different HTML)
+        // Browse selectors
+        browseItemSelector = "div.li-row",
+        browseTitleSelector = "h3.tit > a",
+        browseCoverSelector = "div.pic img",
+
+        // Search selectors (POST /search returns same div.li-row structure)
         searchItemSelector = "div.li-row",
         searchTitleSelector = "h3.tit > a",
-        searchCoverSelector = "div.pic > a > img, div.pic > img",
-        coverAttribute = "src",
-        
-        // Browse selectors - from LibReadProvider
-        browseItemSelector = "div.ul-list1.ul-list1-2.ss-custom > div.li-row",
-        browseTitleSelector = "h3.tit > a",
-        browseCoverSelector = "div.pic > a > img",
-        
-        // Novel details selectors - from LibReadProvider
+        searchCoverSelector = "div.pic img",
+
+        // Novel details selectors
         detailTitleSelector = "h1.tit",
-        detailCoverSelector = "div.pic > img",
+        detailCoverSelector = "div.pic img",
         descriptionSelector = "div.inner",
-        authorSelector = "span.glyphicon.glyphicon-user ~ a",
-        genreSelector = "span.glyphicon.glyphicon-th-list ~ a",
-        statusSelector = "span.s1.s3 a, span.s1.s2 a",
-        ratingSelector = "div.m-desc > div.score > p:nth-child(2)",
-        
-        // Chapter list selectors - uses AJAX API
-        chapterListSelector = "option[value]",
-        
-        // Chapter content selectors
-        chapterContentSelector = "div.txt",
-        contentRemoveSelectors = listOf("script", "div.ads", "ins.adsbygoogle", "iframe", "div.txt > .notice-text"),
+        // Author: span.glyphicon-user ~ div.right a (sibling combinator — a is inside div.right)
+        authorSelector = "span.glyphicon-user ~ div.right a",
+        // Genres: span.glyphicon-th-list ~ div.right a (scoped to info section via sibling)
+        genreSelector = "span.glyphicon-th-list ~ div.right a",
+        // Status: span.glyphicon-time ~ div.right (text: "OnGoing" or "Full")
+        statusSelector = "span.glyphicon-time ~ div.right",
+
+        // Chapter list — overridden with AJAX endpoint
+        chapterListSelector = "option",
+
+        // Chapter content
+        chapterContentSelector = "div#article",
+        contentRemoveSelectors = listOf(
+            "script", "div.ads", "ins", "div.chapter-warning",
+            "p.report-tips", ".reader-ad-skip", "div[class*=bg-ssp]"
+        ),
         contentRemovePatterns = listOf(
             "freewebnovel.com",
             "libread.com",
             "New novel chapters are published on Freewebnovel.com.",
             "The source of this content is Freewebnᴏvel.com.",
-            "☞ We are moving Freewebnovel.com to Libread.com, Please visit libread.com for more chapters! ☜"
+            "We are moving Freewebnovel.com to Libread.com, Please visit libread.com for more chapters!"
         ),
-        
-        // URL patterns - FIXED: correct URL for popular and latest
-        searchUrlPattern = "https://freewebnovel.com/search", // POST request, query added as form data
-        popularUrlPattern = "https://freewebnovel.com/sort/most-popular",  // No pagination
-        latestUrlPattern = "https://freewebnovel.com/sort/latest-release/{page}",
-        
+
+        // URL patterns
+        searchUrlPattern = "$baseUrl/search",
+        popularUrlPattern = "$baseUrl/sort/most-popular/{page}",
+        latestUrlPattern = "$baseUrl/sort/latest-release/{page}",
+
         fetchFullCoverFromDetails = false
     )
-    
-    // Override getPopularNovels to handle FreeWebNovel's non-paginated popular page
-    override suspend fun getPopularNovels(page: Int): List<NovelSearchResult> {
-        // FreeWebNovel's popular page shows all popular novels without pagination
-        // Only fetch on page 1 to avoid duplicates
-        if (page > 1) {
-            return emptyList()
-        }
-        
-        val document = getDocument("$baseUrl/sort/most-popular")
-        return parseNovelItems(document, forSearch = false)
-    }
-    
-    // Override getLatestUpdates to use the correct URL pattern
-    override suspend fun getLatestUpdates(page: Int): List<NovelSearchResult> {
-        val url = "$baseUrl/sort/latest-release/$page"
-        val document = getDocument(url)
-        return parseNovelItems(document, forSearch = false)
-    }
-    
-    // Override search to use POST request with correct headers
+
+    // ===== Search =====
+
     override suspend fun search(query: String, page: Int): List<NovelSearchResult> {
+        if (page > 1) return emptyList()
+
         val response = postForm(
-            "$baseUrl/search",
-            mapOf("searchkey" to query),
-            mapOf(
-                "referer" to baseUrl,
-                "x-requested-with" to "XMLHttpRequest",
-                "content-type" to "application/x-www-form-urlencoded",
-                "accept" to "*/*"
+            url = "$baseUrl/search",
+            data = mapOf("searchkey" to query),
+            headerMap = mapOf(
+                "Referer" to baseUrl,
+                "Content-Type" to "application/x-www-form-urlencoded"
             )
         )
-        val document = parseHtml(response)
-        
-        return document.select("div.li-row > div.li > div.con").mapNotNull { element ->
-            val titleElement = element.selectFirst("div.txt > h3.tit > a") ?: return@mapNotNull null
-            val title = titleElement.attr("title").ifBlank { titleElement.text() }
-            val novelUrl = fixUrl(titleElement.attr("href"))
-            val coverUrl = element.selectFirst("div.pic > img")?.attr("src")?.let { fixUrlOrNull(it) }
-            
-            NovelSearchResult(
-                title = title,
-                url = novelUrl,
-                coverUrl = coverUrl
-            )
-        }
+        val document = Jsoup.parse(response, baseUrl)
+        return parseNovelList(document)
     }
-    
-    // Override getChapterList to use FreeWebNovel's AJAX API
+
+    // ===== Browse =====
+
+    override suspend fun getPopularNovels(page: Int): List<NovelSearchResult> {
+        val url = if (page == 1) {
+            "$baseUrl/sort/most-popular"
+        } else {
+            "$baseUrl/sort/most-popular/$page"
+        }
+        return parseNovelList(getDocument(url))
+    }
+
+    override suspend fun getLatestUpdates(page: Int): List<NovelSearchResult> {
+        val url = if (page == 1) {
+            "$baseUrl/sort/latest-release"
+        } else {
+            "$baseUrl/sort/latest-release/$page"
+        }
+        return parseNovelList(getDocument(url))
+    }
+
+    // ===== Novel Details =====
+
+    override suspend fun getNovelDetails(url: String): NovelDetails {
+        val document = getDocument(url)
+
+        val title = document.selectFirst("h1.tit")?.text()?.trim()
+            ?: throw Exception("Could not find novel title")
+
+        val coverUrl = document.selectFirst("div.pic img, img[src*='/files/article/']")
+            ?.attr("src")
+            ?.let { fixUrl(it) }
+
+        val description = document.selectFirst("div.inner")?.text()
+
+        // Author: a[href*="/author/"] in the info section
+        val author = document.selectFirst("span.glyphicon-user ~ div.right a, a[href*='/author/']")?.text()?.trim()
+
+        // Genres: links to /genre/ within the info section (span.glyphicon-th-list ~ div.right a)
+        val genres = document.select("span.glyphicon-th-list ~ div.right a").map { it.text().trim() }
+            .ifEmpty { document.select("div.m-info a[href*='/genre/']").map { it.text().trim() } }
+
+        // Status: "OnGoing" or "Full" in the status item
+        val statusText = document.selectFirst("span.glyphicon-time ~ div.right")?.text()
+            ?: document.selectFirst("span.s2")?.text()
+        val status = when {
+            statusText?.contains("Full", ignoreCase = true) == true -> NovelStatus.COMPLETED
+            statusText?.contains("Ongoing", ignoreCase = true) == true -> NovelStatus.ONGOING
+            else -> NovelStatus.UNKNOWN
+        }
+
+        return NovelDetails(
+            url = url,
+            title = title,
+            coverUrl = coverUrl,
+            description = description,
+            author = author,
+            genres = genres,
+            status = status
+        )
+    }
+
+    // ===== Chapter List =====
+
+    // Use the AJAX chapter list endpoint — returns JSON with HTML fragment.
+    // GET /novel/{slug}?ajax=chapters&page=N&pageSize=40
+    // Response: {"code":200,"html":"<li><a href="...">...</a></li>","totalChapters":M}
     override suspend fun getChapterList(novelUrl: String): List<NovelChapter> {
-        val trimmedUrl = novelUrl.trim().removeSuffix("/")
-        val response = get(novelUrl)
-        val responseText = response.body?.string() ?: ""
-        
-        // Extract aid from the page - look for pattern like "12345s.jpg"
-        val aid = Regex("[0-9]+s.jpg").find(responseText)
-            ?.value?.substringBefore("s")
-        
-        if (aid != null) {
-            try {
-                val chaptersResponse = postForm(
-                    "$baseUrl/api/chapterlist.php",
-                    mapOf("aid" to aid)
-                )
-                val chaptersDoc = Jsoup.parse(chaptersResponse.replace("""\""", ""))
-                val prefix = trimmedUrl.removeSuffix(".html")
-                
-                return chaptersDoc.select("option").mapIndexed { index, element ->
-                    val chapterPath = element.attr("value").split('/').last()
-                    val chapterUrl = "$prefix/$chapterPath"
-                    val chapterTitle = element.text().ifEmpty { "Chapter ${index + 1}" }
-                    
+        val chapters = mutableListOf<NovelChapter>()
+        var page = 1
+        val pageSize = 40
+
+        while (true) {
+            val ajaxUrl = "$novelUrl?ajax=chapters&page=$page&pageSize=$pageSize"
+            val response = get(ajaxUrl, headers).body?.string() ?: break
+
+            val json = Json { ignoreUnknownKeys = true }
+            val parsed = try {
+                json.parseToJsonElement(response).jsonObject
+            } catch (_: Exception) { break }
+
+            val htmlStr = parsed["html"]?.jsonPrimitive?.contentOrNull ?: break
+            if (htmlStr.isBlank()) break
+
+            val totalChapters = parsed["totalChapters"]?.jsonPrimitive?.intOrNull ?: 0
+
+            val doc = Jsoup.parse(htmlStr, baseUrl)
+            val chapterLinks = doc.select("li > a[href]")
+            if (chapterLinks.isEmpty()) break
+
+            chapterLinks.forEach { link ->
+                val href = link.attr("href")
+                if (href.isBlank()) return@forEach
+
+                val chapterUrl = fixUrl(href)
+                val name = link.selectFirst(".title, span.title")?.text()
+                    ?: link.attr("title").takeIf { it.isNotBlank() }
+                    ?: link.text().takeIf { it.isNotBlank() }
+                    ?: "Chapter ${chapters.size + 1}"
+
+                val chNum = Regex("(?:chapter\\s*)?(\\d+)", RegexOption.IGNORE_CASE)
+                    .find(name)?.groupValues?.get(1)?.toFloatOrNull() ?: -1f
+
+                chapters.add(
                     NovelChapter(
                         url = chapterUrl,
-                        name = chapterTitle,
-                        chapterNumber = (index + 1).toFloat()
+                        name = name,
+                        chapterNumber = chNum
                     )
-                }
-            } catch (e: Exception) {
-                android.util.Log.e("FreeWebNovel", "AJAX chapter fetch failed: ${e.message}")
+                )
             }
+
+            if (totalChapters > 0 && chapters.size >= totalChapters) break
+            if (chapterLinks.size < pageSize) break
+
+            page++
         }
-        
-        // Fallback to HTML parsing
-        val document = getDocument(novelUrl)
-        return parseChaptersFromDocument(document).mapIndexed { index, chapter ->
-            chapter.copy(chapterNumber = (index + 1).toFloat())
-        }
+
+        // AJAX returns newest-first; reverse to get first chapter first
+        return chapters.reversed()
+            .distinctBy { it.url }
+            .distinctBy { it.chapterNumber }
+    }
+
+    // ===== Chapter Content =====
+
+    // Fetches chapter text from div#article (inside div.txt).
+    // FreeWebNovel serves content server-side — no JS needed.
+    override suspend fun getChapterContent(chapterUrl: String): String {
+        val document = getDocument(chapterUrl)
+
+        // Prefer div#article (the actual content container), fall back to div.txt
+        val content = (document.selectFirst("div#article") ?: document.selectFirst("div.txt"))?.let { element ->
+            element.select("script, div.ads, ins, div.chapter-warning, p.report-tips, .reader-ad-skip, div[class*=bg-ssp]").remove()
+            element.html()
+        } ?: throw Exception("Could not find chapter content")
+
+        // Clean up watermarks
+        return content
+            .replace("\uD835\uDCF5\uD835\uDC8A\uD835\uDC83\uD835\uDE67\uD835\uDE5A\uD835\uDC82\uD835\uDCED.\uD835\uDCEC\uD835\uDE64\uD835\uDE62", "", ignoreCase = true)
+            .replace("freewebnovel.com", "", ignoreCase = true)
+            .replace("libread.com", "", ignoreCase = true)
+            .replace("☞ We are moving Freewebnovel.com to Libread.com, Please visit libread.com for more chapters! ☜", "")
+    }
+
+    // ===== Helpers =====
+
+    /**
+     * Parse novel list from browse/search pages.
+     * Structure: div.li-row contains div.pic > a > img and div.txt > h3.tit > a
+     */
+    private fun parseNovelList(document: Document): List<NovelSearchResult> {
+        return document.select("div.li-row").mapNotNull { row ->
+            val titleElement = row.selectFirst("h3.tit > a") ?: return@mapNotNull null
+            val title = titleElement.attr("title").ifBlank { titleElement.text() }.trim()
+            val url = titleElement.attr("href")
+
+            if (title.isBlank() || url.isBlank()) return@mapNotNull null
+
+            val coverUrl = row.selectFirst("div.pic img")
+                ?.attr("src")
+                ?.let { fixUrl(it) }
+
+            NovelSearchResult(
+                title = title,
+                url = fixUrl(url),
+                coverUrl = coverUrl
+            )
+        }.distinctBy { it.url }
     }
 }

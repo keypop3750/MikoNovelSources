@@ -49,6 +49,15 @@ data class NovelChapter(
 )
 
 /**
+ * A single page of chapters from a paginated chapter list.
+ */
+data class ChapterPageResult(
+    val chapters: List<NovelChapter>,
+    val totalPages: Int,
+    val currentPage: Int
+)
+
+/**
  * Publication status of a novel.
  */
 @Serializable

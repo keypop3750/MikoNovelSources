@@ -4,7 +4,7 @@ import yokai.extension.novel.lib.*
 import org.jsoup.nodes.Document
 
 /**
- * Source for NovelBin (novelbin.me)
+ * Source for NovelBin (novelbin.com)
  * Large library of translated novels with multiple genres.
  * 
  * The website has changed to a new domain and HTML structure.
@@ -19,7 +19,7 @@ class NovelBin : ConfigurableNovelSource() {
     
     override val id: Long = 6003L
     override val name: String = "NovelBin"
-    override val baseUrl: String = "https://novelbin.me"
+    override val baseUrl: String = "https://novelbin.com"
     override val lang: String = "en"
     override val hasMainPage: Boolean = true
     override val rateLimitMs: Long = 500L
@@ -92,7 +92,7 @@ class NovelBin : ConfigurableNovelSource() {
         chapterListSelector = "select > option[value], ul.list-chapter li a, .chapter-list li a",
         novelIdSelector = "#rating, input[name='novel_id']",
         novelIdAttribute = "data-novel-id",
-        chapterAjaxUrl = "https://novelbin.me/ajax/chapter-archive?novelId={id}",
+        chapterAjaxUrl = "https://novelbin.com/ajax/chapter-archive?novelId={id}",
         
         // Chapter content selectors
         chapterContentSelector = "#chapter-content, #chr-content, div.chapter-content",
@@ -107,9 +107,9 @@ class NovelBin : ConfigurableNovelSource() {
         ),
         
         // URL patterns
-        searchUrlPattern = "https://novelbin.me/search?keyword={query}",
-        popularUrlPattern = "https://novelbin.me/sort/novelbin-hot?page={page}",
-        latestUrlPattern = "https://novelbin.me/sort/new-novel?page={page}",
+        searchUrlPattern = "https://novelbin.com/search?keyword={query}",
+        popularUrlPattern = "https://novelbin.com/sort/novelbin-hot?page={page}",
+        latestUrlPattern = "https://novelbin.com/sort/new-novel?page={page}",
         
         // Transform thumbnail URLs to full cover URLs
         // NovelBin uses /novel_80_113/ for thumbnails and /novel/ for full covers

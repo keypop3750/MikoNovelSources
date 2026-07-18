@@ -1,8 +1,14 @@
 package yokai.extension.novel.en.libread
 
 import yokai.extension.novel.lib.*
+import okhttp3.Request
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.intOrNull
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
 /**
  * LibRead source (libread.com)
@@ -33,9 +39,13 @@ class LibRead : ConfigurableNovelSource() {
     /**
      * Fallback mirror URLs. If primary fails, try these in order.
      * FreeWebNovel is merging into LibRead, so they share the same structure.
+     *
+     * TODO: Hook up FreeWebNovel as fallback, but avoid duplicate chapters.
+     * The fallback was causing duplicate chapter issues — re-enable once
+     * deduplication is robust enough to handle cross-site duplicates.
      */
-    private val fallbackUrls = listOf(
-        "https://freewebnovel.com"
+    private val fallbackUrls = listOf<String>(
+        // "https://freewebnovel.com"
     )
     
     /**
@@ -95,7 +105,11 @@ class LibRead : ConfigurableNovelSource() {
         contentRemoveSelectors = listOf("script", "div.ads", "ins", "div.chapter-warning", "p.report-tips"),
         contentRemovePatterns = listOf(
             "libread.com",
-            "Please report us if you find any errors"
+            "freewebnovel.com",
+            "Please report us if you find any errors",
+            "New novel chapters are published on Freewebnovel.com.",
+            "The source of this content is Freewebnᴏvel.com.",
+            "We are moving Freewebnovel.com to Libread.com, Please visit libread.com for more chapters!"
         ),
         
         // URL patterns
@@ -245,91 +259,131 @@ class LibRead : ConfigurableNovelSource() {
         )
     }
     
-    // Override getChapterList to use chapterlist.php API
+    // Override getChapterList to use the AJAX chapter list endpoint.
+    // The old chapterlist.php API returned malformed URLs with "-0" slug placeholder
+    // and required error-prone URL reconstruction (wrong zero-padding).
+    // The ?ajax=chapters endpoint returns correct, ready-to-use chapter URLs.
     override suspend fun getChapterList(novelUrl: String): List<NovelChapter> {
-        val document = getDocument(novelUrl)
-        
-        // Extract the novel ID from the image src pattern like "573s.jpg"
-        val html = document.html()
-        val aid = Regex("/([0-9]+)s\\.jpg").find(html)?.groupValues?.get(1)
-            ?: Regex("([0-9]+)s\\.jpg").find(html)?.value?.substringBefore("s")
-            ?: throw Exception("Could not find novel ID")
-        
-        // Fetch chapter list from API
-        val chaptersResponse = postForm(
-            url = "$baseUrl/api/chapterlist.php",
-            data = mapOf("aid" to aid)
-        )
-        
-        val chaptersDoc = Jsoup.parse(chaptersResponse.replace("\\\"", "\""), baseUrl)
-        val prefix = novelUrl.trim().removeSuffix("/")
-        
-        return chaptersDoc.select("option").mapIndexedNotNull { index, element ->
-            val chapterSlug = element.attr("value").split('/').lastOrNull() ?: return@mapIndexedNotNull null
-            if (chapterSlug.isBlank()) return@mapIndexedNotNull null
-            
-            val chapterUrl = "$prefix/$chapterSlug"
-            // Clean up chapter name - remove any escaped HTML artifacts
-            val rawName = element.text().ifBlank { "Chapter ${index + 1}" }
-            val name = rawName
-                .replace(Regex("<\\\\?/?option[^>]*>"), "")  // Remove escaped option tags
-                .replace(Regex("\\}\"?\\s*$"), "")           // Remove trailing }
-                .replace(Regex("^\"?\\s*"), "")              // Remove leading quotes
-                .trim()
-                .ifBlank { "Chapter ${index + 1}" }
-            
-            NovelChapter(
-                url = chapterUrl,
-                name = name,
-                chapterNumber = (index + 1).toFloat()
-            )
+        val chapters = mutableListOf<NovelChapter>()
+        var page = 1
+        val pageSize = 40
+
+        while (true) {
+            val ajaxUrl = "$novelUrl?ajax=chapters&page=$page&pageSize=$pageSize"
+            val response = get(ajaxUrl, headers).body?.string() ?: break
+
+            // Parse JSON response: {"code":200,"html":"<li>...</li>","page":N,"totalChapters":M}
+            val json = kotlinx.serialization.json.Json { ignoreUnknownKeys = true }
+            val parsed = try {
+                json.parseToJsonElement(response).jsonObject
+            } catch (_: Exception) { break }
+
+            val htmlStr = parsed["html"]?.jsonPrimitive?.contentOrNull ?: break
+            if (htmlStr.isBlank()) break
+
+            val totalChapters = parsed["totalChapters"]?.jsonPrimitive?.intOrNull ?: 0
+
+            val doc = Jsoup.parse(htmlStr, baseUrl)
+            val chapterLinks = doc.select("li > a[href]")
+
+            if (chapterLinks.isEmpty()) break
+
+            chapterLinks.forEach { link ->
+                val href = link.attr("href")
+                if (href.isBlank()) return@forEach
+
+                val chapterUrl = fixUrl(href)
+                val name = link.selectFirst(".title, span.title")?.text()
+                    ?: link.attr("title").takeIf { it.isNotBlank() }
+                    ?: link.text().takeIf { it.isNotBlank() }
+                    ?: "Chapter ${chapters.size + 1}"
+
+                val chNum = Regex("(?:chapter\\s*)?(\\d+)", RegexOption.IGNORE_CASE)
+                    .find(name)?.groupValues?.get(1)?.toFloatOrNull() ?: -1f
+
+                chapters.add(
+                    NovelChapter(
+                        url = chapterUrl,
+                        name = name,
+                        chapterNumber = chNum
+                    )
+                )
+            }
+
+            // Check if we've fetched all chapters
+            if (totalChapters > 0 && chapters.size >= totalChapters) break
+            if (chapterLinks.size < pageSize) break
+
+            page++
         }
+
+        // Reverse to get first chapter first (AJAX returns newest first)
+        return chapters.reversed()
+            .distinctBy { it.url }
+            .distinctBy { it.chapterNumber }
     }
-    
-    // Override getChapterContent with fallback support
+
+    // Override getChapterContent — fetches chapter text from div#article (inside div.txt)
+    //
+    // libread.com chapter pages now 302 redirect to freewebnovel.com. OkHttp follows
+    // the redirect by default, but the CloudflareInterceptor is an application interceptor
+    // that sees the ORIGINAL request URL (libread.com), not the redirected URL
+    // (freewebnovel.com). If freewebnovel.com returns a Cloudflare challenge, the
+    // interceptor's WebView bypass loads the libread.com URL — not freewebnovel.com —
+    // so the cf_clearance cookie is obtained for the wrong domain and the retry still
+    // fails.
+    //
+    // Fix: disable redirect following for this request, detect the 302, and fetch
+    // directly from the redirected freewebnovel.com URL. This way the
+    // CloudflareInterceptor handles any challenge on the correct domain.
     override suspend fun getChapterContent(chapterUrl: String): String {
-        return withFallback(chapterUrl) { url ->
-            val document = getDocument(url)
-            
-            val content = document.selectFirst("div.txt")?.let { element ->
-                element.select("script, div.ads, ins, div.chapter-warning, p.report-tips").remove()
-                element.html()
-            } ?: throw Exception("Could not find chapter content")
-            
-            // Clean up watermarks from both sites
-            content
-                .replace("\uD835\uDCF5\uD835\uDC8A\uD835\uDC83\uD835\uDE67\uD835\uDE5A\uD835\uDC82\uD835\uDCED.\uD835\uDCEC\uD835\uDE64\uD835\uDE62", "", ignoreCase = true)
-                .replace("libread.com", "", ignoreCase = true)
-                .replace("freewebnovel.com", "", ignoreCase = true)
-                .replace("☞ We are moving Freewebnovel.com to Libread.com, Please visit libread.com for more chapters! ☜", "")
-        }
+        val finalUrl = resolveChapterUrl(chapterUrl)
+        val document = getDocument(finalUrl)
+
+        // Prefer div#article (the actual content container), fall back to div.txt (outer wrapper)
+        val content = (document.selectFirst("div#article") ?: document.selectFirst("div.txt"))?.let { element ->
+            element.select("script, div.ads, ins, div.chapter-warning, p.report-tips, .reader-ad-skip, div[class*=bg-ssp]").remove()
+            element.html()
+        } ?: throw Exception("Could not find chapter content")
+
+        // Clean up watermarks
+        return content
+            .replace("\uD835\uDCF5\uD835\uDC8A\uD835\uDC83\uD835\uDE67\uD835\uDE5A\uD835\uDC82\uD835\uDCED.\uD835\uDCEC\uD835\uDE64\uD835\uDE62", "", ignoreCase = true)
+            .replace("libread.com", "", ignoreCase = true)
+            .replace("freewebnovel.com", "", ignoreCase = true)
+            .replace("☞ We are moving Freewebnovel.com to Libread.com, Please visit libread.com for more chapters! ☜", "")
     }
-    
+
     /**
-     * Execute an operation with fallback support.
-     * If the primary URL fails, try the same path on fallback mirrors.
+     * Resolve a libread.com chapter URL, following a single 302 redirect manually.
+     *
+     * libread.com redirects chapter pages to freewebnovel.com. We follow the redirect
+     * ourselves (instead of letting OkHttp do it) so that Cloudflare challenges on the
+     * redirected domain are handled correctly by the CloudflareInterceptor.
      */
-    private suspend fun <T> withFallback(url: String, operation: suspend (String) -> T): T {
-        // Try primary URL first
-        try {
-            return operation(url)
-        } catch (primaryError: Exception) {
-            android.util.Log.w("LibRead", "Primary URL failed: $url - ${primaryError.message}")
-            
-            // Try fallback mirrors
-            val path = url.removePrefix(baseUrl)
-            for (fallbackBase in fallbackUrls) {
-                try {
-                    val fallbackUrl = "$fallbackBase$path"
-                    android.util.Log.d("LibRead", "Trying fallback: $fallbackUrl")
-                    return operation(fallbackUrl)
-                } catch (fallbackError: Exception) {
-                    android.util.Log.w("LibRead", "Fallback failed: $fallbackBase - ${fallbackError.message}")
+    private suspend fun resolveChapterUrl(chapterUrl: String): String {
+        return try {
+            val noRedirectClient = client.newBuilder()
+                .followRedirects(false)
+                .followSslRedirects(false)
+                .build()
+
+            val request = Request.Builder()
+                .url(chapterUrl)
+                .headers(headers)
+                .build()
+
+            val response = noRedirectClient.newCall(request).execute()
+            response.use { resp ->
+                if (resp.code in 301..308) {
+                    val location = resp.header("Location")
+                    if (!location.isNullOrBlank()) fixUrl(location) else chapterUrl
+                } else {
+                    chapterUrl
                 }
             }
-            
-            // All failed, throw original error
-            throw primaryError
+        } catch (_: Exception) {
+            chapterUrl
         }
     }
 }

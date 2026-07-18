@@ -83,11 +83,50 @@ class WebNovel : ConfigurableNovelSource() {
         return fetchRankingsFromHtml(rankType, page)
     }
 
+    /// Generic button/link text that should not be treated as a novel title
+    private val genericLinkTexts = setOf(
+        "read", "read now", "read here", "start reading", "read free", "read online",
+        "more", "details", "view", "view all", "see all", "check", "open",
+        "add", "add to library", "library", "share", "comment", "review",
+    )
+
+    private fun isGenericLinkText(text: String): Boolean {
+        return genericLinkTexts.contains(text.lowercase().trim())
+    }
+
+    /// Extract a real title from an anchor element, skipping "Read" buttons.
+    /// Prefers heading elements near the anchor, then title attribute, then anchor text.
+    private fun extractTitleFromAnchor(a: org.jsoup.nodes.Element): String {
+        // First, try heading elements near this anchor
+        val headingText = a.closest("h3, h4, .book-title, [class*='title'], [class*='bookName']")
+            ?.text()?.trim()
+            ?.takeIf { it.isNotBlank() && !isGenericLinkText(it) }
+        if (headingText != null) return headingText
+
+        // Try title attribute
+        val titleAttr = a.attr("title").trim()
+        if (titleAttr.isNotBlank() && !isGenericLinkText(titleAttr)) return titleAttr
+
+        // Try anchor text, but skip generic button text
+        val anchorText = a.text().trim()
+        if (anchorText.isNotBlank() && !isGenericLinkText(anchorText)) return anchorText
+
+        // If anchor text is generic, try siblings/parent for the real title
+        val container = a.closest("li, .rank-item, .book-item, [class*='item'], [class*='card'], .li")
+        container?.let {
+            val titleEl = it.selectFirst("h3 a, h4 a, .book-title a, [class*='title'] a, h3, h4, .book-title, [class*='title']")
+            titleEl?.text()?.trim()?.takeIf { t -> t.isNotBlank() && !isGenericLinkText(t) }?.let { return it }
+        }
+
+        return ""
+    }
+
     private suspend fun fetchRankingsFromHtml(rankType: String, page: Int): List<NovelSearchResult> {
         return try {
+            // /ranking/latest is dead (404). Try multiple URL variants; fall back to homepage.
             val path = when (rankType) {
                 "pop" -> "$baseUrl/ranking/hot"
-                "new" -> "$baseUrl/ranking/latest"
+                "new" -> "$baseUrl/ranking/new"
                 else -> "$baseUrl/ranking/hot"
             }
             // WebNovel rankings use pageIndex for pagination (1-based)
@@ -111,14 +150,10 @@ class WebNovel : ConfigurableNovelSource() {
                 if (!href.contains("/book/")) continue
                 val bookId = extractBookId(href)
                 if (bookId.isBlank() || seenIds.contains(bookId)) continue
-                seenIds.add(bookId)
 
-                var title = a.text().trim()
-                if (title.isBlank()) title = a.attr("title").trim()
-                if (title.isBlank()) {
-                    title = a.closest("h3, h4, .book-title, [class*='title'], [class*='bookName']")?.text()?.trim() ?: ""
-                }
+                val title = extractTitleFromAnchor(a)
                 if (title.isBlank()) continue
+                seenIds.add(bookId)
 
                 // Find a cover image nearby
                 var cover: String? = null
@@ -173,8 +208,8 @@ class WebNovel : ConfigurableNovelSource() {
 
             android.util.Log.d("WebNovel", "HTML browse found ${results.size} items on page $page")
 
-            // Strategy 3: If ranking page yields nothing, fall back to homepage for popular
-            if (results.isEmpty() && rankType == "pop" && page == 1) {
+            // Strategy 3: If ranking page yields nothing, fall back to homepage
+            if (results.isEmpty() && page == 1) {
                 android.util.Log.d("WebNovel", "Rankings empty, falling back to homepage")
                 return fetchRankingsFromHomepage()
             }
@@ -182,8 +217,8 @@ class WebNovel : ConfigurableNovelSource() {
             results
         } catch (e: Exception) {
             android.util.Log.e("WebNovel", "HTML browse error on page $page: ${e.message}")
-            // Fallback to homepage for popular on first page
-            if (rankType == "pop" && page == 1) {
+            // Fallback to homepage for first page of any ranking type
+            if (page == 1) {
                 return fetchRankingsFromHomepage()
             }
             emptyList()
@@ -201,14 +236,10 @@ class WebNovel : ConfigurableNovelSource() {
                 if (!href.contains("/book/")) continue
                 val bookId = extractBookId(href)
                 if (bookId.isBlank() || seenIds.contains(bookId)) continue
-                seenIds.add(bookId)
 
-                var title = a.text().trim()
-                if (title.isBlank()) title = a.attr("title").trim()
-                if (title.isBlank()) {
-                    title = a.closest("h3, h4, .book-title, [class*='title'], [class*='bookName']")?.text()?.trim() ?: ""
-                }
+                val title = extractTitleFromAnchor(a)
                 if (title.isBlank()) continue
+                seenIds.add(bookId)
 
                 var cover: String? = a.closest("li, .rank-item, .book-item, [class*='item'], [class*='card']")
                     ?.selectFirst("img")?.attr("src")?.takeIf { it.isNotBlank() }
@@ -266,6 +297,8 @@ class WebNovel : ConfigurableNovelSource() {
                     .ifBlank { item.optString("name", "") }
                     .ifBlank { item.optString("title", "") }
                 if (bookId.isBlank() || bookName.isBlank()) return@mapNotNull null
+                // Skip items where the "name" is actually button text like "Read"
+                if (isGenericLinkText(bookName)) return@mapNotNull null
 
                 NovelSearchResult(
                     title = bookName,
@@ -290,9 +323,25 @@ class WebNovel : ConfigurableNovelSource() {
         val bookId = extractBookId(url)
         if (bookId.isBlank()) throw Exception("Invalid novel URL")
 
-        val data = fetchBookInfo(bookId)
-        val bookInfo = data.optJSONObject("bookInfo")
-            ?: throw Exception("Get book info failed")
+        // Try API first, fall back to HTML scraping
+        val apiResult = try {
+            val data = fetchBookInfo(bookId)
+            val bookInfo = data.optJSONObject("bookInfo")
+            if (bookInfo != null && bookInfo.optString("bookName", "").isNotBlank()) {
+                parseBookInfoFromApi(bookInfo, url, bookId)
+            } else null
+        } catch (e: Exception) {
+            android.util.Log.w("WebNovel", "API details failed, falling back to HTML: ${e.message}")
+            null
+        }
+
+        if (apiResult != null) return apiResult
+
+        // HTML fallback — scrape the book page or catalog page
+        return fetchNovelDetailsFromHtml(url, bookId)
+    }
+
+    private suspend fun parseBookInfoFromApi(bookInfo: JSONObject, url: String, bookId: String): NovelDetails {
 
         android.util.Log.d("WebNovel", "bookInfo keys: ${bookInfo.keys().asSequence().toList()}")
 
@@ -385,6 +434,47 @@ class WebNovel : ConfigurableNovelSource() {
             description = description,
             genres = genres,
             tags = tags,
+            status = status,
+            rating = rating,
+            ratingCount = null,
+            views = null,
+            alternativeTitles = emptyList()
+        )
+    }
+
+    private suspend fun fetchNovelDetailsFromHtml(url: String, bookId: String): NovelDetails {
+        android.util.Log.d("WebNovel", "Fetching details from HTML: $url")
+        val doc = getDocument("$url/catalog")
+
+        val title = doc.selectFirst("h1, .book-title, [class*='bookName']")?.text()
+            ?: doc.title().ifBlank { "Unknown" }
+
+        val coverUrl = doc.selectFirst("img._thumbnail, img[src*=bookcover], img[src*=webnovel], .g_thumb img, .thumbnail img")?.attr("src")
+            ?: "//book-pic.webnovel.com/bookcover/$bookId"
+
+        val author = doc.selectFirst(".author a, [class*='author'] a, .g_info a[href*=author]")?.text()
+
+        val description = doc.selectFirst("._detailed ._desc p, .g_intro p, .detailed .desc p, [class*='desc'] p, [class*='synopsis'] p, .about p")?.text()
+
+        val genres = doc.select(".g_tags a, [class*='tag'] a, [class*='category'] a, .genre a")
+            .map { it.text() }
+            .filter { it.isNotBlank() }
+
+        val statusText = doc.selectFirst(".g_info span, [class*='status'], [class*='state']")?.text() ?: ""
+        val status = parseWebnovelStatus(statusText)
+
+        val rating = doc.selectFirst(".score, [class*='score'], [class*='rating']")?.text()?.toFloatOrNull()
+
+        android.util.Log.d("WebNovel", "HTML details: title='$title', author='$author', desc=${description != null}, genres=$genres")
+
+        return NovelDetails(
+            url = url,
+            title = title,
+            author = author,
+            coverUrl = fixUrl(coverUrl),
+            description = description,
+            genres = genres,
+            tags = genres,
             status = status,
             rating = rating,
             ratingCount = null,
@@ -594,13 +684,47 @@ class WebNovel : ConfigurableNovelSource() {
         val html = document.html()
         android.util.Log.d("WebNovel", "Catalog HTML length: ${html.length}")
 
-        // Strategy 1: Extract ALL chapter links by URL pattern.
-        // WebNovel catalog page contains every chapter as an <a> with href:
-        //   /book/{slug}_{bookId}/{chapterSlug}_{chapterId}
+        // Strategy 1: Extract from li[data-report-cid] — the canonical catalog container.
+        // Each <li> contains an <a> with the chapter link and a relative date string in the li text.
+        // Example li text: "3078 A New Approach 13 days ago"
         val chapters = mutableListOf<NovelChapter>()
         val seenIds = mutableSetOf<String>()
         val chapterPattern = Regex("/book/[^/]+_$bookId/[^/]+_([0-9]+)")
 
+        for (li in document.select("li[data-report-cid]")) {
+            val a = li.selectFirst("a[href]") ?: continue
+            val href = a.attr("href")
+            val match = chapterPattern.find(href)
+            if (match == null) continue
+
+            val chapterId = match.groupValues[1]
+            if (seenIds.contains(chapterId)) continue
+
+            // Skip locked chapters (VIP/paywalled)
+            if (li.selectFirst("svg, i[class*='lock'], span[class*='lock'], .icon-lock, [class*='locked']") != null) continue
+            if (a.selectFirst("svg, i[class*='lock'], span[class*='lock'], .icon-lock") != null) continue
+
+            // Clean chapter name
+            val rawName = a.text().trim().ifBlank { a.attr("title").trim() }
+            val name = cleanChapterName(rawName)
+            if (name.isBlank()) continue
+            seenIds.add(chapterId)
+
+            // Parse relative date from the li text (e.g. "13 days ago", "4 years ago")
+            val dateUpload = parseRelativeDate(li.text())
+
+            chapters.add(NovelChapter(
+                url = fixUrl(href),
+                name = name,
+                dateUpload = dateUpload,
+                chapterNumber = chapters.size + 1f
+            ))
+        }
+
+        android.util.Log.d("WebNovel", "li[data-report-cid] extraction found ${chapters.size} chapters")
+        if (chapters.isNotEmpty()) return chapters
+
+        // Strategy 2: Extract ALL chapter links by URL pattern (fallback if li structure changes)
         for (a in document.select("a[href*=/book/][href*=_$bookId]")) {
             val href = a.attr("href")
             val match = chapterPattern.find(href)
@@ -622,9 +746,13 @@ class WebNovel : ConfigurableNovelSource() {
             val name = cleanChapterName(rawName)
             if (name.isBlank()) continue
 
+            // Try to get date from parent li
+            val dateUpload = parent?.let { parseRelativeDate(it.text()) } ?: 0L
+
             chapters.add(NovelChapter(
                 url = fixUrl(href),
                 name = name,
+                dateUpload = dateUpload,
                 chapterNumber = chapters.size + 1f
             ))
         }
@@ -632,7 +760,7 @@ class WebNovel : ConfigurableNovelSource() {
         android.util.Log.d("WebNovel", "HTML link extraction found ${chapters.size} chapters")
         if (chapters.isNotEmpty()) return chapters
 
-        // Strategy 2: Legacy DOM selector fallback
+        // Strategy 3: Legacy DOM selector fallback
         val fallback = mutableListOf<NovelChapter>()
         for (div in document.select("[class*='catalog'] [class*='volume'], [class*='catalog'] [class*='group']")) {
             for (a in div.select("ol > li > a[href], ul > li > a[href], li > a[href]")) {
@@ -653,7 +781,7 @@ class WebNovel : ConfigurableNovelSource() {
         android.util.Log.d("WebNovel", "Legacy DOM fallback found ${fallback.size} chapters")
         if (fallback.isNotEmpty()) return fallback
 
-        // Strategy 3: Extract chapter data from embedded <script> JSON
+        // Strategy 4: Extract chapter data from embedded <script> JSON
         // WebNovel frequently stores catalog data in window.__INITIAL_STATE__ or similar
         val scriptChapters = try {
             extractChaptersFromScripts(document, bookId)
@@ -663,6 +791,34 @@ class WebNovel : ConfigurableNovelSource() {
         }
         android.util.Log.d("WebNovel", "Script JSON extraction found ${scriptChapters.size} chapters")
         return scriptChapters
+    }
+
+    /// Parse WebNovel relative date strings like "13 days ago", "4 years ago",
+    /// "2 hours ago", "just now". Returns epoch millis, or 0 if unparseable.
+    private fun parseRelativeDate(text: String): Long {
+        val now = System.currentTimeMillis()
+        val lower = text.lowercase().trim()
+
+        if (lower.contains("just now") || lower.contains("seconds ago")) {
+            return now
+        }
+
+        val pattern = Regex("(\\d+)\\s+(second|minute|hour|day|week|month|year)s?\\s+ago")
+        val match = pattern.find(lower) ?: return 0L
+        val value = match.groupValues[1].toLongOrNull() ?: return 0L
+        val unit = match.groupValues[2]
+
+        val millis = when (unit) {
+            "second" -> value * 1000L
+            "minute" -> value * 60_000L
+            "hour" -> value * 3_600_000L
+            "day" -> value * 86_400_000L
+            "week" -> value * 604_800_000L
+            "month" -> value * 2_592_000_000L // ~30 days
+            "year" -> value * 31_536_000_000L // ~365 days
+            else -> return 0L
+        }
+        return now - millis
     }
 
     /**

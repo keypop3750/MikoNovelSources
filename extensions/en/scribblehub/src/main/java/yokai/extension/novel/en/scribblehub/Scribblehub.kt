@@ -124,24 +124,72 @@ class Scribblehub : NovelSource() {
             ?: document.selectFirst("[data-story-id]")?.attr("data-story-id")
             ?: return emptyList()
 
-        // Scribblehub uses AJAX to load chapters
+        // Scribblehub uses AJAX to load chapters.
+        // The correct action is "sf_get_fic_chapters" with "storyID" param.
+        // Some older themes use "wi_gettocchp" with "strSID" — try both.
         val chapterListUrl = "$baseUrl/wp-admin/admin-ajax.php"
         val chapters = mutableListOf<NovelChapter>()
-        var page = 1
 
-        while (true) {
+        // Try the primary AJAX action: sf_get_fic_chapters
+        try {
             val response = postForm(
                 chapterListUrl,
                 mapOf(
-                    "action" to "wi_gettocchp",
-                    "strSID" to storyId,
-                    "page" to page.toString()
+                    "action" to "sf_get_fic_chapters",
+                    "storyID" to storyId
                 ),
                 mapOf(
                     "Referer" to novelUrl,
                     "X-Requested-With" to "XMLHttpRequest"
                 )
             )
+
+            val chapterDoc = parseHtml(response)
+            // The response contains <a href*='/read/'> links
+            val chapterLinks = chapterDoc.select("a[href*='/read/']")
+
+            if (chapterLinks.isNotEmpty()) {
+                chapterLinks.forEachIndexed { index, linkElement ->
+                    val chapterTitle = linkElement.text().ifBlank { "Chapter ${index + 1}" }
+                    val chapterUrl = linkElement.attr("href")
+
+                    // Try to extract date from the link's parent or title attribute
+                    val dateText = linkElement.attr("title")?.ifBlank { null }
+                        ?: linkElement.parent()?.selectFirst("time")?.attr("datetime")?.ifBlank { null }
+                    val dateUpload = parseDate(dateText) ?: 0L
+
+                    chapters.add(NovelChapter(
+                        url = chapterUrl,
+                        name = chapterTitle,
+                        dateUpload = dateUpload,
+                        chapterNumber = (index + 1).toFloat()
+                    ))
+                }
+                return chapters.reversed()
+            }
+        } catch (e: Exception) {
+            android.util.Log.w("Scribblehub", "sf_get_fic_chapters AJAX failed: ${e.message}")
+        }
+
+        // Fallback: try the legacy AJAX action with pagination: wi_gettocchp
+        var page = 1
+        while (true) {
+            val response = try {
+                postForm(
+                    chapterListUrl,
+                    mapOf(
+                        "action" to "wi_gettocchp",
+                        "strSID" to storyId,
+                        "page" to page.toString()
+                    ),
+                    mapOf(
+                        "Referer" to novelUrl,
+                        "X-Requested-With" to "XMLHttpRequest"
+                    )
+                )
+            } catch (e: Exception) {
+                break
+            }
 
             val chapterDoc = parseHtml(response)
             val chapterElements = chapterDoc.select("li.li_toc")

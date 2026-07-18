@@ -21,6 +21,10 @@ This repository contains novel source extensions that can be installed in Miko t
 | ReadNovelFull | 1.0.2 | — | ✅ Active |
 | FreeWebNovel | 1.0.3 | — | ✅ Active |
 | Ranobes | 1.0.0 | ✅ | ✅ Active |
+| LightNovelPub | 1.0.0 | ✅ | ✅ Active |
+| NovelFire | 1.0.0 | ✅ | ✅ Active |
+| NovelRoll | 1.0.0 | — | ✅ Active |
+| NovelPedia | 1.0.0 | ✅ | ✅ Active |
 
 ### Multi-language
 | Source | Language | Version | Status |
@@ -76,6 +80,10 @@ MikoNovelSources/
 │       ├── readnovelfull/
 │       ├── freewebnovel/
 │       ├── ranobes/
+│       ├── lightnovelpub/
+│       ├── novelfire/
+│       ├── novelroll/
+│       ├── novelpedia/
 │       └── annasarchive/
 ├── index.min.json               # Extension manifest
 └── apk/                         # Built APK files

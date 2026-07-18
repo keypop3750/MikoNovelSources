@@ -38,3 +38,14 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Test/probe scripts and build output artifacts
+test_scripts/
+build_output_*.txt
+*_output.txt
+novelpedia_comments_raw.json
+novelfire_comment.min.js
+logo_*.png
+logo_*.ico
+logo_*.svg
+ic_launcher_*.png
