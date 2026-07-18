@@ -49,23 +49,21 @@ class NovelPedia : NovelSource() {
     // ===== Search =====
 
     override suspend fun search(query: String, page: Int): List<NovelSearchResult> {
-        val url = "$baseUrl/search?q=${query.encodeUrl()}&page=$page"
+        val url = "$baseUrl/explore?search=${query.encodeUrl()}&page=$page"
         val doc = getDocument(url)
-        // NovelPedia is a Next.js app — search results are in the RSC payload
-        // Try standard HTML selectors first, then fall back to RSC parsing
         return parseNovelListFromDoc(doc)
     }
 
     // ===== Popular / Latest =====
 
     override suspend fun getPopularNovels(page: Int): List<NovelSearchResult> {
-        val url = "$baseUrl/?page=$page"
+        val url = "$baseUrl/explore?page=$page"
         val doc = getDocument(url)
         return parseNovelListFromDoc(doc)
     }
 
     override suspend fun getLatestUpdates(page: Int): List<NovelSearchResult> {
-        val url = "$baseUrl/latest?page=$page"
+        val url = "$baseUrl/explore?sort=latest&page=$page"
         val doc = getDocument(url)
         return parseNovelListFromDoc(doc)
     }

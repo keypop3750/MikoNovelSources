@@ -166,8 +166,8 @@ class NovelFire : NovelSource() {
             if (nextLink == null) break
             page++
         }
-        // Reverse to get oldest first (pages are newest first)
-        return chapters.reversed()
+        // Site already returns chapters oldest-first (chapter 1 on page 1)
+        return chapters
     }
 
     private fun parseChapterDate(dateStr: String?): Long? {

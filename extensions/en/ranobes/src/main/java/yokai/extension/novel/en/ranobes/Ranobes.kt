@@ -93,12 +93,14 @@ class Ranobes : NovelSource() {
     // ===== Popular / Latest =====
 
     override suspend fun getPopularNovels(page: Int): List<NovelSearchResult> {
-        // Ranobes doesn't have a clear "popular" sort, use the main novels listing
-        return getBrowsePage("$baseUrl/novels/page/$page/")
+        // Page 1 URL is /novels/ (not /novels/page/1/ which 301-redirects)
+        val url = if (page <= 1) "$baseUrl/novels/" else "$baseUrl/novels/page/$page/"
+        return getBrowsePage(url)
     }
 
     override suspend fun getLatestUpdates(page: Int): List<NovelSearchResult> {
-        return getBrowsePage("$baseUrl/novels/page/$page/?sort=date")
+        val url = if (page <= 1) "$baseUrl/novels/?sort=date" else "$baseUrl/novels/page/$page/?sort=date"
+        return getBrowsePage(url)
     }
 
     private suspend fun getBrowsePage(url: String): List<NovelSearchResult> {
