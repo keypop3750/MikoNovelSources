@@ -5,7 +5,13 @@ import yokai.extension.novel.lib.*
 /**
  * Source for Scribble Hub (scribblehub.com)
  * Popular platform for original web fiction and fan translations.
- * 
+ *
+ * CLOUDFLARE PROTECTION: This site is behind Cloudflare and requires a valid
+ * cf_clearance cookie to access pages. The host app's CloudflareInterceptor
+ * (an OkHttp application interceptor) handles the WebView-based challenge bypass
+ * automatically — no special handling is needed in this extension as long as
+ * the interceptor is registered on the shared HTTP client.
+ *
  * Scribblehub has ADVANCED filter support:
  * - Genres with include/exclude
  * - Content warnings with include/exclude (Gore, Sexual Content, Strong Language)

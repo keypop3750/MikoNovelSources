@@ -5,7 +5,12 @@ import yokai.extension.novel.lib.*
 
 /**
  * Source for NovelsOnline (novelsonline.org)
- * Note: Uses Cloudflare protection - may require special handling.
+ *
+ * CLOUDFLARE PROTECTION: This site is behind Cloudflare and requires a valid
+ * cf_clearance cookie to access pages. The host app's CloudflareInterceptor
+ * (an OkHttp application interceptor) handles the WebView-based challenge bypass
+ * automatically — no special handling is needed in this extension as long as
+ * the interceptor is registered on the shared HTTP client.
  *
  * Supported filters:
  * - Sort: Popular (top), Latest

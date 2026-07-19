@@ -26,14 +26,16 @@ import yokai.extension.novel.lib.SourceCapabilities
  * LightNovelPub / LightNovelWorld
  *
  * The original lightnovelpub.com was shut down in April 2025 by Kakao Entertainment's
- * anti-piracy action. The site relaunched at lightnovelpub.org (which also runs the
- * "Chikari" platform). It provides a clean JSON API.
+ * anti-piracy action. The site relaunched at lightnovelpub.org, then moved to
+ * lightnovelpub.io (which also runs the "Chikari" platform). The JSON API is served
+ * from a separate domain: api.novelbuddy.me.
  *
- * API endpoints (all require trailing slashes):
+ * API endpoints (all require trailing slashes) — hosted at api.novelbuddy.me:
  *  - GET /api/novels/?page=N&sort=popular  — browse popular (paginated, 20 per page)
  *  - GET /api/novels/?page=N&sort=latest   — browse latest
  *  - GET /api/search/?q=QUERY              — search by title
  *  - GET /api/novel/{slug}/chapters/?page=N — chapter list (paginated, 150 per page)
+ * HTML pages — hosted at lightnovelpub.io:
  *  - GET /novel/{slug}/                    — novel details page (HTML)
  *  - GET /novel/{slug}/chapter/{number}/   — chapter content (HTML)
  */
@@ -42,6 +44,8 @@ class LightNovelPub : NovelSource() {
     override val id: Long = 6023L
     override val name: String = "LightNovelPub"
     override val baseUrl: String = "https://lightnovelpub.org"
+    /** The JSON API is served from a separate domain. */
+    private val apiUrl: String = "https://api.novelbuddy.me"
     override val lang: String = "en"
     override val hasMainPage: Boolean = true
     override val rateLimitMs: Long = 2000L
@@ -65,7 +69,7 @@ class LightNovelPub : NovelSource() {
     override suspend fun search(query: String, page: Int): List<NovelSearchResult> {
         // The search API returns all results at once (no pagination param)
         if (page > 1) return emptyList()
-        val url = "$baseUrl/api/search/?q=${query.encodeUrl()}"
+        val url = "$apiUrl/api/search/?q=${query.encodeUrl()}"
         val response = get(url)
         val body = response.body?.string() ?: return emptyList()
         return try {
@@ -185,8 +189,8 @@ class LightNovelPub : NovelSource() {
         val chapters = mutableListOf<NovelChapter>()
         var page = 1
         while (true) {
-            val apiUrl = "$baseUrl/api/novel/$slug/chapters/?page=$page"
-            val response = get(apiUrl)
+            val chapterApiUrl = "$apiUrl/api/novel/$slug/chapters/?page=$page"
+            val response = get(chapterApiUrl)
             val body = response.body?.string() ?: break
             val jsonObj = try {
                 json.parseToJsonElement(body).jsonObject
@@ -232,7 +236,7 @@ class LightNovelPub : NovelSource() {
     }
 
     // ===== Chapter Comments =====
-    // The new site (lightnovelworld.org) does not currently support chapter comments via API.
+    // The current site (lightnovelpub.io) does not currently support chapter comments via API.
     // Comment support can be re-enabled if the API adds it in the future.
 
     override suspend fun getChapterComments(chapterUrl: String): List<NovelComment> {

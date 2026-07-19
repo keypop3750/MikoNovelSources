@@ -9,7 +9,7 @@ import yokai.extension.novel.lib.*
  * Source for NovelFull (novelfull.com)
  * Large library of translated Asian novels.
  * 
- * Uses the AllNovel-style template (shared with NovelBin).
+ * Uses the AllNovel-style template.
  * 
  * Supported filters:
  * - Sort: Hot, Popular, Latest, Completed (via dedicated pages)
