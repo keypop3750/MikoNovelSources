@@ -44,8 +44,8 @@ class LightNovelPub : NovelSource() {
     override val id: Long = 6023L
     override val name: String = "LightNovelPub"
     override val baseUrl: String = "https://lightnovelpub.org"
-    /** The JSON API is served from a separate domain. */
-    private val apiUrl: String = "https://api.novelbuddy.me"
+    /** The JSON API is served from the same domain under /api/. */
+    private val apiUrl: String = "https://lightnovelpub.org"
     override val lang: String = "en"
     override val hasMainPage: Boolean = true
     override val rateLimitMs: Long = 2000L
@@ -94,28 +94,37 @@ class LightNovelPub : NovelSource() {
     // ===== Popular / Latest =====
 
     override suspend fun getPopularNovels(page: Int): List<NovelSearchResult> {
-        // The /api/novels/ endpoint doesn't include the slug field needed for URLs.
-        // Scrape the homepage HTML which has a.boost-shelf-card links with slugs.
-        if (page > 1) return emptyList()
-        val doc = getDocument(baseUrl)
-        return doc.select("a.boost-shelf-card").mapNotNull { a ->
-            val href = a.absUrl("href")
-            if (href.isBlank()) return@mapNotNull null
-            val title = a.selectFirst("[class*=title]")?.text()?.trim()
-                ?: a.text()?.trim()?.substringBefore("\n")?.trim()
-                ?: return@mapNotNull null
-            val coverUrl = a.selectFirst("img")?.absUrl("src")
-            NovelSearchResult(
-                title = title,
-                url = href,
-                coverUrl = coverUrl,
-            )
-        }.filter { it.title.isNotBlank() }
+        // Use the JSON API: GET /api/novels/?page=N&order=popular
+        val url = "$apiUrl/api/novels/?page=$page&order=popular"
+        return fetchNovelListFromApi(url)
     }
 
     override suspend fun getLatestUpdates(page: Int): List<NovelSearchResult> {
-        // No dedicated latest page; reuse the homepage list.
-        return getPopularNovels(page)
+        // Use the JSON API: GET /api/novels/?page=N&order=latest
+        val url = "$apiUrl/api/novels/?page=$page&order=latest"
+        return fetchNovelListFromApi(url)
+    }
+
+    private suspend fun fetchNovelListFromApi(url: String): List<NovelSearchResult> {
+        val response = get(url)
+        val body = response.body?.string() ?: return emptyList()
+        return try {
+            val jsonObj = json.parseToJsonElement(body).jsonObject
+            val novels = jsonObj["novels"]?.jsonArray ?: return emptyList()
+            novels.map { el ->
+                val obj = el.jsonObject
+                val title = obj["title"]?.jsonPrimitive?.content ?: ""
+                val slug = obj["slug"]?.jsonPrimitive?.content ?: ""
+                val coverPath = obj["cover_path"]?.jsonPrimitive?.contentOrNull
+                NovelSearchResult(
+                    title = title,
+                    url = "$baseUrl/novel/$slug/",
+                    coverUrl = coverPath?.let { "$baseUrl$it" },
+                )
+            }.filter { it.title.isNotBlank() }
+        } catch (_: Exception) {
+            emptyList()
+        }
     }
 
     // ===== Novel Details =====
