@@ -1,3 +1,18 @@
+// ============================================================================
+// RELEASE CHECKLIST - read before bumping versions:
+//   1. Bump versionCode AND versionName below (and in manifestPlaceholders)
+//   2. Build the APK:  ./gradlew :extensions:en:<name>:assembleRelease
+//   3. Copy the built APK into apk/<name>.apk (replacing the old one)
+//   4. Update index.min.json at the repo root:
+//        - set "code"   to the new versionCode
+//        - set "version" to the new versionName
+//      The app fetches index.min.json to detect updates - if the index still
+//      shows the old versionCode, the update button will NOT appear even if
+//      the APK on disk is newer. The index is the source of truth for the app.
+//   5. Commit APK + index.min.json + build.gradle together in one commit.
+// Failing to update index.min.json is the #1 cause of "update not showing".
+// ============================================================================
+
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
@@ -58,3 +73,4 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
     implementation 'org.jsoup:jsoup:1.17.2'
 }
+

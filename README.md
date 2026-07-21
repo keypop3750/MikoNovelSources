@@ -2,6 +2,21 @@
 
 Official novel extension repository for Miko (Yōkai) manga/novel reader.
 
+> **⚠️ CRITICAL — Read before publishing updates**
+>
+> The app detects updates by comparing the installed extension's `versionCode`
+> against the `code` field in **`index.min.json`**. If you bump `versionCode`
+> in an extension's `build.gradle` but forget to update `index.min.json` (and
+> commit the new APK), **the update will not appear in the app** — no download
+> button, no "update all". The index is the single source of truth.
+>
+> Every release commit MUST include all three together:
+> 1. The bumped `build.gradle` (versionCode + versionName)
+> 2. The rebuilt APK in `apk/<name>.apk`
+> 3. The updated `index.min.json` (`code` + `version` fields)
+>
+> See the release checklist at the top of each extension's `build.gradle`.
+
 ## Extension Repo URL
 
 Copy this URL and paste it into **Browse → Extensions → Extension Repos** in the app:
@@ -68,6 +83,48 @@ cd MikoNovelSources
 # Build and install on a connected device
 ./gradlew :extensions:en:ranobes:installDebug
 ```
+
+## Releasing an Update
+
+When you fix a bug or add a feature to an extension, you must publish the
+update so the app can detect and install it. **All three steps below must be
+done in the same commit** — skipping any one means the update won't show up.
+
+### Step 1 — Bump the version in `build.gradle`
+
+In `extensions/en/<name>/build.gradle`, bump BOTH:
+- `versionCode` (integer, must be higher than the previous value)
+- `versionName` (human-readable string, e.g. `"1.0.4"`)
+- `extVersionCode` and `extVersionName` in `manifestPlaceholders` (must match)
+
+### Step 2 — Build the APK and copy it to `apk/`
+
+```bash
+./gradlew :extensions:en:<name>:assembleRelease
+cp extensions/en/<name>/build/outputs/apk/release/*.apk apk/<name>.apk
+```
+
+The APK filename in `apk/` must match the `"apk"` field in `index.min.json`.
+
+### Step 3 — Update `index.min.json`
+
+Find the extension's entry in `index.min.json` and update:
+- `"code"` → the new `versionCode` (as a number, not a string)
+- `"version"` → the new `versionName` (as a string)
+
+### Step 4 — Commit everything together
+
+```bash
+git add extensions/en/<name>/build.gradle apk/<name>.apk index.min.json
+git commit -m "release: bump <name> to <version>"
+git push
+```
+
+**Why this matters**: The app fetches `index.min.json` from GitHub raw and
+compares the `"code"` field against the installed extension's `versionCode`.
+If the index still shows the old code, the app thinks there's no update —
+even if the APK file on disk is newer. This is the #1 cause of "update
+button not appearing" in the app.
 
 ## Extension Development
 
