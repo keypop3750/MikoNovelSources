@@ -30,14 +30,18 @@ import yokai.extension.novel.lib.SourceCapabilities
  * lightnovelpub.io (which also runs the "Chikari" platform). The JSON API is served
  * from a separate domain: api.novelbuddy.me.
  *
- * API endpoints (all require trailing slashes) — hosted at api.novelbuddy.me:
- *  - GET /api/novels/?page=N&sort=popular  — browse popular (paginated, 20 per page)
- *  - GET /api/novels/?page=N&sort=latest   — browse latest
- *  - GET /api/search/?q=QUERY              — search by title
+ * API endpoints (all require trailing slashes) — hosted on the same domain:
+ *  - GET /api/search/?q=QUERY              — search by title (returns slug)
  *  - GET /api/novel/{slug}/chapters/?page=N — chapter list (paginated, 150 per page)
- * HTML pages — hosted at lightnovelpub.io:
+ * HTML pages — hosted on the same domain:
+ *  - GET /genre-all/?order=popular&page=N  — browse popular (paginated, 24 per page)
+ *  - GET /genre-all/?order=new&page=N      — browse latest (paginated, 24 per page)
  *  - GET /novel/{slug}/                    — novel details page (HTML)
  *  - GET /novel/{slug}/chapter/{number}/   — chapter content (HTML)
+ *
+ * NOTE: The /api/novels/ browse endpoint does NOT return a slug field, so it cannot
+ * be used to build novel URLs. Popular/latest listings use the HTML /genre-all/ page
+ * instead, which contains the slug in each card's anchor href.
  */
 class LightNovelPub : NovelSource() {
 
@@ -94,36 +98,35 @@ class LightNovelPub : NovelSource() {
     // ===== Popular / Latest =====
 
     override suspend fun getPopularNovels(page: Int): List<NovelSearchResult> {
-        // Use the JSON API: GET /api/novels/?page=N&order=popular
-        val url = "$apiUrl/api/novels/?page=$page&order=popular"
-        return fetchNovelListFromApi(url)
+        // HTML page: GET /genre-all/?order=popular&page=N (24 per page)
+        return fetchNovelListFromHtml("$baseUrl/genre-all/?order=popular&page=$page")
     }
 
     override suspend fun getLatestUpdates(page: Int): List<NovelSearchResult> {
-        // Use the JSON API: GET /api/novels/?page=N&order=latest
-        val url = "$apiUrl/api/novels/?page=$page&order=latest"
-        return fetchNovelListFromApi(url)
+        // HTML page: GET /genre-all/?order=new&page=N (24 per page)
+        return fetchNovelListFromHtml("$baseUrl/genre-all/?order=new&page=$page")
     }
 
-    private suspend fun fetchNovelListFromApi(url: String): List<NovelSearchResult> {
-        val response = get(url)
-        val body = response.body?.string() ?: return emptyList()
-        return try {
-            val jsonObj = json.parseToJsonElement(body).jsonObject
-            val novels = jsonObj["novels"]?.jsonArray ?: return emptyList()
-            novels.map { el ->
-                val obj = el.jsonObject
-                val title = obj["title"]?.jsonPrimitive?.content ?: ""
-                val slug = obj["slug"]?.jsonPrimitive?.content ?: ""
-                val coverPath = obj["cover_path"]?.jsonPrimitive?.contentOrNull
-                NovelSearchResult(
-                    title = title,
-                    url = "$baseUrl/novel/$slug/",
-                    coverUrl = coverPath?.let { "$baseUrl$it" },
-                )
-            }.filter { it.title.isNotBlank() }
-        } catch (_: Exception) {
-            emptyList()
+    private suspend fun fetchNovelListFromHtml(url: String): List<NovelSearchResult> {
+        val doc = getDocument(url)
+        // Each card: a.card-cover-link[href="/novel/{slug}/"] > div.card-cover > img[src][alt]
+        return doc.select("div.recommendation-card").mapNotNull { card ->
+            val link = card.selectFirst("a.card-cover-link") ?: return@mapNotNull null
+            val href = link.absUrl("href").ifEmpty { link.attr("href") }
+            if (href.isBlank() || !href.contains("/novel/")) return@mapNotNull null
+            val img = card.selectFirst("img")
+            val title = card.selectFirst("h3.card-title")?.text()?.trim()
+                ?: img?.attr("alt")?.trim()
+                ?: return@mapNotNull null
+            val coverSrc = img?.absUrl("src")?.ifEmpty { img.attr("src") }
+            val coverUrl = coverSrc?.takeIf { it.isNotBlank() }?.let {
+                if (it.startsWith("http")) it else "$baseUrl$it"
+            }
+            NovelSearchResult(
+                title = title,
+                url = if (href.startsWith("http")) href else "$baseUrl$href",
+                coverUrl = coverUrl,
+            )
         }
     }
 
@@ -154,8 +157,8 @@ class LightNovelPub : NovelSource() {
                 byMatch?.groupValues?.get(1)?.trim()
             }
 
-        // Genres: from the page
-        val genres = doc.select("a[href*=/genre/], a[href*=genre]").map { it.text().trim() }
+        // Genres: from the page (span.genre-tag on current site, or a[href*=genre] on older layouts)
+        val genres = doc.select("span.genre-tag, a[href*=/genre/], a[href*=genre]").map { it.text().trim() }
             .filter { it.isNotBlank() }
             .ifEmpty {
                 // Try extracting from meta description "Genres: X, Y, Z"

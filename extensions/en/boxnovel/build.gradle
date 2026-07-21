@@ -5,25 +5,25 @@ plugins {
 }
 
 android {
-    namespace 'yokai.extension.novel.en.libread'
+    namespace 'yokai.extension.novel.en.boxnovel'
     compileSdk 34
 
     defaultConfig {
-        applicationId "yokai.extension.novel.en.libread"
+        applicationId "yokai.extension.novel.en.boxnovel"
         minSdk 21
         targetSdk 34
-        versionCode 6
-        versionName "1.0.5"
+        versionCode 7
+        versionName "1.0.6"
 
         manifestPlaceholders = [
-            extName: "LibRead",
-            extClass: ".LibReadFactory",
-            extVersionCode: "3",
-            extVersionName: "1.0.5",
+            extName: "BoxNovel",
+            extClass: ".BoxNovelFactory",
+            extVersionCode: "7",
+            extVersionName: "1.0.6",
             extNsfw: "false"
         ]
     }
-    
+
     signingConfigs {
         release {
             storeFile file("${System.getProperty('user.home')}/.android/debug.keystore")

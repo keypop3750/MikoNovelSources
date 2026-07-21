@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:icon="@mipmap/ic_launcher"
         android:label="${extName}">
-        
+
         <meta-data
             android:name="yokai.novel.extension.class"
             android:value="${extClass}" />

@@ -28,7 +28,7 @@ include ':extensions:en:webnovel'
 include ':extensions:en:readnovelfull'
 
 // New extensions (ported from QuickNovel)
-include ':extensions:en:libread'
+// LibRead removed — it is just a mirror/intermediary of FreeWebNovel.
 include ':extensions:en:freewebnovel'
 include ':extensions:en:ranobes'
 
@@ -37,6 +37,9 @@ include ':extensions:en:lightnovelpub'
 include ':extensions:en:novelfire'
 include ':extensions:en:novelroll'
 include ':extensions:en:novelpedia'
+
+// BoxNovel (moved from boxnovel.com → novlove.com → novelnice.com)
+include ':extensions:en:boxnovel'
 
 // Multi-language extensions
 include ':extensions:en:annasarchive'
